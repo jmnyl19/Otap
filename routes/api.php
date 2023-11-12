@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
+use App\Models\User;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -25,6 +25,16 @@ Route::post('users/create',function(Request $request){
 
     return $users;
 });
+
+Route::group(['namespace' => 'App\Http\Controllers'], function ()
+{
+    Route::get('/login', 'LoginController@show')->name('login.show');
+    Route::post('/login', 'LoginController@login')->name('login.perform');
+    Route::post('/register', 'RegisterController@register');
+});
+
+
+
 
 Route::post('complaints/create',function(Request $request){
     $complaints = new \App\Models\Complaint;

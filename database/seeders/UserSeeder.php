@@ -17,16 +17,11 @@ class UserSeeder extends Seeder
     {
         DB::table('users')->insert([
             [
-                'first_name' => 'Jmie',
-                'last_name' => 'Boluntate',
-                'birthday' => '2002-11-19',
+                'first_name' => 'Thea',
+                'last_name' => 'Isip',
                 'contact_no' => '09276981790',
-                'lot_no' => '13',
-                'street' => 'Donor Street',
-                'barangay'=>'East Tapinac',
-                'city'=>'Olongapo',
-                'province'=>'Zambales',
-                'email' => 'jmieboluntate@gmail.com',
+                'barangay'=>'Kalaklan',
+                'email' => 'jmasd@gmail.com',
                 'password' => Hash::make('antuking palaka')
             ]
         ]);

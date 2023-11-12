@@ -36,9 +36,6 @@ Route::group(['namespace' => 'App\Http\Controllers'], function ()
     Route::post('/welcome', 'LoginController@login')->name('login.perform');
     // Route::get('/login/admin', 'LoginController@showAdmin')->name('login.showAdmin');
     // Route::post('/ticketpage', 'Ticket@register')->name('ticket.perform');
-
-
-
     Route::get('/logout', 'LoginController@logout')->name('logout');
 });
 
