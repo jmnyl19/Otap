@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('css')
+<link href="{{ asset('css/welcome.css') }}" rel="stylesheet">
+@endsection
+
 @section('content')
 
 <body class="container-fluid g-0"style="background-color: #d2ac76">
@@ -42,6 +46,9 @@
                 <img id= "shape" class="img-fluid float-end" src="{{ asset('assets/shape.png') }}" alt="geo">
 
             </div>
+            <div class="container">
+
+</div>
         </div>
 </body>
 

@@ -9,9 +9,15 @@
     flex: 1;  
 }
 
-.img-fluid{
-    height: 100px;
+.landing-container{
+    flex: 1;
+    
 }
+
+
+/* .img-fluid{
+    height: 100px;
+} */
 
 /* #sidenav{
     background-color:#a8895e;
