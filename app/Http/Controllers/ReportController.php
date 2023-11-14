@@ -20,6 +20,13 @@ class ReportController extends Controller
         return view('latest', compact('incidents'));
     }
 
+    public function managelatest()
+    {
+        $incidents = Incident::all();
+
+        return view('seclatest', compact('incidents'));
+    }
+    
     /**
      * Show the form for creating a new resource.
      *

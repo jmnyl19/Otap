@@ -25,7 +25,10 @@ Route::get('/', function () {
 
 Route::get('/landingpage', [App\Http\Controllers\IncidentController::class, 'index'])->name('landingpage');
 Route::get('/forwarded', [App\Http\Controllers\IncidentController::class, 'manageforwarded'])->name('forwarded');
+Route::get('/secforwarded', [App\Http\Controllers\IncidentController::class, 'managesecforwarded'])->name('secforwarded');
 Route::get('/latest', [App\Http\Controllers\ReportController::class, 'index'])->name('latest');
+Route::get('/seclatest', [App\Http\Controllers\ReportController::class, 'managelatest'])->name('seclatest');
+
 
 // Route::get('incidents', [App\Http\Controllers\LoginController::class, 'index'])->name('landingpage');
 Route::get('staritaadmin', [App\Http\Controllers\LoginController::class, 'staritaadmin'])->name('landingpage');

@@ -25,6 +25,12 @@ class IncidentController extends Controller
 
         return view('forwarded', compact('incidents'));
     }
+    public function managesecforwarded()
+    {
+        $incidents = Incident::with('user')->where('residents_id', auth()->user()->id)->get();
+
+        return view('secforwarded', compact('incidents'));
+    }
 
     /**
      * Show the form for creating a new resource.

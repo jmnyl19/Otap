@@ -8,21 +8,21 @@
     <ul class="nav nav-pills flex-column mb-auto gap-2" >
 
       <li>
-        <a href="{{route('landingpage')}}" class="nav-link link-dark" style="color: #fff">
+        <a href="{{route('secadminpage')}}" class="nav-link link-dark" style="color: #fff">
             <i class="bi bi-clipboard-data"></i>
             Dashboard
         </a>
       </li>
 
       <li>
-        <a href="{{ route('latest') }}" class="nav-link link-dark" style="color: #fff">
+        <a href="{{ route('seclatest') }}" class="nav-link link-dark" style="color: #fff">
           <i class="bi bi-exclamation-circle"></i>
           Latest Incidents
         </a>
       </li>
 
       <li>
-        <a href="{{ route('forwarded') }}" class="nav-link link-dark" style="color: #fff">
+        <a href="{{ route('secforwarded') }}" class="nav-link link-dark" style="color: #fff">
           <i class="bi bi-send-exclamation"></i>
           Forwarded Emergency
         </a>

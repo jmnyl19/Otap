@@ -5,7 +5,7 @@
 @section('content')
 <body class="container flex-row">
 
-    @include('sidebar.sidenav')
+    @include('sidebar.secsidenav')
     <h1>Latest Incidents</h1>
 </body>
 
