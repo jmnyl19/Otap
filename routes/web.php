@@ -27,7 +27,7 @@ Route::get('/landingpage', [App\Http\Controllers\IncidentController::class, 'ind
 Route::get('/forwarded', [App\Http\Controllers\IncidentController::class, 'manageforwarded'])->name('forwarded');
 Route::get('/latest', [App\Http\Controllers\ReportController::class, 'index'])->name('latest');
 
-Route::get('incidents', [App\Http\Controllers\LoginController::class, 'index'])->name('landingpage');
+// Route::get('incidents', [App\Http\Controllers\LoginController::class, 'index'])->name('landingpage');
 Route::get('staritaadmin', [App\Http\Controllers\LoginController::class, 'staritaadmin'])->name('landingpage');
 Route::get('etapinacadmin', [App\Http\Controllers\LoginController::class, 'etapinacadmin'])->name('secadminpage');
 

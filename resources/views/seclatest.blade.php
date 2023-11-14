@@ -5,8 +5,8 @@
 @section('content')
 <body class="container flex-row">
 
-    @include('sidebar.secsidenav')
-    <h1>tapinac admin</h1>
+    @include('sidebar.sidenav')
+    <h1>Latest Incidents</h1>
 </body>
 
     

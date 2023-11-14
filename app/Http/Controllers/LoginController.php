@@ -121,9 +121,7 @@ class LoginController extends Controller
             $request->session()->regenerate();
           
 
-            if (auth()->user()->role == 'Resident'){
-                return redirect()->intended('incidents');
-            }elseif (auth()->user()->role == 'Sta Rita Admin') {
+            if (auth()->user()->role == 'Sta Rita Admin'){
                 return redirect()->intended('staritaadmin');
             } else {
                 return redirect()->intended('etapinacadmin');
