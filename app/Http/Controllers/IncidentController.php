@@ -15,17 +15,17 @@ class IncidentController extends Controller
      */
     public function index()
     {
-        $incidents = Incident::with('user')->where('residents_id',auth()->user()->id)->get();
+        $incidents = Incident::with('user')->where('residents_id', auth()->user()->id)->get();
 
         return view('landingpage', compact('incidents'));
     }
     public function manageforwarded()
     {
-        $incidents = Incident::with('user')->where('residents_id',auth()->user()->id)->get();
+        $incidents = Incident::with('user')->where('residents_id', auth()->user()->id)->get();
 
         return view('forwarded', compact('incidents'));
     }
-   
+
     /**
      * Show the form for creating a new resource.
      *

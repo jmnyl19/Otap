@@ -18,20 +18,20 @@ use App\Http\Controllers\ForgetPassword;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/landingpage', [App\Http\Controllers\IncidentController::class,'index'])->name('landingpage');
-Route::get('/forwarded', [App\Http\Controllers\IncidentController::class,'manageforwarded'])->name('forwarded');
-Route::get('/latest', [App\Http\Controllers\ReportController::class,'index'])->name('latest');
+Route::get('/landingpage', [App\Http\Controllers\IncidentController::class, 'index'])->name('landingpage');
+Route::get('/forwarded', [App\Http\Controllers\IncidentController::class, 'manageforwarded'])->name('forwarded');
+Route::get('/latest', [App\Http\Controllers\ReportController::class, 'index'])->name('latest');
 
 Route::get('incidents', [App\Http\Controllers\LoginController::class, 'index'])->name('landingpage');
 Route::get('staritaadmin', [App\Http\Controllers\LoginController::class, 'staritaadmin'])->name('landingpage');
 Route::get('etapinacadmin', [App\Http\Controllers\LoginController::class, 'etapinacadmin'])->name('secadminpage');
 
-Route::group(['namespace' => 'App\Http\Controllers'], function ()
-{
+Route::group(['namespace' => 'App\Http\Controllers'], function () {
     Route::get('/welcome', 'LoginController@show')->name('login.show');
     Route::post('/welcome', 'LoginController@login')->name('login.perform');
     // Route::get('/login/admin', 'LoginController@showAdmin')->name('login.showAdmin');
@@ -46,4 +46,3 @@ Route::group(['namespace' => 'App\Http\Controllers'], function ()
 //     Route::post('dealt/{id}', [App\Http\Controllers\LoginController::class, 'dealt']);
 
 // });
-
