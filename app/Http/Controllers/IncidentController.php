@@ -31,9 +31,20 @@ class IncidentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $incident = new Incident;
+        $incident->residents_id = $request->residents_id;
+        $incident->type = $request->type;
+        $incident->status = $request->status;
+        $incident->latitude = $request->latitude;
+        $incident->longitude = $request->longitude;
+
+        $incident->save();
+
+        return response()->json([
+            'message' => 'Successfull',
+        ], 200);
     }
 
     /**

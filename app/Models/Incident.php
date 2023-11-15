@@ -13,6 +13,8 @@ class Incident extends Model
         'residents_id',
         'type',
         'status',
+        'latitude',
+        'longitude'
     ];
 
     public function user(){
