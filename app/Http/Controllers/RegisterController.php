@@ -14,6 +14,7 @@ class RegisterController extends Controller
         $validatedData = $request->validate([
             'first_name' => ['required'],
             'last_name' => ['required'],
+            'age' => ['required'],
             'contact_no' => ['required'],
             'barangay' => ['required'],
             'email' => ['required', 'email', 'unique:users'],
@@ -23,6 +24,7 @@ class RegisterController extends Controller
         $user = User::create([
             'first_name' => $validatedData['first_name'],
             'last_name' => $validatedData['last_name'],
+            'age' => $validatedData['age'],
             'contact_no' => $validatedData['contact_no'],
             'barangay' => $validatedData['barangay'],
             'email' => $validatedData['email'],

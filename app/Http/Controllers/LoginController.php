@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\User;
 use App\Models\Incident;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -36,7 +36,7 @@ class LoginController extends Controller
     }
 
     public function etapinacadmin() {
-        // return this view
+
         $incidents = Incident::all();
         $pendingCount = Incident::where('status', 'Pending')->count();
         $respondedCount = Incident::where('status', 'Respond')->count();
@@ -49,10 +49,45 @@ class LoginController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
+
+
+
+    public function login(Request $request) {
+  
+
+        $credentials = $request->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required']
+        ]);
+
+
+        if (Auth::attempt($credentials)) {
+            $user = Auth::user();
+                if ($user->role === 'Admin') {
+                    $request->session()->regenerate();
+                    return redirect()->intended('admin/index');
+                } else {
+                    return redirect()->intended('stories/index');
+                }
+        }
+
+        return back()->withErrors([
+            'email' => 'The provided credentials do not match!'
+        ])->onlyInput('email');
     }
+
+
+    public function adminLanding(){
+        $stories = Incident::where('residents_id', auth()->user()->id)->get();
+        $incidents = Incident::all();
+        $pendingCount = Incident::where('status', 'Pending')->count();
+        $respondedCount = Incident::where('status', 'Respond')->count();
+        $forwardedCount = Incident::where('status', 'Forward')->count();
+    
+        return view('landingpage', compact('incidents','pendingCount','respondedCount','forwardedCount'));
+    }
+
+
 
     /**
      * Store a newly created resource in storage.
@@ -106,33 +141,8 @@ class LoginController extends Controller
     {
         //
     }
-    public function show() {
-        return view('welcome');
-    }
-    public function login(Request $request) {
-  
 
-        $credentials = $request->validate([
-            'email' => ['required', 'email'],
-            'password' => ['required']
-        ]);
-
-        if(Auth::attempt($credentials)){
-            $request->session()->regenerate();
-          
-
-            if (auth()->user()->role == 'Sta Rita Admin'){
-                return redirect()->intended('staritaadmin');
-            } else {
-                return redirect()->intended('etapinacadmin');
-            }
-            
-        }
-
-        return back()->withErrors([
-            'email' => 'The provided credentials do not match!'
-        ])->onlyInput('email');
-    }
+   
 
     public function logout(){
         Session::flush();

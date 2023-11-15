@@ -31,6 +31,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function ()
     Route::get('/login', 'LoginController@show')->name('login.show');
     Route::post('/userlogin', 'UserLoginController@userlogin');
     Route::post('/register', 'RegisterController@register');
+    Route::post('/sendreport', 'IncidentController@create');
 });
 
 

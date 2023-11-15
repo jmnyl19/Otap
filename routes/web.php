@@ -34,9 +34,11 @@ Route::get('/seclatest', [App\Http\Controllers\ReportController::class, 'managel
 Route::get('staritaadmin', [App\Http\Controllers\LoginController::class, 'staritaadmin'])->name('landingpage');
 Route::get('etapinacadmin', [App\Http\Controllers\LoginController::class, 'etapinacadmin'])->name('secadminpage');
 
+Route::get('admin/index', [App\Http\Controllers\LoginController::class, 'adminLanding']);
+
 Route::group(['namespace' => 'App\Http\Controllers'], function () {
     Route::get('/welcome', 'LoginController@show')->name('login.show');
-    Route::post('/welcome', 'LoginController@login')->name('login.perform');
+    Route::post('/login', 'LoginController@login')->name('login.perform');
     // Route::get('/login/admin', 'LoginController@showAdmin')->name('login.showAdmin');
     // Route::post('/ticketpage', 'Ticket@register')->name('ticket.perform');
     Route::get('/logout', 'LoginController@logout')->name('logout');
