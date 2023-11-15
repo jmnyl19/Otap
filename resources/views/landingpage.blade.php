@@ -18,7 +18,7 @@
                                     <i class="bi bi-exclamation-triangle h1"></i>
                                 </div>
                                 <div class="col">
-                                    <h1 class="fw-normal ">5</h1>
+                                    <h1 class="fw-normal ">{{$pendingCount}}</h1>
                                 </div>
                             </div>
                         </div>
@@ -31,7 +31,7 @@
                                     <i class="bi bi-arrow-repeat h1"></i>
                                 </div>
                                 <div class="col">
-                                    <h1 class="fw-normal ">5</h1>
+                                    <h1 class="fw-normal ">{{$respondingCount}}</h1>
                                 </div>
                             </div>
                         </div>
@@ -44,7 +44,7 @@
                                     <i class="bi bi-check-circle h1"></i>
                                 </div>
                                 <div class="col">
-                                    <h1 class="fw-normal ">5</h1>
+                                    <h1 class="fw-normal ">{{$completedCount}}</h1>
                                 </div>
                             </div>
                         </div>

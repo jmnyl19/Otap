@@ -31,10 +31,10 @@ Route::get('/seclatest', [App\Http\Controllers\ReportController::class, 'managel
 
 
 // Route::get('incidents', [App\Http\Controllers\LoginController::class, 'index'])->name('landingpage');
-Route::get('staritaadmin', [App\Http\Controllers\LoginController::class, 'staritaadmin'])->name('landingpage');
-Route::get('etapinacadmin', [App\Http\Controllers\LoginController::class, 'etapinacadmin'])->name('secadminpage');
+// Route::get('staritaadmin', [App\Http\Controllers\LoginController::class, 'staritaadmin'])->name('landingpage');
+// Route::get('etapinacadmin', [App\Http\Controllers\LoginController::class, 'etapinacadmin'])->name('secadminpage');
 
-Route::get('admin/index', [App\Http\Controllers\LoginController::class, 'adminLanding']);
+Route::get('admin/index', [App\Http\Controllers\IncidentController::class, 'adminLanding']);
 
 Route::group(['namespace' => 'App\Http\Controllers'], function () {
     Route::get('/welcome', 'LoginController@show')->name('login.show');

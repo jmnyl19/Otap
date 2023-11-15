@@ -77,18 +77,6 @@ class LoginController extends Controller
     }
 
 
-    public function adminLanding(){
-        $stories = Incident::where('residents_id', auth()->user()->id)->get();
-        $incidents = Incident::all();
-        $pendingCount = Incident::where('status', 'Pending')->count();
-        $respondedCount = Incident::where('status', 'Respond')->count();
-        $forwardedCount = Incident::where('status', 'Forward')->count();
-    
-        return view('landingpage', compact('incidents','pendingCount','respondedCount','forwardedCount'));
-    }
-
-
-
     /**
      * Store a newly created resource in storage.
      *

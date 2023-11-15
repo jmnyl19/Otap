@@ -108,4 +108,18 @@ class IncidentController extends Controller
     {
         //
     }
+
+
+
+    public function adminLanding(){
+        // $barangayIncident = Incident::where('barangay', auth()->user()->barangay)->get();
+        $incidents = Incident::with('user')->get();
+        $pendingCount = $incidents->where('status', 'Pending')->where('user.barangay', auth()->user()->barangay)->count();
+        $respondingCount = $incidents->where('status', 'Responding')->where('user.barangay', auth()->user()->barangay)->count();
+        $completedCount = $incidents->where('status', 'Completed')->where('user.barangay', auth()->user()->barangay)->count();
+    
+
+        return view('landingpage', compact('pendingCount','respondingCount','completedCount'));
+    }
+
 }
