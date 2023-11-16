@@ -66,9 +66,7 @@ class LoginController extends Controller
                 if ($user->role === 'Admin') {
                     $request->session()->regenerate();
                     return redirect()->intended('admin/index');
-                } else {
-                    return redirect()->intended('stories/index');
-                }
+                } 
         }
 
         return back()->withErrors([

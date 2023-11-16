@@ -19,12 +19,27 @@ class IncidentController extends Controller
 
         return view('landingpage', compact('incidents'));
     }
+
+    public function adminLanding(){
+        // $barangayIncident = Incident::where('barangay', auth()->user()->barangay)->get();
+        
+        $incidents = Incident::with('user')->get();
+        $pendingCount = $incidents->where('status', 'Pending')->where('user.barangay', auth()->user()->barangay)->count();
+        $respondingCount = $incidents->where('status', 'Responding')->where('user.barangay', auth()->user()->barangay)->count();
+        $completedCount = $incidents->where('status', 'Completed')->where('user.barangay', auth()->user()->barangay)->count();
+        $forwardedCount = $incidents->where('status', 'Forwarded')->count();
+        $pendingIncidents = $incidents->where('status', 'Pending');
+        return view('landingpage', compact('pendingCount','respondingCount','completedCount', 'forwardedCount' , 'pendingIncidents'));
+    }
+
     public function manageforwarded()
     {
-        $incidents = Incident::with('user')->where('residents_id', auth()->user()->id)->get();
+        $incidents = Incident::with('user')->get();
+        $forwardedIncidents = $incidents->where('status', 'Forwarded');
 
-        return view('forwarded', compact('incidents'));
+        return view('forwarded', compact('forwardedIncidents'));
     }
+
     public function managesecforwarded()
     {
         $incidents = Incident::with('user')->where('residents_id', auth()->user()->id)->get();
@@ -110,16 +125,5 @@ class IncidentController extends Controller
     }
 
 
-
-    public function adminLanding(){
-        // $barangayIncident = Incident::where('barangay', auth()->user()->barangay)->get();
-        $incidents = Incident::with('user')->get();
-        $pendingCount = $incidents->where('status', 'Pending')->where('user.barangay', auth()->user()->barangay)->count();
-        $respondingCount = $incidents->where('status', 'Responding')->where('user.barangay', auth()->user()->barangay)->count();
-        $completedCount = $incidents->where('status', 'Completed')->where('user.barangay', auth()->user()->barangay)->count();
-    
-
-        return view('landingpage', compact('pendingCount','respondingCount','completedCount'));
-    }
 
 }

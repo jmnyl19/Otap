@@ -16,7 +16,7 @@
 
       <li>
         <a href="{{ route('latest') }}" class="nav-link link-dark" style="color: #fff">
-          <i class="bi bi-exclamation-circle h5"><span style="font-style: normal"> Latest Incidents</span></i>
+          <i class="bi bi-exclamation-circle h5"><span style="font-style: normal"> Incident Reports </span></i>
         </a>
       </li>
       <hr>

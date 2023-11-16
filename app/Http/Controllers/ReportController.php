@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Incident;
+use App\Models\Report;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -15,9 +15,11 @@ class ReportController extends Controller
      */
     public function index()
     {
-        $incidents = Incident::all();
+        $reports = Report::with('user')->get();
+        $reportedIncident = $reports->where('status', 'Pending');
 
-        return view('latest', compact('incidents'));
+     
+        return view('latest', compact('reportedIncident'));
     }
 
     public function managelatest()
