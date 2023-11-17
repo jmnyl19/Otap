@@ -1,6 +1,6 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 <div class="d-flex " style="background-color: #a8895e; min-height: 100vh; ">
-<nav id="sidenav" class="d-flex flex-column flex-shrink-0 p-3 sticky-top" style="width: 220px;  color: #fff; ">
+<nav id="sidenav" class="d-flex flex-column flex-shrink-0 p-3 sticky-top" style="width: 320px;  color: #fff; ">
     <img class="mx-auto d-block" width="120" height="150" src="{{ asset('assets/logo.png') }}" alt="user profile">
       <span class="fs-3 text-center">O-TAP</span>
     <hr>
