@@ -1,5 +1,5 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-<nav id="sidenav" class="d-flex flex-column flex-shrink-0 p-3 " style="width: 220px; height: 100vh; background-color: #a8895e; color: #fff">
+<nav id="sidenav" class="d-flex flex-column flex-shrink-0 p-3 " style="width: 20vh; height: 100vh; background-color: #a8895e; color: #fff">
     <span class="fs-4"><img class="bi me-2" width="45" height="55" src="{{ asset('assets/logo.png') }}" alt="user profile">
       O-TAP</span>
     <h6>One-Tap Assistance Platform</h6>
@@ -36,3 +36,4 @@
         </li>
     
 </nav>
+
