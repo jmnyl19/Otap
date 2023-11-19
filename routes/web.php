@@ -34,7 +34,7 @@ Route::get('/seclatest', [App\Http\Controllers\ReportController::class, 'managel
 // Route::get('staritaadmin', [App\Http\Controllers\LoginController::class, 'staritaadmin'])->name('landingpage');
 // Route::get('etapinacadmin', [App\Http\Controllers\LoginController::class, 'etapinacadmin'])->name('secadminpage');
 
-Route::get('admin/index', [App\Http\Controllers\IncidentController::class, 'adminLanding'])->name('landingpage');;
+
 
 Route::group(['namespace' => 'App\Http\Controllers'], function () {
     Route::get('/welcome', 'LoginController@show')->name('login.show');
@@ -44,10 +44,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
     Route::get('/logout', 'LoginController@logout')->name('logout');
 });
 
-// Route::group(['middleware' => ['auth']], function() {
-//     Route::post('raised/{id}', [App\Http\Controllers\LoginController::class, 'raised']);
-//     Route::post('disregard/{id}', [App\Http\Controllers\LoginController::class, 'disregard']);
-//     Route::post('acknowledge/{id}', [App\Http\Controllers\LoginController::class, 'acknowledge']);
-//     Route::post('dealt/{id}', [App\Http\Controllers\LoginController::class, 'dealt']);
+Route::group(['middleware' => ['auth']], function() {
+    Route::get('admin/index', [App\Http\Controllers\IncidentController::class, 'adminLanding'])->name('landingpage');
 
-// });
+});

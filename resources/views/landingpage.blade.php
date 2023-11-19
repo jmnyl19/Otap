@@ -15,10 +15,10 @@
    
     <div class="landing-container p-4 mt-5" >
         <div class="row text-center justify-content-between align-items-center gap-3 mb-2" style="width: 100%">
-            <div class="col-sm-4 col-md-2 p-4 rounded-3">
+            <div class="col-md-2 col-sm-4  p-4 rounded-3">
                 <h3 class="fw-bolder pageTitle">Dashboard</h3>
             </div>
-            <div class="col-sm-4 col-md-6 col-lg-2 shadow p-4 rounded-5 dateCont">
+            <div class=" col-lg-2 col-md-6 col-sm-4 shadow p-4 rounded-5 dateCont">
                 <div class="row justify-content-center align-items-center">
                     <div class="col-auto col-md-2">
                         <i class="bi bi-calendar2-week-fill h3"></i>

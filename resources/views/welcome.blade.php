@@ -3,10 +3,12 @@
 @section('css')
 <link href="{{ asset('css/welcome.css') }}" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="{{ asset('css/user_loginReg.css') }}" >
+<link rel="stylesheet" type="text/css" href="{{ asset('css/loginbg.css') }}" >
 @endsection
 
 @section('content')
         <section class="vh-100">
+            
             <div class="container py-5 h-100">
                 <div class="row d-flex justify-content-center align-items-center h-100">
                     <div class="col-md-6  col-xl-10">
@@ -30,7 +32,7 @@
                                           
                         
                                             <div class="form-group form-floating align-items-center mt-3 d-flex form_icon_input border rounded-2 py-1 px-3">
-                                                <i class="m-3 fa fa-user form_input_icon bpurple_highlighter"></i>
+                                                <i class="bi bi-person-fill"></i>
                                                 <input type="email" class="form-control shadow-none border-0 normal_text"  value="{{ old("email")}}" name="email" placeholder="Email" required="required" autofocus>
                                                 <label for="floatingInput">Email address</label>
                                             </div>
@@ -63,6 +65,12 @@
                     </div>
                 </div>
             </div>
+        
+                <div class='air air1'></div>
+                <div class='air air2'></div>
+                <div class='air air3'></div>
+                <div class='air air4'></div>
+             
         </section>
 
        

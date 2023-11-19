@@ -28,7 +28,7 @@ class IncidentController extends Controller
         $respondingCount = $incidents->where('status', 'Responding')->where('user.barangay', auth()->user()->barangay)->count();
         $completedCount = $incidents->where('status', 'Completed')->where('user.barangay', auth()->user()->barangay)->count();
         $forwardedCount = $incidents->where('status', 'Forwarded')->count();
-        $pendingIncidents = $incidents->where('status', 'Pending');
+        $pendingIncidents = $incidents->where('status', 'Pending')->where('user.barangay', auth()->user()->barangay);
         return view('landingpage', compact('pendingCount','respondingCount','completedCount', 'forwardedCount' , 'pendingIncidents'));
     }
 
