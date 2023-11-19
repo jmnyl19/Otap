@@ -1,12 +1,13 @@
 @extends('layouts.app')
 @section('css')
 <link href="{{ asset('css/landingpage.css') }}" rel="stylesheet">
+<link href="{{ asset('css/sidenav.css') }}" rel="stylesheet">
 @endsection
 @section('content')
-<body class="container flex-row">
+
 
     @include('sidebar.sidenav')
-    <div class="latest-container p-4" style="flex: 1">
+    <div class="latest-container p-4 mt-5" style="flex: 1">
         <h1>Forwarded Emergency</h1>
 
         <div class="requests" style="width: 95%; margin: 10px">
@@ -64,7 +65,6 @@
             </div>
         </div>
     </div>
-</body>
 
     
 

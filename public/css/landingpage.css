@@ -1,5 +1,7 @@
 /* Landingpage */
-
+body{
+    background-color: #F7F6FB!important;
+}
 
 .container {
     max-width: 100%;
@@ -11,10 +13,52 @@
 
 .landing-container{
     flex: 1;
-    
 }
 
+.countLabel{
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+}
 
+.countLabel h4{
+    font-size: 20px;
+}
+
+.modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    /* transform: translate(-50%, -50%); */
+}
+ .pendingLogo{
+    color: #d25b46 !important;
+ }
+
+ .respondingLogo{
+    color: #d3cc3a !important;
+ }
+
+ .forwardedLogo{
+    color: #5f69e8 !important;
+ }
+
+ .completedLogo{
+    color: #84ec6a !important;
+ }
+
+ .dateCont{
+    background-color: #D2AC76;
+    color: white;
+ }
+
+ .countText h1{
+    font-weight: 600 !important;
+ }
+
+ .pageTitle{
+    color: #D2AC76;
+ }
 /* .img-fluid{
     height: 100px;
 } */

@@ -1,5 +1,6 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-<div class="d-flex " style="background-color: #a8895e; min-height: 100vh; ">
+<script src="{{ asset('js/sidenav.js') }}"></script>
+{{-- <div class="d-flex " style="background-color: #a8895e; min-height: 100vh; ">
 <nav id="sidenav" class="d-flex flex-column flex-shrink-0 p-3 sticky-top" style="width: 320px;  color: #fff; ">
     <img class="mx-auto d-block" width="120" height="150" src="{{ asset('assets/logo.png') }}" alt="user profile">
       <span class="fs-3 text-center">O-TAP</span>
@@ -36,4 +37,24 @@
         </div>
     
 </nav>
+</div> --}}
+
+<header class="header" id="header">
+  <div class="header_toggle" id="header-toggle"> <i class="bi bi-list"></i> </div>
+  
+</header>
+<div class="l-navbar" id="nav-bar">
+  <nav class="nav">
+      <div> 
+        <a href="{{route('landingpage')}}" class="nav_logo"> <i class='bx bx-layer nav_logo-icon'></i> <span class="nav_logo-name"><img class="mx-auto d-block" width="150" height="150" src="{{ asset('assets/otaplogo.png') }}" alt="user profile"></span> </a>
+        <a href="#" class="nav_logo">  <span class="nav_logo-name">Barangay {{auth()->user()->barangay}}</span> </a>
+          <div class="nav_list"> 
+            <a href="{{route('landingpage')}}" class="nav_link"> <i class="bi bi-clipboard-data nav_icon"></i> <span class="nav_name">Dashboard</span> </a> 
+            <a href="{{ route('latest') }}" class="nav_link"> <i class="bi bi-exclamation-circle nav_icon"></i> <span class="nav_name">Incident Reports</span> </a> 
+            <a href="{{ route('forwarded') }}" class="nav_link"> <i class="bi bi-send-exclamation nav_icon"></i> <span class="nav_name">Forwarded Emergency</span> </a> 
+          </div>
+      </div> 
+      <a href="/logout" class="nav_link"> <i class="bi bi-box-arrow-left"></i> <span class="nav_name">SignOut</span> </a>
+  </nav>
 </div>
+
