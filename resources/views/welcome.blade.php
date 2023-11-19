@@ -2,54 +2,69 @@
 
 @section('css')
 <link href="{{ asset('css/welcome.css') }}" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="{{ asset('css/user_loginReg.css') }}" >
 @endsection
 
 @section('content')
-
-<body class="container-fluid g-0"style="background-color: #d2ac76">
-        <div class="row g-0">
-            <div class="col" id="left">
-                <!-- get the landing-page.png using image asset -->
-                <h1 class="ms-5 my-5 ps-2 fw-bold " style=" color: white; font-size: 45px;">O-TAP: One Tap Assistance for Barangay</h1>
-                <center>
-                <form action="{{route('login.perform')}}" method="POST">
-                @csrf
-                    <div class="form-floating mb-3 align-items-center" style="width:70%">
-                        <input type="email" class="form-control" value="{{old("email")}}" id="floatingInput" name="email" placeholder="name@example.com">
-                        <label for="floatingInput">Email address</label>
-                    </div>
-                @if ($errors->has('email'))
-                    <span class="text-danger text-left">{{ $errors->first('email') }}</span>
-                @endif
-                    <div class="form-floating align-items-center" style="width:70%">
-                        <input type="password" class="form-control" value="{{old("password")}}"  id="floatingPassword" name="password" placeholder="Password">
-                        <label for="floatingPassword">Password</label>
-                    </div>
-                @if ($errors->has('password'))
-                    <span class="text-danger text-left">{{ $errors->first('password') }}</span>
-                @endif
-                    <div class="row" style="width: 70%; margin: 2%">
-                        <div class="col-6">
-                            <div class="form-check">
-                                <input style="margin-left: -21%" class="form-check-input" type="checkbox" value="" id="defaultCheck1" >
-                                <label style="margin-left: -20%" class="form-check-label" for="defaultCheck1">Remember me</label>
+        <section class="vh-100">
+            <div class="container py-5 h-100">
+                <div class="row d-flex justify-content-center align-items-center h-100">
+                    <div class="col-md-6  col-xl-10">
+                        <div class="card card_whole_container" style="border-radius: 1rem;">
+                            <div class="row g-0 ">
+                                <div class="col-md-6 col-lg-5 d-none d-md-block loginReg_icon_container" style="border-radius: 1rem 0 0 1rem;">
+                                    <img class="w-200 img-fluid" style="border-radius: 1rem 0 0 1rem;" src="{{url('/assets/loginpic.jpg')}}" />
+                                </div>
+                                <div class="col-md-6 col-lg-7 ">
+                                    
+                                    <div class="card-body p-4 p-lg-5 text-black wholeCard">
+                                            <div class="d-flex align-items-center justify-content-center mb-5 pb-1">
+                                                <img class="img-fluid" src="{{url('/assets/otaplogo.png')}}" style="width: 12%;"/>
+                                                <h5 class="loginAppName">One-Tap Assistance Platform</h5>
+                                            </div>
+    
+                                        <form method="post" action="{{ route('login.perform') }}" class="loginForm">
+                                            @csrf
+    
+                                        
+                                          
+                        
+                                            <div class="form-group form-floating align-items-center mt-3 d-flex form_icon_input border rounded-2 py-1 px-3">
+                                                <i class="m-3 fa fa-user form_input_icon bpurple_highlighter"></i>
+                                                <input type="email" class="form-control shadow-none border-0 normal_text"  value="{{ old("email")}}" name="email" placeholder="Email" required="required" autofocus>
+                                                <label for="floatingInput">Email address</label>
+                                            </div>
+    
+                                            @if ($errors->has('email'))
+                                                <span class="text-danger text-left">{{ $errors->first('email') }}</span>
+                                                @endif
+    
+                                            <div class="form-group form-floating mt-3 d-flex form_icon_input border rounded-2 py-1 px-3">
+                                                <i class="m-3 fa fa-lock form_input_icon bpurple_highlighter"></i>
+                                                <input type="password" class="form-control shadow-none border-0 normal_text" value="{{ old("password")}}" name="password" placeholder="Password" placeholder="Password" required="required">
+                                                <label for="floatingInput">Password</label>
+                                            </div>
+    
+                                            @if ($errors->has('password'))
+                                            <span class="text-danger text-left">{{ $errors->first('password') }}</span>
+                                            @endif
+    
+    
+                                            <div class="mt-3 mb-4">
+                                                <button class="col-12 rounded-2 login_reg_button" type="submit"> LOGIN </button>
+                                            </div>
+    
+                                            
+                                        </form>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    
-                    </div> 
-                    <button class="text-dark bg-white mt-4" type="submit" style=" width: 70%; border: none; padding: 12px 24px; text-align: center; font-size: 16px; cursor: pointer; border-radius: 8px;">Login</button>
-                </form>
-                </center>
+                    </div>
+                </div>
             </div>
-            <div class="col" id="right">
-                
-                <img id= "shape" class="img-fluid float-end" src="{{ asset('assets/shape.png') }}" alt="geo">
+        </section>
 
-            </div>
-            <div class="container">
-
-</div>
-        </div>
-</body>
+       
 
 @endsection

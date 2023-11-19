@@ -16,7 +16,7 @@ class ReportController extends Controller
     public function index()
     {
         $reports = Report::with('user')->get();
-        $reportedIncident = $reports->where('status', 'Pending');
+        $reportedIncident = $reports->where('user.barangay', auth()->user()->barangay)->where('status', 'Pending');
 
      
         return view('latest', compact('reportedIncident'));

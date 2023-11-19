@@ -1,0 +1,112 @@
+body{
+    background-color: #D2AC76 !important;
+    width: 100%;
+    height: 100vh;
+    font-family: 'montserrat-medium' !important;
+}
+
+.login_reg_button{
+    border: none !important;
+    background-color: #D2AC76 !important;
+    padding: 15px 10px !important;
+    margin: 0;
+    font-size: 20px !important;
+    color: white !important;
+    margin-left: -10px;
+}
+
+.login_reg_button:hover{
+    background-color: #D2AC76 !important;
+    cursor: pointer;
+}
+
+.form_input_icon{
+    font-size: 25px !important;
+}
+
+.form_header{
+    font-family: 'montserrat-bold' ;
+}
+
+.loginReg_icon_container{
+    background-image: linear-gradient(#e8e8e8, #6946F6) !important;
+}
+
+.card_whole_container{
+    
+    box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0), 0 2px 5px 0 rgba(0, 0, 0, 0.15) !important;
+}
+
+
+
+/* Terms and Conditions */
+.terms_conditions_container{
+
+}
+
+.tac_header_logo{
+    width: 100px;
+}
+
+.form_header_text {
+    font-family: 'montserrat-bold';
+    display: flex;
+    flex-direction: row;
+    color: #6946F6;
+}
+
+.form_header_text:before{
+    content: "";
+    flex: 1 1;
+    border-bottom: 2px solid #6946F6;
+    margin: auto;
+    margin-right: 7px;
+}
+
+.form_header_text:after {
+    content: "";
+    flex: 1 1;
+    border-bottom: 2px solid #6946F6;
+    margin: auto;
+    margin-left: 7px;
+}
+
+.notice_item{
+    background-color: #1E1B3F;
+}
+
+.notice_icon{
+    font-size: 50px !important;
+    border: 2px solid #6946F6;
+}
+
+.notice_details{
+    color: #6946F6;
+    font-family: 'Montserrat-Bold';
+    margin-left: 40px;
+    padding-top: 10px !important;
+}
+
+.notice_content{
+    color: white;
+    font-family: 'Montserrat-Regular';
+}
+
+.terms_gen_details p{
+    font-family: 'Montserrat-Medium';
+    text-align: justify;
+}
+
+.main_header_container h1{
+    font-family: 'Montserrat-Bold';
+}
+
+.reg_checkbox:focus, .reg_checkbox:active{
+    border: 1px solid #D2AC76 !important;
+}
+
+.reg_checkbox:checked{
+    background-color: #6946F6 !important;
+    border: none;
+}
+
