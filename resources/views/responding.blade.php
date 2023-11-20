@@ -13,13 +13,13 @@
 
     @include('sidebar.sidenav')
     <div class="latest-container p-4 mt-5" style="flex: 1">
-        <h1>Forwarded Emergency</h1>
+        <h1>Responding Emergency</h1>
 
         <div class="requests" style="width: 95%; margin: 10px">
             <div class="shadow p-4 mb-4 bg-white rounded " >
                 <div class="row align-items-center">
                     <div class="col">
-                    @foreach($forwardedIncidents as $incident)
+                    @foreach($respondingIncidents as $incident)
                         @if ($incident->type == 'Requesting for Ambulance')
                             <div class="btn btn-primary shadow p-1 mb-1 bg-white rounded " type="button" data-bs-toggle="modal" data-bs-target="#exampleModal{{$incident->id}}" style="width: 100%; margin: 10px; border: none">
                                 <div class="card-body">
@@ -64,7 +64,7 @@
                         @endif
                     @endforeach
                     <!-- Modal -->
-                    @foreach($forwardedIncidents as $incident_modal)
+                    @foreach($respondingIncidents as $incident_modal)
                     <div class="modal fade" id="exampleModal{{$incident_modal->id}}" tabindex="-1"  aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-lg ">
                             <div class="modal-content ">
@@ -110,7 +110,7 @@
     var maps = [];
 
     function initMaps() {
-        @foreach ($forwardedIncidents as $incident_modal)
+        @foreach ($respondingIncidents as $incident_modal)
             initMap('map{{$incident_modal->id}}', {{$incident_modal->latitude}}, {{$incident_modal->longitude}});
         @endforeach
     }

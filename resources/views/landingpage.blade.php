@@ -32,7 +32,7 @@
         
 
             <div class="row justify-content-around text-center gap-3" style="width: 100%">
-                <div class="col-sm-4 col-md-2 shadow p-4 mb-4 bg-white rounded-4" style=" margin: 10px">
+                <div class="col-sm-4 col-md-2 shadow p-4 mb-4 bg-white rounded-4" type="button" onclick="window.location='{{route('pendingpage')}}'" style=" margin: 10px">
                     <div class="card-body ">
                         
                             <div class="countLabel">
@@ -50,7 +50,7 @@
                         </div>
                 </div>
 
-                <div class="col-sm-4 col-md-2 shadow p-4 mb-4 bg-white rounded-4" style=" margin: 10px">
+                <div class="col-sm-4 col-md-2 shadow p-4 mb-4 bg-white rounded-4" type="button" onclick="window.location='{{route('responding')}}'" style=" margin: 10px">
                     <div class="card-body">
                         <div class="countLabel">
                             <h4 class="respondingLogo">Responding</h4>
@@ -66,7 +66,7 @@
                             </div>
                         </div>
                 </div>
-                <div class="col-sm-4 col-md-2 shadow p-4 mb-4 bg-white rounded-4" style=" margin: 10px">
+                <div class="col-sm-4 col-md-2 shadow p-4 mb-4 bg-white rounded-4" type="button" onclick="window.location='{{route('forwarded')}}'" style=" margin: 10px">
                     <div class="card-body">
                         <div class="countLabel">
                             <h4 class="forwardedLogo">Forwarded</h4>
@@ -83,7 +83,7 @@
                         </div>
                 </div>
 
-                <div class="col-sm-4 col-md-2 shadow p-4 mb-4 bg-white rounded-4" style=" margin: 10px">
+                <div class="col-sm-4 col-md-2 shadow p-4 mb-4 bg-white rounded-4" type="button" onclick="window.location='{{route('completedpage')}}'" style=" margin: 10px">
                     <div class="card-body">
                             <div class="row justify-content-center">
                                 <div class="countLabel">
@@ -193,8 +193,9 @@
                                         </div>
                             
                                         <div class="modal-footer justify-content-center">
-                                            <button type="button" class="btn btn-success" data-bs-dismiss="modal">Respond</button>
-                                            <button type="button" class="btn btn-primary">Forward</button>
+                                            <button type="button" class="btn btn-success" onclick="respond({{$incident_modal->id}})">Respond</button>
+                                            <button type="button" class="btn btn-primary" >Forward</button>
+
                                         </div>
                                     </div>
                                 </div>

@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Report;
+use App\Models\Incident;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class ReportController extends Controller
+class StatusController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,14 +15,15 @@ class ReportController extends Controller
      */
     public function index()
     {
-        $reports = Report::with('user')->get();
-        $reportedIncident = $reports->where('user.barangay', auth()->user()->barangay)->where('status', 'Pending');
-
-     
-        return view('latest', compact('reportedIncident'));
+        //
     }
-
-    
+    public function respond(Request $request, $id)
+    {
+        $incidents = Incident::find($id);
+        $incidents->status = 'Responding';
+        $incidents->save();
+        return redirect('/responding');
+    }
     /**
      * Show the form for creating a new resource.
      *

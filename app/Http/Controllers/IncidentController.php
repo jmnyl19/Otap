@@ -24,11 +24,11 @@ class IncidentController extends Controller
         // $barangayIncident = Incident::where('barangay', auth()->user()->barangay)->get();
         
         $incidents = Incident::with('user')->get();
-        $pendingCount = $incidents->where('status', 'Pending')->where('user.barangay', auth()->user()->barangay)->count();
+        $pendingCount = $incidents->where('status', 'Pending')->count();
         $respondingCount = $incidents->where('status', 'Responding')->where('user.barangay', auth()->user()->barangay)->count();
         $completedCount = $incidents->where('status', 'Completed')->where('user.barangay', auth()->user()->barangay)->count();
         $forwardedCount = $incidents->where('status', 'Forwarded')->count();
-        $pendingIncidents = $incidents->where('status', 'Pending')->where('user.barangay', auth()->user()->barangay);
+        $pendingIncidents = $incidents->where('status', 'Pending');
         return view('landingpage', compact('pendingCount','respondingCount','completedCount', 'forwardedCount' , 'pendingIncidents'));
     }
 
@@ -40,13 +40,28 @@ class IncidentController extends Controller
         return view('forwarded', compact('forwardedIncidents'));
     }
 
-    public function managesecforwarded()
+    public function managepending()
     {
-        $incidents = Incident::with('user')->where('residents_id', auth()->user()->id)->get();
+        $incidents = Incident::with('user')->get();
+        $pendingIncidents = $incidents->where('status', 'Pending');
 
-        return view('secforwarded', compact('incidents'));
+        return view('pendingpage', compact('pendingIncidents'));
     }
 
+    public function managecompleted()
+    {
+        $incidents = Incident::with('user')->get();
+        $completedIncidents = $incidents->where('status', 'Completed')->where('user.barangay', auth()->user()->barangay);
+
+        return view('completedpage', compact('completedIncidents'));
+    }
+    public function manageresponding()
+    {
+        $incidents = Incident::with('user')->get();
+        $respondingIncidents = $incidents->where('status', 'Responding')->where('user.barangay', auth()->user()->barangay);
+
+        return view('responding', compact('respondingIncidents'));
+    }
     /**
      * Show the form for creating a new resource.
      *

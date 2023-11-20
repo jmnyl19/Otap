@@ -13,58 +13,58 @@
 
     @include('sidebar.sidenav')
     <div class="latest-container p-4 mt-5" style="flex: 1">
-        <h1>Forwarded Emergency</h1>
+        <h1>Pending Request</h1>
 
         <div class="requests" style="width: 95%; margin: 10px">
             <div class="shadow p-4 mb-4 bg-white rounded " >
                 <div class="row align-items-center">
                     <div class="col">
-                    @foreach($forwardedIncidents as $incident)
-                        @if ($incident->type == 'Requesting for Ambulance')
-                            <div class="btn btn-primary shadow p-1 mb-1 bg-white rounded " type="button" data-bs-toggle="modal" data-bs-target="#exampleModal{{$incident->id}}" style="width: 100%; margin: 10px; border: none">
-                                <div class="card-body">
-                                        <div class="row align-items-center text-start">
-                                            <div class="col-auto">
-                                                <h1 style="color: red">|</h1>
-                                            </div>
-                                            <div class="col">
-                                                <h6 style="color: #000">{{$incident->type}}</h6>
-                                            </div>
+                    @foreach($pendingIncidents as $incident)
+                    @if ($incident->type == 'Requesting for Ambulance')
+                                        <div class="btn btn-primary shadow p-1 mb-1 bg-white rounded " type="button" data-bs-toggle="modal" data-bs-target="#exampleModal{{$incident->id}}" style="width: 100%; margin: 10px; border: none">
+                                            <div class="card-body">
+                                                    <div class="row align-items-center text-start">
+                                                        <div class="col-auto">
+                                                            <h1 style="color: red">|</h1>
+                                                        </div>
+                                                        <div class="col">
+                                                            <h6 style="color: #000">{{$incident->type}}</h6>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                         </div>
-                                    </div>
-                            </div>
-                        @elseif ($incident->type == 'Requesting for a Fire Truck')
-                            <div class="btn btn-primary shadow p-1 mb-1 bg-white rounded " type="button" data-bs-toggle="modal" data-bs-target="#exampleModal{{$incident->id}}" style="width: 100%; margin: 10px; border: none">
-                                <div class="card-body">
-                                        <div class="row align-items-center text-start">
-                                            <div class="col-auto">
-                                                <h1 style="color: rgb(255, 132, 0)">|</h1>
-                                            </div>
-                                            <div class="col">
-                                                <h6 style="color: #000">{{$incident->type}}</h6>
-                                            
-                                            </div>
+                                    @elseif ($incident->type == 'Requesting for a Fire Truck')
+                                        <div class="btn btn-primary shadow p-1 mb-1 bg-white rounded " type="button" data-bs-toggle="modal" data-bs-target="#exampleModal{{$incident->id}}" style="width: 100%; margin: 10px; border: none">
+                                            <div class="card-body">
+                                                    <div class="row align-items-center text-start">
+                                                        <div class="col-auto">
+                                                            <h1 style="color: rgb(255, 132, 0)">|</h1>
+                                                        </div>
+                                                        <div class="col">
+                                                            <h6 style="color: #000">{{$incident->type}}</h6>
+                                                        
+                                                        </div>
+                                                    </div>
+                                                </div>
                                         </div>
-                                    </div>
-                            </div>
-                        @else
-                            <div class="btn btn-primary shadow p-1 mb-1 bg-white rounded " type="button" data-bs-toggle="modal" data-bs-target="#exampleModal{{$incident->id}}" style="width: 100%; margin: 10px; border: none">
-                                <div class="card-body">
-                                        <div class="row align-items-center text-start">
-                                            <div class="col-auto">
-                                                <h1 style="color: rgb(0, 157, 255) ">|</h1>
-                                            </div>
-                                            <div class="col">
-                                                <h6 style="color: #000">{{$incident->type}}</h6>
-                                            
-                                            </div>
+                                    @else
+                                        <div class="btn btn-primary shadow p-1 mb-1 bg-white rounded " type="button" data-bs-toggle="modal" data-bs-target="#exampleModal{{$incident->id}}" style="width: 100%; margin: 10px; border: none">
+                                            <div class="card-body">
+                                                    <div class="row align-items-center text-start">
+                                                        <div class="col-auto">
+                                                            <h1 style="color: rgb(0, 157, 255) ">|</h1>
+                                                        </div>
+                                                        <div class="col">
+                                                            <h6 style="color: #000">{{$incident->type}}</h6>
+                                                        
+                                                        </div>
+                                                    </div>
+                                                </div>
                                         </div>
-                                    </div>
-                            </div>
-                        @endif
+                                    @endif
                     @endforeach
                     <!-- Modal -->
-                    @foreach($forwardedIncidents as $incident_modal)
+                    @foreach($pendingIncidents as $incident_modal)
                     <div class="modal fade" id="exampleModal{{$incident_modal->id}}" tabindex="-1"  aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-lg ">
                             <div class="modal-content ">
@@ -98,19 +98,21 @@
                     </div>
                     @endforeach
 
-                    </div>
-                </div>
+        </div>
+        </div>
+
             </div>
         </div>
     </div>
 
     
+
     <script>
     // Array to store map instances
     var maps = [];
 
     function initMaps() {
-        @foreach ($forwardedIncidents as $incident_modal)
+        @foreach ($pendingIncidents as $incident_modal)
             initMap('map{{$incident_modal->id}}', {{$incident_modal->latitude}}, {{$incident_modal->longitude}});
         @endforeach
     }
@@ -133,7 +135,6 @@
 
 <!-- Call the initMaps function once the Google Maps API is loaded -->
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB3sNbXeLLaZQcJiCWNzC4Rwp-xALyV4lM&callback=initMaps"></script>
-
 
 
 @endsection
