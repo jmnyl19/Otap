@@ -44,10 +44,8 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
     Route::get('/logout', 'LoginController@logout')->name('logout');
 });
 
-// Route::group(['middleware' => ['auth']], function() {
-//     Route::post('raised/{id}', [App\Http\Controllers\LoginController::class, 'raised']);
-//     Route::post('disregard/{id}', [App\Http\Controllers\LoginController::class, 'disregard']);
-//     Route::post('acknowledge/{id}', [App\Http\Controllers\LoginController::class, 'acknowledge']);
-//     Route::post('dealt/{id}', [App\Http\Controllers\LoginController::class, 'dealt']);
+Route::group(['middleware' => ['auth']], function() {
+    Route::post('forward/{id}', [App\Http\Controllers\IncidentController::class, 'forward']);
+   
 
-// });
+});

@@ -21,7 +21,6 @@ class IncidentController extends Controller
     }
 
     public function adminLanding(){
-        // $barangayIncident = Incident::where('barangay', auth()->user()->barangay)->get();
         
         $incidents = Incident::with('user')->get();
         $pendingCount = $incidents->where('status', 'Pending')->where('user.barangay', auth()->user()->barangay)->count();
@@ -45,6 +44,14 @@ class IncidentController extends Controller
         $incidents = Incident::with('user')->where('residents_id', auth()->user()->id)->get();
 
         return view('secforwarded', compact('incidents'));
+    }
+
+    public function forward(Request $request, $id)
+    {
+        $incidents = Incident::find($id);
+        $incidents->status = 'Forwarded';
+        $incidents->save();
+        return redirect('/forwarded');
     }
 
     /**

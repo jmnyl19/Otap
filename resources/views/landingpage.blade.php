@@ -76,12 +76,13 @@
                 </div>
 
                 <div class="col-sm-4 shadow p-4 mb-4 bg-white rounded " style="width: 40%; margin: 10px">
-                
+                <h4 class="fw-normal">Latest Request</h4>
+                @foreach($pendingIncidents as $incident)
                     <div class="card-body">
                             <div class="row align-items-center">
                                 <div class="col">
-                                    <h4 class="fw-normal">Latest Request</h4>
-                                    @foreach($pendingIncidents as $incident)
+                                    
+                                   
                                     <!-- Latest Request -->
                                     <div class="btn btn-primary shadow p-1 mb-1 bg-white rounded " type="button" data-bs-toggle="modal" data-bs-target="#exampleModal{{$incident->id}}" style="width: 100%; margin: 10px; border: none">
                                         <div class="card-body">
@@ -123,8 +124,8 @@
                                     </div>
                                 </div>
                                 <div class="modal-footer justify-content-center">
-                                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">Respond</button>
-                                    <button type="button" class="btn btn-primary">Forward</button>
+                                    <button type="button" class="btn btn-success" >Respond</button>
+                                    <button type="button" class="btn btn-primary" onclick="forward({{$incident->id}}">Forward</button>
                                 </div>
                                 </div>
                             </div>
