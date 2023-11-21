@@ -24,18 +24,18 @@ class IncidentController extends Controller
         // $barangayIncident = Incident::where('barangay', auth()->user()->barangay)->get();
         
         $incidents = Incident::with('user')->get();
-        $pendingCount = $incidents->where('status', 'Pending')->count();
+        $pendingCount = $incidents->where('status', 'Pending')->where('user.barangay', auth()->user()->barangay)->count();
         $respondingCount = $incidents->where('status', 'Responding')->where('user.barangay', auth()->user()->barangay)->count();
         $completedCount = $incidents->where('status', 'Completed')->where('user.barangay', auth()->user()->barangay)->count();
-        $forwardedCount = $incidents->where('status', 'Forwarded')->count();
-        $pendingIncidents = $incidents->where('status', 'Pending');
+        $forwardedCount = $incidents->where('status', 'Forwarded')->where('user.barangay', auth()->user()->barangay)->count();
+        $pendingIncidents = $incidents->where('status', 'Pending')->where('user.barangay', auth()->user()->barangay);
         return view('landingpage', compact('pendingCount','respondingCount','completedCount', 'forwardedCount' , 'pendingIncidents'));
     }
 
     public function manageforwarded()
     {
         $incidents = Incident::with('user')->get();
-        $forwardedIncidents = $incidents->where('status', 'Forwarded');
+        $forwardedIncidents = $incidents->where('status', 'Forwarded')->where('user.barangay', auth()->user()->barangay);
 
         return view('forwarded', compact('forwardedIncidents'));
     }
@@ -43,7 +43,7 @@ class IncidentController extends Controller
     public function managepending()
     {
         $incidents = Incident::with('user')->get();
-        $pendingIncidents = $incidents->where('status', 'Pending');
+        $pendingIncidents = $incidents->where('status', 'Pending')->where('user.barangay', auth()->user()->barangay);
 
         return view('pendingpage', compact('pendingIncidents'));
     }

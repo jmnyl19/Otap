@@ -10,7 +10,7 @@
 
 @endsection
 
-
+@auth
     @include('sidebar.sidenav')
    
     <div class="landing-container p-4 mt-5" >
@@ -18,7 +18,7 @@
             <div class="col-md-2 col-sm-4  p-4 rounded-3">
                 <h3 class="fw-bolder pageTitle">Dashboard</h3>
             </div>
-            <div class=" col-lg-2 col-md-6 col-sm-4 shadow p-4 rounded-5 dateCont">
+            {{-- <div class=" col-lg-2 col-md-6 col-sm-4 shadow p-4 rounded-5 dateCont">
                 <div class="row justify-content-center align-items-center">
                     <div class="col-auto col-md-2">
                         <i class="bi bi-calendar2-week-fill h3"></i>
@@ -27,7 +27,7 @@
                         <h6 id="datetime"></h6>
                     </div>
                 </div>
-            </div>
+            </div> --}}
         </div>
         
 
@@ -193,9 +193,13 @@
                                         </div>
                             
                                         <div class="modal-footer justify-content-center">
-                                            <button type="button" class="btn btn-success" onclick="respond({{$incident_modal->id}})">Respond</button>
+                                            <form action="/respond/{{$incident_modal->id}}" method="POST">
+                                                @csrf
+                                                @method('PATCH')
+                                            <button type="submit" class="btn btn-success" >Respond</button>
+                                            </form>
                                             <button type="button" class="btn btn-primary" >Forward</button>
-
+                                            
                                         </div>
                                     </div>
                                 </div>
@@ -239,5 +243,5 @@
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB3sNbXeLLaZQcJiCWNzC4Rwp-xALyV4lM&callback=initMaps"></script>
 
 
-
+@endauth
 @endsection

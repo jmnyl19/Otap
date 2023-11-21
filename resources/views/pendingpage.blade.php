@@ -89,7 +89,11 @@
                                 </div>
                     
                                 <div class="modal-footer justify-content-center">
-                                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">Respond</button>
+                                    <form action="/respond/{{$incident_modal->id}}" method="POST">
+                                        @csrf
+                                        @method('PATCH')
+                                    <button type="submit" class="btn btn-success" >Respond</button>
+                                    </form>
                                     <button type="button" class="btn btn-primary" onclick="raised()">Forward</button>
 
                                 </div>

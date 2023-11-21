@@ -24,11 +24,7 @@ Route::get('/', function () {
 });
 
 // Route::get('/landingpage', [App\Http\Controllers\IncidentController::class, 'index']);
-Route::get('/forwarded', [App\Http\Controllers\IncidentController::class, 'manageforwarded'])->name('forwarded');
-Route::get('/pendingpage', [App\Http\Controllers\IncidentController::class, 'managepending'])->name('pendingpage');
-Route::get('/completedpage', [App\Http\Controllers\IncidentController::class, 'managecompleted'])->name('completedpage');
-Route::get('/responding', [App\Http\Controllers\IncidentController::class, 'manageresponding'])->name('responding');
-Route::get('/latest', [App\Http\Controllers\ReportController::class, 'index'])->name('latest');
+
 // Route::get('pending', [App\Http\Controllers\IncidentController::class, 'pending']);
 
 // Route::get('incidents', [App\Http\Controllers\LoginController::class, 'index'])->name('landingpage');
@@ -47,9 +43,11 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
 
 Route::group(['middleware' => ['auth']], function() {
     Route::get('admin/index', [App\Http\Controllers\IncidentController::class, 'adminLanding'])->name('landingpage');
+    Route::patch('respond/{id}', [App\Http\Controllers\StatusController::class, 'respond']);
+    Route::get('/forwarded', [App\Http\Controllers\IncidentController::class, 'manageforwarded'])->name('forwarded');
+    Route::get('/pendingpage', [App\Http\Controllers\IncidentController::class, 'managepending'])->name('pendingpage');
+    Route::get('/completedpage', [App\Http\Controllers\IncidentController::class, 'managecompleted'])->name('completedpage');
+    Route::get('/responding', [App\Http\Controllers\IncidentController::class, 'manageresponding'])->name('responding');
+    Route::get('/latest', [App\Http\Controllers\ReportController::class, 'index'])->name('latest');
 });
 
-Route::group(['middleware' => ['auth']], function() {
-    Route::post('respond/{id}', [App\Http\Controllers\StatusController::class, 'respond']);
-
-});
