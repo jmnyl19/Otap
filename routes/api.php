@@ -32,6 +32,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function ()
     Route::post('/userlogin', 'UserLoginController@userlogin');
     Route::post('/register', 'RegisterController@register');
     Route::post('/sendreport', 'IncidentController@create');
+    Route::get('/emergency/{id}', 'IncidentController@user_emegency_history');
 });
 
 
