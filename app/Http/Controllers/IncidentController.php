@@ -43,7 +43,7 @@ class IncidentController extends Controller
 
     public function manageforwarded()
     {
-        $incidents = Incident::with('user')->get();
+        $incidents = ForwardedIncident::with('incidents')->get();
         $forwardedIncidents = $incidents->where('status', 'Forwarded')->where('forwardedincidents.barangay', auth()->user()->barangay);
 
         return view('forwarded', compact('forwardedIncidents'));

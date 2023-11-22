@@ -18,4 +18,7 @@ class Incident extends Model
     public function user(){
         return $this->belongsTo(User::class, 'residents_id', 'id');
     }
+    public function forwardedincidents(){
+        return $this->belongsTo(Incident::class);
+    }
 }
