@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Incident;
+use App\Models\ForwardedIncident;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
