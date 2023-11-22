@@ -6,8 +6,9 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
      @yield('css')
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
     <script src="{{ asset('js/date.js') }}"></script>
-    <title> O-Tap - @yield('pageTitle')</title>
+    <title> OTap - @yield('pageTitle')</title>
     <link rel="icon" href="{{url('/assets/otaplogo.png')}}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

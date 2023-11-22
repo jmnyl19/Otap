@@ -13,7 +13,7 @@
 
     @include('sidebar.sidenav')
     <div class="latest-container p-4 mt-5" style="flex: 1">
-        <h1>Forwarded Emergency</h1>
+        <h3 class="fw-bolder pageTitle mb-4">Forwarded Emergency</h3>
 
         <div class="requests" style="width: 95%; margin: 10px">
             <div class="shadow p-4 mb-4 bg-white rounded " >
@@ -66,29 +66,32 @@
                     <!-- Modal -->
                     @foreach($forwardedIncidents as $incident_modal)
                     <div class="modal fade" id="exampleModal{{$incident_modal->id}}" tabindex="-1"  aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-lg ">
-                            <div class="modal-content ">
+                        <div class="modal-dialog modal-lg modal-dialog-centered">
+                            <div class="modal-content rounded-4 border border-success border-3">
                                 <div class="modal-header">
+                                    <h5 style="text-align: center"><i class="bi bi-megaphone-fill mr-5 pendingLogo"></i>   Emergency Details</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                     
                                 <div class="modal-body justify-content-center">
                                     <!-- Google Map Container -->
-                                    <div id="map{{$incident_modal->id}}" style="height: 300px;"></div>
+                                    <div id="map{{$incident_modal->id}}" style="height: 350px;">
+                                    </div>
                     
                                     <!-- Rest of the modal content -->
-                                    <h4 style="text-align: center">Details</h4>
-                                    <div class="square-container p-20">
-                                        <div class="shadow p-1 mb-1 bg-white rounded">
-                                            <h5>Emergency: {{$incident_modal->incident->type}}</h5>
-                                            <h5>Name: {{$incident_modal->incident->user->first_name}} {{$incident_modal->incident->user->last_name}}</h5>
-                                            <h5>Age: {{$incident_modal->incident->user->age}}</h5>
-                                            <h5>Address: {{$incident_modal->incident->user->lot_no}} {{$incident_modal->incident->user->street}} {{$incident_modal->incident->user->barangay}} {{$incident_modal->incident->user->city}}</h5>
+                                    <hr class="style-one">
+                                    <div class="square-container mt-2 p-20">
+                                        <div class="shadow p-3 mb-1 rounded modalInfo">
+                                            <h5><i class="bi bi-exclamation-circle-fill modalIcon"></i>Type: {{$incident_modal->type}}</h5>
+                                            <h5><i class="bi bi-person-circle modalIcon"></i>Name: {{$incident_modal->incident->user->first_name}} {{$incident_modal->incident->user->last_name}}</h5>
+                                            <h5><i class="bi bi-calendar-event-fill modalIcon"></i>Age: {{$incident_modal->incident->user->age}}</h5>
+                                            <h5><i class="bi bi-house-down-fill modalIcon"></i>Address: {{$incident_modal->incident->user->lot_no}} {{$incident_modal->incident->user->street}} {{$incident_modal->incident->user->barangay}} {{$incident_modal->incident->user->city}}</h5>
                                         </div>
                                     </div>
                                 </div>
                     
                                 <div class="modal-footer justify-content-center">
+                                    
                                    
                                 </div>
                             </div>

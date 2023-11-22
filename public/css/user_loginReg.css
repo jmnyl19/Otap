@@ -37,7 +37,17 @@ body{
     box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0), 0 2px 5px 0 rgba(0, 0, 0, 0.15) !important;
 }
 
+.floatingInput{
+    margin-left: 50px !important;
+}
 
+.loginIcon{
+    color: #D2AC76 !important;
+}
+
+.loginBtn{
+    margin-left: 17px;
+}
 
 /* Terms and Conditions */
 .terms_conditions_container{

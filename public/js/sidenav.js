@@ -11,6 +11,9 @@ $(document).ready(function() {
         $(this).addClass("active");
       }
     });
+    
+
+    $('.header_toggle').click();
   });
 
 

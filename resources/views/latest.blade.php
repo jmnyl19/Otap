@@ -8,7 +8,7 @@
 
     @include('sidebar.sidenav')
     <div class="latest-container p-4 mt-5">
-        <h1>Incident Reports</h1>
+        <h3 class="fw-bolder pageTitle">Incident Reports</h3>
 
         <div class="requests" style="width: 95%; margin: 10px">
             <div class="shadow p-4 mb-4 bg-white rounded " >

@@ -13,7 +13,7 @@
 
     @include('sidebar.sidenav')
     <div class="latest-container p-4 mt-5" style="flex: 1">
-        <h1>Pending Request</h1>
+        <h3 class="fw-bolder pageTitle mb-4">Pending Request</h3>
 
         <div class="requests" style="width: 95%; margin: 10px">
             <div class="shadow p-4 mb-4 bg-white rounded " >
@@ -66,24 +66,26 @@
                     <!-- Modal -->
                     @foreach($pendingIncidents as $incident_modal)
                     <div class="modal fade" id="exampleModal{{$incident_modal->id}}" tabindex="-1"  aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-lg ">
-                            <div class="modal-content ">
+                        <div class="modal-dialog modal-lg modal-dialog-centered">
+                            <div class="modal-content rounded-4 border border-success border-3">
                                 <div class="modal-header">
+                                    <h5 style="text-align: center"><i class="bi bi-megaphone-fill mr-5 pendingLogo"></i>   Emergency Details</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                     
                                 <div class="modal-body justify-content-center">
                                     <!-- Google Map Container -->
-                                    <div id="map{{$incident_modal->id}}" style="height: 300px;"></div>
+                                    <div id="map{{$incident_modal->id}}" style="height: 350px;">
+                                    </div>
                     
                                     <!-- Rest of the modal content -->
-                                    <h4 style="text-align: center">Details</h4>
-                                    <div class="square-container p-20">
-                                        <div class="shadow p-1 mb-1 bg-white rounded">
-                                            <h5>Emergency: {{$incident_modal->type}}</h5>
-                                            <h5>Name: {{$incident_modal->user->first_name}} {{$incident_modal->user->last_name}}</h5>
-                                            <h5>Age: {{$incident_modal->user->age}}</h5>
-                                            <h5>Address: {{$incident_modal->user->lot_no}} {{$incident_modal->user->street}} {{$incident_modal->user->barangay}} {{$incident_modal->user->city}}</h5>
+                                    <hr class="style-one">
+                                    <div class="square-container mt-2 p-20">
+                                        <div class="shadow p-3 mb-1 rounded modalInfo">
+                                            <h5><i class="bi bi-exclamation-circle-fill modalIcon"></i>Type: {{$incident_modal->type}}</h5>
+                                            <h5><i class="bi bi-person-circle modalIcon"></i>Name: {{$incident_modal->user->first_name}} {{$incident_modal->user->last_name}}</h5>
+                                            <h5><i class="bi bi-calendar-event-fill modalIcon"></i>Age: {{$incident_modal->user->age}}</h5>
+                                            <h5><i class="bi bi-house-down-fill modalIcon"></i>Address: {{$incident_modal->user->lot_no}} {{$incident_modal->user->street}} {{$incident_modal->user->barangay}} {{$incident_modal->user->city}}</h5>
                                         </div>
                                     </div>
                                 </div>
@@ -92,10 +94,40 @@
                                     <form action="/respond/{{$incident_modal->id}}" method="POST">
                                         @csrf
                                         @method('PATCH')
-                                    <button type="submit" class="btn btn-success" >Respond</button>
+                                        <button class="respondBtn" type="submit">
+                                            <div class="svg-wrapper-1">
+                                              <div class="svg-wrapper">
+                                                <svg viewBox="0 0 24 24"
+                                                width="24"
+                                                height="24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>arrow_repeat [#238]</title> <desc>Created with Sketch.</desc> <defs> </defs> <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g id="Dribbble-Light-Preview" transform="translate(-222.000000, -7080.000000)" fill="#ffffff"> <g id="icons" transform="translate(56.000000, 160.000000)"> <path d="M174.034934,6926.99996 C173.480532,6926.99996 173.030583,6927.44796 173.030583,6927.99996 L173.030583,6930.99994 L178.052339,6930.99994 C178.606741,6930.99994 179.05669,6930.49994 179.05669,6929.94795 L179.05669,6929.92095 C179.05669,6929.36895 178.606741,6928.99995 178.052339,6928.99995 L175.039285,6928.99995 L175.039285,6927.99996 C175.039285,6927.44796 174.589336,6926.99996 174.034934,6926.99996 M180.988058,6929.99995 C180.487891,6929.99995 180.071085,6930.36694 179.999776,6930.85894 C179.520701,6934.16792 176.319833,6936.61391 172.736308,6935.86392 C170.462456,6935.38792 168.623489,6933.55693 168.145418,6931.29294 C167.32888,6927.42296 170.287699,6923.99998 174.034934,6923.99998 L174.034934,6925.99997 L179.05669,6922.99998 L174.034934,6920 L174.034934,6921.99999 C169.070425,6921.99999 165.157472,6926.48297 166.156802,6931.60494 C166.765439,6934.72392 169.290378,6937.23791 172.42295,6937.8439 C177.169514,6938.7619 181.369712,6935.51592 181.990401,6931.12594 C182.074766,6930.52994 181.591673,6929.99995 180.988058,6929.99995" id="arrow_repeat-[#238]"> </path> </g> </g> </g> </g></svg>
+                                              </div>
+                                            </div>
+                                            <span>Respond</span>
+                                          </button>
                                     </form>
-                                    <button type="button" class="btn btn-primary" onclick="raised()">Forward</button>
-
+                                    <form action="/forward/{{$incident_modal->id}}" method="POST">
+                                        @csrf
+                                        @method('PATCH')
+                                        <button class="forwardBtn" type="submit">
+                                            <div class="svg-wrapper-1">
+                                              <div class="svg-wrapper">
+                                                <svg
+                                                  xmlns="http://www.w3.org/2000/svg"
+                                                  viewBox="0 0 24 24"
+                                                  width="24"
+                                                  height="24"
+                                                >
+                                                  <path fill="none" d="M0 0h24v24H0z"></path>
+                                                  <path
+                                                    fill="currentColor"
+                                                    d="M1.946 9.315c-.522-.174-.527-.455.01-.634l19.087-6.362c.529-.176.832.12.684.638l-5.454 19.086c-.15.529-.455.547-.679.045L12 14l6-8-8 6-8.054-2.685z"
+                                                  ></path>
+                                                </svg>
+                                              </div>
+                                            </div>
+                                            <span>Forward</span>
+                                          </button>
+                                    </form>
                                 </div>
                             </div>
                         </div>

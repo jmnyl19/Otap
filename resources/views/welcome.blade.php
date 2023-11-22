@@ -1,4 +1,10 @@
+
+
 @extends('layouts.app')
+
+@section('pageTitle')
+Login
+@endsection
 
 @section('css')
 <link href="{{ asset('css/welcome.css') }}" rel="stylesheet">
@@ -28,23 +34,23 @@
                                         <form method="post" action="{{ route('login.perform') }}" class="loginForm">
                                             @csrf
     
-                                        
+                                           
                                           
                         
                                             <div class="form-group form-floating align-items-center mt-3 d-flex form_icon_input border rounded-2 py-1 px-3">
-                                                <i class="bi bi-person-fill"></i>
+                                                <i class="bi bi-person-fill h3 mt-2 loginIcon"></i>
                                                 <input type="email" class="form-control shadow-none border-0 normal_text"  value="{{ old("email")}}" name="email" placeholder="Email" required="required" autofocus>
-                                                <label for="floatingInput">Email address</label>
+                                                <label for="floatingInput" class="floatingInput">Email address</label>
                                             </div>
     
                                             @if ($errors->has('email'))
                                                 <span class="text-danger text-left">{{ $errors->first('email') }}</span>
                                                 @endif
     
-                                            <div class="form-group form-floating mt-3 d-flex form_icon_input border rounded-2 py-1 px-3">
-                                                <i class="m-3 fa fa-lock form_input_icon bpurple_highlighter"></i>
+                                            <div class="form-group form-floating align-items-center mt-3 d-flex form_icon_input border rounded-2 py-1 px-3">
+                                                <i class="bi bi-lock-fill h3 mt-2 loginIcon"></i>
                                                 <input type="password" class="form-control shadow-none border-0 normal_text" value="{{ old("password")}}" name="password" placeholder="Password" placeholder="Password" required="required">
-                                                <label for="floatingInput">Password</label>
+                                                <label for="floatingInput" class="floatingInput">Password</label>
                                             </div>
     
                                             @if ($errors->has('password'))
@@ -52,7 +58,7 @@
                                             @endif
     
     
-                                            <div class="mt-3 mb-4">
+                                            <div class="mt-3 mb-4 loginBtn">
                                                 <button class="col-12 rounded-2 login_reg_button" type="submit"> LOGIN </button>
                                             </div>
     
