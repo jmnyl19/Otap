@@ -1,9 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use App\Models\Incident;
 use App\Models\ForwardedIncident;
+use App\Models\Incident;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -46,10 +45,15 @@ class IncidentController extends Controller
 
     public function manageforwarded()
     {
-        $incidents = ForwardedIncident::with('incidents')->get();
-        $forwardedIncidents = $incidents->where('status', 'Forwarded')->where('forwardedincidents.barangay', auth()->user()->barangay);
+        $incidents = ForwardedIncident::with('incident')->get();
+        $forwardedIncidents =  $incidents->where('barangay', auth()->user()->barangay);
 
+        // dd($forwardedIncidents);
         return view('forwarded', compact('forwardedIncidents'));
+        // return response()->json([
+        //     'incidents' => $forwardedIncidents,
+        //     'message' => 'Success',
+        // ], 200);
     }
 
     public function managepending()

@@ -28,7 +28,7 @@
                                                 <h1 style="color: red">|</h1>
                                             </div>
                                             <div class="col">
-                                                <h6 style="color: #000">{{$incident->type}}</h6>
+                                                <h6 style="color: #000">{{$incident->incident->type}}</h6>
                                             </div>
                                         </div>
                                     </div>
@@ -41,7 +41,7 @@
                                                 <h1 style="color: rgb(255, 132, 0)">|</h1>
                                             </div>
                                             <div class="col">
-                                                <h6 style="color: #000">{{$incident->type}}</h6>
+                                                <h6 style="color: #000">{{$incident->incident->type}}</h6>
                                             
                                             </div>
                                         </div>
@@ -55,7 +55,7 @@
                                                 <h1 style="color: rgb(0, 157, 255) ">|</h1>
                                             </div>
                                             <div class="col">
-                                                <h6 style="color: #000">{{$incident->type}}</h6>
+                                                <h6 style="color: #000">{{$incident->incident->type}}</h6>
                                             
                                             </div>
                                         </div>
@@ -80,10 +80,10 @@
                                     <h4 style="text-align: center">Details</h4>
                                     <div class="square-container p-20">
                                         <div class="shadow p-1 mb-1 bg-white rounded">
-                                            <h5>Emergency: {{$incident_modal->type}}</h5>
-                                            <h5>Name: {{$incident_modal->user->first_name}} {{$incident_modal->user->last_name}}</h5>
-                                            <h5>Age: {{$incident_modal->user->age}}</h5>
-                                            <h5>Address: {{$incident_modal->user->lot_no}} {{$incident_modal->user->street}} {{$incident_modal->user->barangay}} {{$incident_modal->user->city}}</h5>
+                                            <h5>Emergency: {{$incident_modal->incident->type}}</h5>
+                                            <h5>Name: {{$incident_modal->incident->user->first_name}} {{$incident_modal->incident->user->last_name}}</h5>
+                                            <h5>Age: {{$incident_modal->incident->user->age}}</h5>
+                                            <h5>Address: {{$incident_modal->incident->user->lot_no}} {{$incident_modal->incident->user->street}} {{$incident_modal->incident->user->barangay}} {{$incident_modal->incident->user->city}}</h5>
                                         </div>
                                     </div>
                                 </div>
@@ -109,7 +109,7 @@
 
     function initMaps() {
         @foreach ($forwardedIncidents as $incident_modal)
-            initMap('map{{$incident_modal->id}}', {{$incident_modal->latitude}}, {{$incident_modal->longitude}});
+            initMap('map{{$incident_modal->id}}', {{$incident_modal->incident->latitude}}, {{$incident_modal->incident->longitude}});
         @endforeach
     }
 
