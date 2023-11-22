@@ -31,6 +31,13 @@ class StatusController extends Controller
         $incidents->save();
         return redirect('/forwarded');
     }
+    public function completed(Request $request, $id)
+    {
+        $incidents = Incident::find($id);
+        $incidents->status = 'Completed';
+        $incidents->save();
+        return redirect('/completedpage');
+    }
     /**
      * Show the form for creating a new resource.
      *

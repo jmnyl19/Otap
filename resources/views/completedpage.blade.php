@@ -89,9 +89,7 @@
                                 </div>
                     
                                 <div class="modal-footer justify-content-center">
-                                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">Respond</button>
-                                    <button type="button" class="btn btn-primary" onclick="raised()">Forward</button>
-
+                                   
                                 </div>
                             </div>
                         </div>

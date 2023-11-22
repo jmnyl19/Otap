@@ -89,8 +89,12 @@
                                 </div>
                     
                                 <div class="modal-footer justify-content-center">
-                                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">Respond</button>
-                                    <button type="button" class="btn btn-primary" onclick="raised()">Forward</button>
+                                    <form action="/completed/{{$incident_modal->id}}" method="POST">
+                                        @csrf
+                                        @method('PATCH')
+                                        <button type="submit" class="btn btn-success" >Completed</button>
+                                    </form>
+                                        <!-- <button type="button" class="btn btn-primary" onclick="raised()">Forward</button> -->
 
                                 </div>
                             </div>

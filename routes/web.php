@@ -45,6 +45,8 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('admin/index', [App\Http\Controllers\IncidentController::class, 'adminLanding'])->name('landingpage');
     Route::patch('respond/{id}', [App\Http\Controllers\StatusController::class, 'respond']);
     Route::patch('forward/{id}', [App\Http\Controllers\StatusController::class, 'forward']);
+    Route::patch('completed/{id}', [App\Http\Controllers\StatusController::class, 'completed']);
+
     Route::get('/forwarded', [App\Http\Controllers\IncidentController::class, 'manageforwarded'])->name('forwarded');
     Route::get('/pendingpage', [App\Http\Controllers\IncidentController::class, 'managepending'])->name('pendingpage');
     Route::get('/completedpage', [App\Http\Controllers\IncidentController::class, 'managecompleted'])->name('completedpage');
