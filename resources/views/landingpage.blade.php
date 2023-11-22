@@ -198,8 +198,11 @@
                                                 @method('PATCH')
                                             <button type="submit" class="btn btn-success" >Respond</button>
                                             </form>
-                                            <button type="button" class="btn btn-primary" >Forward</button>
-                                            
+                                            <form action="/forward/{{$incident_modal->id}}" method="POST">
+                                                @csrf
+                                                @method('PATCH')
+                                            <button type="submit" class="btn btn-primary" >Forward</button>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>

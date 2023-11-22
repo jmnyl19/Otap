@@ -32,6 +32,15 @@ class IncidentController extends Controller
         return view('landingpage', compact('pendingCount','respondingCount','completedCount', 'forwardedCount' , 'pendingIncidents'));
     }
 
+    public function history()
+    {
+        $incidents = Incidents::with('user')->where('residents_id', auth()->user()->id)->get();
+
+        return response()->json([
+            'message' => 'Success',
+        ], 200);
+    }
+
     public function manageforwarded()
     {
         $incidents = Incident::with('user')->get();

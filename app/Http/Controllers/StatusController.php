@@ -24,6 +24,13 @@ class StatusController extends Controller
         $incidents->save();
         return redirect('/responding');
     }
+    public function forward(Request $request, $id)
+    {
+        $incidents = Incident::find($id);
+        $incidents->status = 'Forwarded';
+        $incidents->save();
+        return redirect('/forwarded');
+    }
     /**
      * Show the form for creating a new resource.
      *
