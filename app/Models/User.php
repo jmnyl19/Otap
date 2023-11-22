@@ -63,6 +63,9 @@ class User extends Authenticatable
     public function incidents(){
         return $this->hasMany(Incident::class, 'residents_id', 'id');
     }
+    public function forwardedincident(){
+        return $this->hasMany(ForwardedIncident::class);
+    }
 }
 
 // class User extends Model

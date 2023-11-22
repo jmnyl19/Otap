@@ -10,6 +10,9 @@ class ForwardedIncident extends Model
     use HasFactory;
 
     public function incidents(){
-        return $this->hasMany(Incident::class);
+        return $this->belongsTo(Incident::class);
+    }
+    public function user(){
+        return $this->belongsTo(User::class, 'residents_id', 'id');
     }
 }
