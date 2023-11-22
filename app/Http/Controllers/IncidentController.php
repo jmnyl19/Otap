@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Incident;
+use App\Models\ForwardedIncident;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -43,7 +44,7 @@ class IncidentController extends Controller
 
     public function manageforwarded()
     {
-        $incidents = ForwardedIncident::with('incidents')->get();
+        $incidents = ForwardedIncident::with('incident')->get();
         $forwardedIncidents = $incidents->where('status', 'Forwarded')->where('forwardedincidents.barangay', auth()->user()->barangay);
 
         return view('forwarded', compact('forwardedIncidents'));
