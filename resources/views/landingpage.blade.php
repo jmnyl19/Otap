@@ -140,7 +140,6 @@
                                                         </div>
                                                         <div class="col">
                                                             <h6 style="color: #000">{{$incident->type}}</h6>
-                                                        
                                                         </div>
                                                     </div>
                                                 </div>
