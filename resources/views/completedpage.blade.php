@@ -19,7 +19,7 @@
             <div class="shadow p-4 mb-4 bg-white rounded " >
                 <div class="row align-items-center">
                     <div class="col">
-                    @foreach($completedIncidents as $incident)
+                    @foreach($completedIncidents->sortByDesc('created_at') as $incident)
                         @if ($incident->type == 'Requesting for Ambulance')
                             <div class="btn btn-primary shadow p-1 mb-1 bg-white rounded " type="button" data-bs-toggle="modal" data-bs-target="#exampleModal{{$incident->id}}" style="width: 100%; margin: 10px; border: none">
                                 <div class="card-body">

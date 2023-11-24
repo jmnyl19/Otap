@@ -41,7 +41,10 @@
 
 <header class="header" id="header">
   <div class="header_toggle" id="header-toggle"> <i class="bi bi-list"></i> </div>
-  <div class="header_img col-auto col-md-2"><i class="bi bi-calendar2-week-fill h3"></i> <h6 id="datetime"></h6> </div>
+  <div class="timeFieldContainer my-auto d-flex align-items-center justify-content-md-start justify-content-sm-end">
+    <i class="bi bi-calendar-event-fill h5" style='color:#707070'></i>
+    <h3 id="time" class="timeStyle"></h3>
+</div>
 </header>
 <div class="l-navbar" id="nav-bar">
   <nav class="nav">

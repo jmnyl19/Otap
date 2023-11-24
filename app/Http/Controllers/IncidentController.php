@@ -35,7 +35,7 @@ class IncidentController extends Controller
     public function user_emegency_history( $id)
     {
 
-        $incidents = Incident::where('residents_id', $id)->get();
+        $incidents = Incident::where('residents_id', $id)->orderBy('created_at', 'desc')->get();
 
         return response()->json([
             'history' => $incidents,

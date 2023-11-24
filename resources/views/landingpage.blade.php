@@ -117,7 +117,7 @@
                             <div class="row align-items-center">
                                 <div class="col">
                                     <h5 class="fw-bold">Latest Request</h5>
-                                    @foreach($pendingIncidents as $incident)
+                                    @foreach($pendingIncidents->sortByDesc('created_at') as $incident)
                                     @if ($incident->type == 'Requesting for Ambulance')
                                         <div class="btn btn-primary shadow p-1 mb-1 bg-white rounded " type="button" data-bs-toggle="modal" data-bs-target="#exampleModal{{$incident->id}}" style="width: 100%; margin: 10px; border: none">
                                             <div class="card-body">

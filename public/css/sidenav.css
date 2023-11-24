@@ -147,6 +147,18 @@ a{text-decoration: none !important}
   .nav_name{
     cursor: pointer;
   }
+
+  .timeStyle{
+    color: #707070;
+    font-size: 20px;
+    margin-left: 10px;
+  }
+
+  .timeFieldContainer{
+    justify-content: center;
+    align-items: center;
+   
+  }
 @media screen and (min-width: 768px){
     body{
         margin: calc(var(--header-height) + 1rem) 0 0 0;

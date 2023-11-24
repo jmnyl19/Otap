@@ -2,9 +2,9 @@
 
 document.addEventListener("DOMContentLoaded", function () {
     function updateDateTime() {
-        var now = new Date();
-        var datetime = now.toLocaleString();
-        document.getElementById("datetime").innerHTML = datetime;
+        const date = new Date().toDateString();
+        const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        document.getElementById("time").innerHTML = date.concat(" | " + time);
     }
     
     // Initial update
