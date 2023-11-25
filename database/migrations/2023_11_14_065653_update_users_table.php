@@ -18,7 +18,6 @@ class UpdateUsersTable extends Migration
         });
         Schema::table('users', function (Blueprint $table) {
             $table->integer('age')->nullable()->after('last_name');
-
         });
     }
 

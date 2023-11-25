@@ -15,6 +15,7 @@ class AddIncidentsTable extends Migration
     {
         Schema::table('incidents', function (Blueprint $table) {
             $table->string('status')->default('Pending')->change();
+            $table->integer('age')->nullable()->after('last_name');
         });
     }
 
