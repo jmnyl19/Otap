@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Events\Status;
 use App\Models\Incident;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -22,6 +22,7 @@ class StatusController extends Controller
         $incidents = Incident::find($id);
         $incidents->status = 'Responding';
         $incidents->save();
+        broadcast(new Status($incidents))->toOthers();
         return redirect('/responding');
     }
     public function forward(Request $request, $id)

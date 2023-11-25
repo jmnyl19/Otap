@@ -5,7 +5,7 @@ use App\Models\ForwardedIncident;
 use App\Models\Incident;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
+use App\Events\Status;
 class IncidentController extends Controller
 {
     /**
@@ -60,6 +60,8 @@ class IncidentController extends Controller
     {
         $incidents = Incident::with('user')->get();
         $pendingIncidents = $incidents->where('status', 'Pending')->where('user.barangay', auth()->user()->barangay);
+    
+       
 
         return view('pendingpage', compact('pendingIncidents'));
     }
