@@ -75,17 +75,18 @@
                     
                                 <div class="modal-body justify-content-center">
                                     <!-- Google Map Container -->
-                                    <div id="map{{$incident_modal->id}}" style="height: 350px;">
+                                    <div id="map{{$incident_modal->incident->id}}" style="height: 350px;">
                                     </div>
                     
                                     <!-- Rest of the modal content -->
                                     <hr class="style-one">
                                     <div class="square-container mt-2 p-20">
                                         <div class="shadow p-3 mb-1 rounded modalInfo">
-                                            <h5><i class="bi bi-exclamation-circle-fill modalIcon"></i>Type: {{$incident_modal->type}}</h5>
+                                            <h5><i class="bi bi-exclamation-circle-fill modalIcon"></i>Type: {{$incident_modal->incident->type}}</h5>
                                             <h5><i class="bi bi-person-circle modalIcon"></i>Name: {{$incident_modal->incident->user->first_name}} {{$incident_modal->incident->user->last_name}}</h5>
                                             <h5><i class="bi bi-calendar-event-fill modalIcon"></i>Age: {{$incident_modal->incident->user->age}}</h5>
-                                            <h5><i class="bi bi-house-down-fill modalIcon"></i>Address: {{$incident_modal->incident->user->lot_no}} {{$incident_modal->incident->user->street}} {{$incident_modal->incident->user->barangay}} {{$incident_modal->incident->user->city}}</h5>
+                                            <h5><i class="bi bi-house-down-fill modalIcon"></i>Resident of Barangay: {{$incident_modal->incident->user->barangay}}</h5>
+                                            <h5 id="address{{$incident_modal->id}}" class="address"><i class="bi bi-house-down-fill modalIcon"></i>Sepecific Location: </h5>
                                         </div>
                                     </div>
                                 </div>
@@ -110,26 +111,48 @@
     // Array to store map instances
     var maps = [];
 
-    function initMaps() {
-        @foreach ($forwardedIncidents as $incident_modal)
-            initMap('map{{$incident_modal->id}}', {{$incident_modal->incident->latitude}}, {{$incident_modal->incident->longitude}});
-        @endforeach
-    }
+function initMaps() {
+    @foreach ($forwardedIncidents as $incident_modal)
+        initMap('map{{$incident_modal->incident->id}}', {{$incident_modal->incident->latitude}}, {{$incident_modal->incident->longitude}}, '{{$incident_modal->id}}');
+    @endforeach
+}
 
-    function initMap(mapId, latitude, longitude) {
-        var incidentLocation = { lat: latitude, lng: longitude };
-        var map = new google.maps.Map(document.getElementById(mapId), {
-            zoom: 18,
-            center: incidentLocation
-        });
-        var marker = new google.maps.Marker({
-            position: incidentLocation,
-            map: map
-        });
+function initMap(mapId, latitude, longitude, incidentId) {
+    var incidentLocation = { lat: latitude, lng: longitude };
+    var map = new google.maps.Map(document.getElementById(mapId), {
+        zoom: 18,
+        center: incidentLocation
+    });
+    var marker = new google.maps.Marker({
+        position: incidentLocation,
+        map: map
+    });
 
-        // Store the map instance in the array
-        maps.push({ id: mapId, map: map });
-    }
+    // Store the map instance in the array
+    maps.push({ id: mapId, map: map });
+
+    // Reverse geocoding
+    var geocoder = new google.maps.Geocoder();
+    var latlng = new google.maps.LatLng(latitude, longitude);
+
+    geocoder.geocode({ 'latLng': latlng }, function (results, status) {
+        if (status == google.maps.GeocoderStatus.OK) {
+            if (results[1]) {
+                // Display the formatted address in an info window or console.log
+                var addressElement = document.getElementById('address' + incidentId);
+                addressElement.innerHTML = '<i class="bi bi-house-down-fill modalIcon"></i>Sepecific Location:: ' + results[1].formatted_address;
+            } else {
+                console.log('No results found');
+            }
+        } else {
+            console.log('Geocoder failed due to: ' + status);
+        }
+    });
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+    initMaps();
+});
 </script>
 
 <!-- Call the initMaps function once the Google Maps API is loaded -->

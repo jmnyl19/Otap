@@ -99,6 +99,8 @@ class IncidentController extends Controller
         ], 200);
     }
 
+    
+
     /**
      * Store a newly created resource in storage.
      *

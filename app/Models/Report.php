@@ -12,7 +12,13 @@ class Report extends Model
     protected $fillable = [
         'residents_id',
         'file',
+        'datehappened',
+        'timehappened',
+        'longitude',
+        'latitude',
         'details',
+        'addnotes',
+        
     ];
 
     public function user(){
