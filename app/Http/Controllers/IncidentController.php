@@ -35,7 +35,7 @@ class IncidentController extends Controller
     public function user_emegency_history( $id)
     {
 
-        $incidents = Incident::where('residents_id', $id)->get();
+        $incidents = Incident::where('residents_id', $id)->orderByDesc('created_at')->get();
 
         return response()->json([
             'history' => $incidents,
@@ -45,7 +45,7 @@ class IncidentController extends Controller
 
     public function manageforwarded()
     {
-        $incidents = ForwardedIncident::with('incident')->get();
+        $incidents = ForwardedIncident::with('incident')->orderByDesc('created_at')->get();
         $forwardedIncidents =  $incidents->where('barangay', auth()->user()->barangay);
 
         // dd($forwardedIncidents);
@@ -58,7 +58,7 @@ class IncidentController extends Controller
 
     public function managepending()
     {
-        $incidents = Incident::with('user')->get();
+        $incidents = Incident::with('user')->orderByDesc('created_at')->get();
         $pendingIncidents = $incidents->where('status', 'Pending')->where('user.barangay', auth()->user()->barangay);
 
         return view('pendingpage', compact('pendingIncidents'));
@@ -66,14 +66,14 @@ class IncidentController extends Controller
 
     public function managecompleted()
     {
-        $incidents = Incident::with('user')->get();
+        $incidents = Incident::with('user')->orderByDesc('created_at')->get();
         $completedIncidents = $incidents->where('status', 'Completed')->where('user.barangay', auth()->user()->barangay);
 
         return view('completedpage', compact('completedIncidents'));
     }
     public function manageresponding()
     {
-        $incidents = Incident::with('user')->get();
+        $incidents = Incident::with('user')->orderByDesc('created_at')->get();
         $respondingIncidents = $incidents->where('status', 'Responding')->where('user.barangay', auth()->user()->barangay);
 
         return view('responding', compact('respondingIncidents'));
