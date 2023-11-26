@@ -28,9 +28,31 @@ class ReportController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        if ($request->hasFile('file')) {
+            $image = $request->file('file');
+            $imageName = time().'.'.$image->getClientOriginalExtension();
+            $image->move(public_path('file'), $imageName);
+        } else {
+            $imageName = null;
+        }
+
+        $report = new Report;
+        $report->residents_id = $request->residents_id;
+        $report->file = $imageName;
+        $report->datehappened = $request->datehappened;
+        $report->timehappened = $request->timehappened;
+        $report->longitude = $request->longitude;
+        $report->latitude = $request->latitude;
+        $report->details = $request->details;
+        $report->addnotes = $request->addnotes;
+        $report->status = $request->status;
+        $report->save();
+
+        return response()->json([
+            'message' => 'Successfull',
+        ], 200);
     }
 
     /**

@@ -18,7 +18,7 @@ class Report extends Model
         'latitude',
         'details',
         'addnotes',
-        
+        'status'
     ];
 
     public function user(){
