@@ -13,7 +13,7 @@
 
     @include('sidebar.sidenav')
     <div class="latest-container p-4 mt-5" style="flex: 1">
-        <h3 class="fw-bolder pageTitle mb-4">Forwarded Emergency</h3>
+        <h3 class="fw-bolder pageTitle mb-4">Recieved Emergency</h3>
 
         <div class="requests" style="width: 95%; margin: 10px">
             <div class="shadow p-4 mb-4 bg-white rounded " >
@@ -28,7 +28,7 @@
                                                 <h1 style="color: red">|</h1>
                                             </div>
                                             <div class="col">
-                                                <h6 style="color: #000">{{$incident->type}}</h6>
+                                                <h6 style="color: #000">{{$incident->incident->type}}</h6>
                                             </div>
                                         </div>
                                     </div>
@@ -41,7 +41,7 @@
                                                 <h1 style="color: rgb(255, 132, 0)">|</h1>
                                             </div>
                                             <div class="col">
-                                                <h6 style="color: #000">{{$incident->type}}</h6>
+                                                <h6 style="color: #000">{{$incident->incident->type}}</h6>
                                             
                                             </div>
                                         </div>
@@ -55,7 +55,7 @@
                                                 <h1 style="color: rgb(0, 157, 255) ">|</h1>
                                             </div>
                                             <div class="col">
-                                                <h6 style="color: #000">{{$incident->type}}</h6>
+                                                <h6 style="color: #000">{{$incident->incident->type}}</h6>
                                             
                                             </div>
                                         </div>
@@ -75,7 +75,7 @@
                     
                                 <div class="modal-body justify-content-center">
                                     <!-- Google Map Container -->
-                                    <div id="map{{$incident_modal->id}}" style="height: 350px;">
+                                    <div id="map{{$incident_modal->incident->id}}" style="height: 350px;">
                                     </div>
                     
                                     <!-- Rest of the modal content -->
@@ -83,10 +83,10 @@
                                     <div class="square-container mt-2 p-20">
                                         <div class="shadow p-3 mb-1 rounded modalInfo">
                                             <h5><i class="bi bi-calendar2-event-fill modalIcon"></i>Date: {{$incident_modal->created_at}}</h5>
-                                            <h5><i class="bi bi-exclamation-circle-fill modalIcon"></i>Type: {{$incident_modal->type}}</h5>
-                                            <h5><i class="bi bi-person-circle modalIcon"></i>Name: {{$incident_modal->user->first_name}} {{$incident_modal->user->last_name}}</h5>
-                                            <h5><i class="bi bi-calendar-event-fill modalIcon"></i>Age: {{$incident_modal->user->age}}</h5>
-                                            <h5><i class="bi bi-house-down-fill modalIcon"></i>Resident of Barangay: {{$incident_modal->user->barangay}}</h5>
+                                            <h5><i class="bi bi-exclamation-circle-fill modalIcon"></i>Type: {{$incident_modal->incident->type}}</h5>
+                                            <h5><i class="bi bi-person-circle modalIcon"></i>Name: {{$incident_modal->incident->user->first_name}} {{$incident_modal->incident->user->last_name}}</h5>
+                                            <h5><i class="bi bi-calendar-event-fill modalIcon"></i>Age: {{$incident_modal->incident->user->age}}</h5>
+                                            <h5><i class="bi bi-house-down-fill modalIcon"></i>Resident of Barangay: {{$incident_modal->incident->user->barangay}}</h5>
                                             <h5 id="address{{$incident_modal->id}}" class="address"><i class="bi bi-house-down-fill modalIcon"></i>Sepecific Location: </h5>
                                         </div>
                                     </div>
@@ -114,7 +114,7 @@
 
 function initMaps() {
     @foreach ($forwardedIncidents as $incident_modal)
-        initMap('map{{$incident_modal->id}}', {{$incident_modal->latitude}}, {{$incident_modal->longitude}}, '{{$incident_modal->id}}');
+        initMap('map{{$incident_modal->incident->id}}', {{$incident_modal->incident->latitude}}, {{$incident_modal->incident->longitude}}, '{{$incident_modal->id}}');
     @endforeach
 }
 

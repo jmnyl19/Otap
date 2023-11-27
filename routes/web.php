@@ -41,10 +41,11 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
     Route::get('/logout', 'LoginController@logout')->name('logout');
 });
 Route::get('/forwarded', [App\Http\Controllers\IncidentController::class, 'manageforwarded'])->name('forwarded');
+Route::get('/received', [App\Http\Controllers\IncidentController::class, 'managereceived'])->name('received');
 Route::group(['middleware' => ['auth']], function() {
     Route::get('admin/index', [App\Http\Controllers\IncidentController::class, 'adminLanding'])->name('landingpage');
     Route::patch('respond/{id}', [App\Http\Controllers\StatusController::class, 'respond']);
-    Route::patch('forward/{id}', [App\Http\Controllers\StatusController::class, 'forward']);
+    Route::post('forward/{id}', [App\Http\Controllers\StatusController::class, 'forward']);
     Route::patch('completed/{id}', [App\Http\Controllers\StatusController::class, 'completed']);
 
    

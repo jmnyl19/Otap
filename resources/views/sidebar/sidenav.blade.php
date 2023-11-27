@@ -51,7 +51,7 @@
           <div class="nav_list"> 
             <a href="{{route('landingpage')}}" class="nav_link"> <i class="bi bi-clipboard-data nav_icon"></i> <span class="nav_name">Dashboard</span> </a> 
             <a href="{{ route('latest') }}" class="nav_link"> <i class="bi bi-exclamation-circle nav_icon"></i> <span class="nav_name">Incident Reports</span> </a> 
-            <a href="{{ route('forwarded') }}" class="nav_link"> <i class="bi bi-send-exclamation nav_icon"></i> <span class="nav_name">Recieved</span> </a>
+            <a href="{{ route('received') }}" class="nav_link"> <i class="bi bi-send-exclamation nav_icon"></i> <span class="nav_name">Recieved</span> </a>
             <a class="dropdown-btn nav_link">
               <i class="bi bi-caret-down-fill"></i>
               <span class="nav_name">Status</span>

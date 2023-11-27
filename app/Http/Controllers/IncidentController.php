@@ -45,8 +45,8 @@ class IncidentController extends Controller
 
     public function manageforwarded()
     {
-        $incidents = ForwardedIncident::with('incident')->orderByDesc('created_at')->get();
-        $forwardedIncidents =  $incidents->where('barangay', auth()->user()->barangay);
+        $incidents = Incident::with('user')->orderByDesc('created_at')->get();
+        $forwardedIncidents =  $incidents->where('status', 'Forwarded')->where('user.barangay', auth()->user()->barangay);
 
         // dd($forwardedIncidents);
         return view('forwarded', compact('forwardedIncidents'));
@@ -55,6 +55,20 @@ class IncidentController extends Controller
         //     'message' => 'Success',
         // ], 200);
     }
+
+    public function managereceived()
+    {
+        $incidents = ForwardedIncident::with('incident')->orderByDesc('created_at')->get();
+        $forwardedIncidents =  $incidents->where('barangay', auth()->user()->barangay);
+
+        // dd($forwardedIncidents);
+        return view('received', compact('forwardedIncidents'));
+        // return response()->json([
+        //     'incidents' => $forwardedIncidents,
+        //     'message' => 'Success',
+        // ], 200);
+    }
+
 
     public function managepending()
     {

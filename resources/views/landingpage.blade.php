@@ -7,6 +7,7 @@
 @section('js')
 <script src="{{ asset('path/to/maps.js') }}"></script>
 <script src="{{ asset('js/sidenav.js') }}"></script>
+
 @endsection
 
 @auth
@@ -179,7 +180,7 @@
                                             <!-- Google Map Container -->
                                             <div id="map{{$incident_modal->id}}" style="height: 350px;">
                                             </div>
-                            
+                                           
                                             <!-- Rest of the modal content -->
                                             <hr class="style-one">
                                             <div class="square-container mt-2 p-20">
@@ -189,11 +190,29 @@
                                                     <h5><i class="bi bi-calendar-event-fill modalIcon"></i>Age: {{$incident_modal->user->age}}</h5>
                                                     <h5><i class="bi bi-house-down-fill modalIcon"></i>Resident of Barangay: {{$incident_modal->user->barangay}}</h5>
                                                     <h5 id="address{{$incident_modal->id}}" class="address"><i class="bi bi-house-down-fill modalIcon"></i>Sepecific Location: </h5>
-                                                    
                                                 </div>
                                             </div>
                                         </div>
-                            
+                                       
+                                                <div class="modal-body">
+                                                    <!-- Dropdown -->
+                                                    <div class="form-group">
+                                                        <div class="form-group">
+
+                                                            <label for="forwardDropdown">Forward this Emergency?</label>
+                                                            <select class="form-control" id="forwardDropdown" name="barangay">
+                                                                <!-- Add your dropdown options here -->
+                                                                <option value="" selected disabled>Choose a Barangay:</option>
+                                                                <option value="East Tapinac">East Tapinac</option>
+                                                                <option value="Santa Rita">Santa Rita</option>
+                                                            </select>
+                                                        </div>
+                                                       
+                                                </div>
+                                            </div>
+                                            <input type="hidden" name="incident_id" id="incidentID" value="{{$incident_modal->id}}">
+                                            <input type="hidden" name="status" id="incidentStatus" value="Pending">
+                               
                                         <div class="modal-footer justify-content-center">
                                             <form action="/respond/{{$incident_modal->id}}" method="POST">
                                                 @csrf
@@ -209,10 +228,9 @@
                                                     <span>Respond</span>
                                                   </button>
                                             </form>
-                                            <form action="/forward/{{$incident_modal->id}}" method="POST">
-                                                @csrf
+                                            <form action="" method="POST">
                                                 @method('PATCH')
-                                                <button class="forwardBtn" type="submit">
+                                                <button class="forwardBtn" type="button" onclick="forward({{$incident_modal->id}})">
                                                     <div class="svg-wrapper-1">
                                                       <div class="svg-wrapper">
                                                         <svg
@@ -231,6 +249,8 @@
                                                     </div>
                                                     <span>Forward</span>
                                                   </button>
+                                             
+                                                    
                                             </form>
                                         </div>
                                     </div>

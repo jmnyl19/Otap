@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\ForwardedIncident;
 use App\Models\Incident;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -29,6 +29,13 @@ class StatusController extends Controller
         $incidents = Incident::find($id);
         $incidents->status = 'Forwarded';
         $incidents->save();
+
+        $forward = new ForwardedIncident;
+        $forward->incident_id = $request->incident_id;
+        $forward->barangay = $request->barangay;
+        $forward->status = $request->status;
+        $forward->save();
+
         return redirect('/forwarded');
     }
     public function completed(Request $request, $id)
