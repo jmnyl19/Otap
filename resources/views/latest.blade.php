@@ -23,7 +23,7 @@
                                     <h1 style="color: red">|</h1>
                                 </div>
                                 <div class="col">
-                                    <h5 style="color: #000">{{$report->location}}</h5>
+                                    <h5 style="color: #000">{{$report->created_at}}</h5>
                                                                 
                                 </div>
                             </div>
@@ -45,7 +45,7 @@
                                     <div class="square-container p-20">
                                         <div class="shadow p-1 mb-1 bg-white rounded">
                                         <div class="container row ps-5">
-                                        <img src="..." class="img-thumbnail mt-3" alt="...">
+                                        <img src="{{asset('file/'.$report->file)}}" class="img-thumbnail mt-3" alt="...">
                                         <form class="row gt-3 gx-3" action="" method="POST">
                                         @csrf
                                         <div class="col-md-6 mt-3">
@@ -58,12 +58,12 @@
                                         </div>
                                         <div class="col-md-3 mt-3">
                                             <label for="inputPassword4" class="form-label mb-0 fs-6">Date</label>
-                                            <input type="text" class="form-control border-2 border-dark-subtle" id="inputPassword4" name="id" value="{{$report->created_at}}" aria-label="Disabled input example" disabled readonly>
+                                            <input type="text" class="form-control border-2 border-dark-subtle" id="inputPassword4" name="id" value="{{$report->datehappened}}" aria-label="Disabled input example" disabled readonly>
                                         </div>
                                         <div class="col-12 mt-3">
                                             <label for="inputAddress" class="form-label mb-0">Location</label>
-                                            <input type="text" class="form-control border-2 border-dark-subtle" id="inputPassword4" name="id" value="{{$report->location}}" aria-label="Disabled input example" disabled readonly>
-                                        </div>
+                                            <div id="map{{$report->id}}" style="height: 350px;">
+                                            </div>                                        </div>
                                         <div class="col-12 mt-3">
                                             <label for="exampleFormControlTextarea1" class="form-label">Incident Details</label>
                                             <textarea class="form-control border-2 border-dark-subtle align-left" id="exampleFormControlTextarea1"  name="ticket_body" rows="3" aria-label="Disabled input example" disabled readonly>{{$report->details}}</textarea>
@@ -98,6 +98,60 @@
 
 
     
+
+ 
+    <script>
+    // Array to store map instances
+    var maps = [];
+
+function initMaps() {
+    @foreach ($reportedIncident as $report)
+        initMap('map{{$report->id}}', {{$report->latitude}}, {{$report->longitude}}, '{{$report->id}}');
+    @endforeach
+}
+
+function initMap(mapId, latitude, longitude, incidentId) {
+    var incidentLocation = { lat: latitude, lng: longitude };
+    var map = new google.maps.Map(document.getElementById(mapId), {
+        zoom: 18,
+        center: incidentLocation
+    });
+    var marker = new google.maps.Marker({
+        position: incidentLocation,
+        map: map
+    });
+
+    // Store the map instance in the array
+    maps.push({ id: mapId, map: map });
+
+    // Reverse geocoding
+    var geocoder = new google.maps.Geocoder();
+    var latlng = new google.maps.LatLng(latitude, longitude);
+
+    geocoder.geocode({ 'latLng': latlng }, function (results, status) {
+        if (status == google.maps.GeocoderStatus.OK) {
+            if (results[1]) {
+                // Display the formatted address in an info window or console.log
+                var addressElement = document.getElementById('address' + incidentId);
+                addressElement.innerHTML = '<i class="bi bi-house-down-fill modalIcon"></i>Sepecific Location:: ' + results[1].formatted_address;
+            } else {
+                console.log('No results found');
+            }
+        } else {
+            console.log('Geocoder failed due to: ' + status);
+        }
+    });
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+    initMaps();
+});
+</script>
+
+<!-- Call the initMaps function once the Google Maps API is loaded -->
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB3sNbXeLLaZQcJiCWNzC4Rwp-xALyV4lM&callback=initMaps"></script>
+
+
 
 
 @endsection

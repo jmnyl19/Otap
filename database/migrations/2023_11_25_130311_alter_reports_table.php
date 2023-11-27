@@ -17,8 +17,8 @@ class AlterReportsTable extends Migration
             $table->dropColumn('location');
             $table->decimal('latitude', 10, 7)->after('file');
             $table->decimal('longitude', 10, 7)->after('file');
-            $table->time('timehappened')->after('file');
-            $table->date('datehappened')->after('file');
+            $table->date('datehappened')->nullable()->after('file');
+            $table->time('timehappened')->nullable()->after('file');
         });
         
     }

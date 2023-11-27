@@ -82,6 +82,7 @@
                                     <hr class="style-one">
                                     <div class="square-container mt-2 p-20">
                                         <div class="shadow p-3 mb-1 rounded modalInfo">
+                                            <h5><i class="bi bi-calendar2-event-fill modalIcon"></i>Date: {{$incident_modal->created_at}}</h5>
                                             <h5><i class="bi bi-exclamation-circle-fill modalIcon"></i>Type: {{$incident_modal->incident->type}}</h5>
                                             <h5><i class="bi bi-person-circle modalIcon"></i>Name: {{$incident_modal->incident->user->first_name}} {{$incident_modal->incident->user->last_name}}</h5>
                                             <h5><i class="bi bi-calendar-event-fill modalIcon"></i>Age: {{$incident_modal->incident->user->age}}</h5>
