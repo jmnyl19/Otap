@@ -10,6 +10,10 @@
 
 @endsection
 
+@php
+    use Carbon\Carbon;
+@endphp
+
 @auth
     @include('sidebar.sidenav')
    
@@ -102,22 +106,66 @@
 
             </div>
             <div class="row justify-content-around" style="width: 100%;">
-                <div class="col-sm-8 col-md-6 shadow p-4 mb-4 bg-white rounded-4" style="margin: 10px">
+                <div class="col-sm-8 col-md-5 shadow p-4 mb-4 bg-white rounded-4" style="margin: 10px">
                     <div class="card-body">
                             <div class="row align-items-center">
                                 <div class="col">
-                                    <h4 class="fw-normal ">Graph</h4>
+                                    <h5 class="fw-bold" style="color: #D2AC76">Latest Forwarded Emergency Request</h5>
+                                    @foreach($forwardedIncidents as $incident1)
+                                    @if ($incident1->incident->type == 'Requesting for Ambulance')
+                                        <div class="btn btn-primary shadow p-1 mb-1 bg-white rounded " type="button" data-bs-toggle="modal" data-bs-target="#exampleModal1{{$incident1->id}}" style="width: 100%; margin: 10px; border: none">
+                                            <div class="card-body">
+                                                    <div class="row align-items-center text-start">
+                                                        <div class="col-auto">
+                                                            <h1 style="color: red">|</h1>
+                                                        </div>
+                                                        <div class="col">
+                                                            <h6 style="color: #000"><span class="fw-bold">({{Carbon::parse($incident1->created_at)->format('M, j H:ia' )}}) </span>{{$incident1->incident->user->barangay}}:  {{$incident1->incident->barangay}} </h6>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                        </div>
+                                    @elseif ($incident1->incident->type == 'Requesting for a Fire Truck')
+                                        <div class="btn btn-primary shadow p-1 mb-1 bg-white rounded " type="button" data-bs-toggle="modal" data-bs-target="#exampleModal1{{$incident1->id}}" style="width: 100%; margin: 10px; border: none">
+                                            <div class="card-body">
+                                                    <div class="row align-items-center text-start">
+                                                        <div class="col-auto">
+                                                            <h1 style="color: rgb(255, 132, 0)">|</h1>
+                                                        </div>
+                                                        <div class="col">
+                                                            <h6 style="color: #000"><span class="fw-bold">({{Carbon::parse($incident1->created_at)->format('M, j H:ia' )}}) </span>{{$incident1->incident->user->barangay}}:  {{$incident1->incident->type}}</h6>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                        </div>
+                                    @else
+                                        <div class="btn btn-primary shadow p-1 mb-1 bg-white rounded " type="button" data-bs-toggle="modal" data-bs-target="#exampleModal1{{$incident1->id}}" style="width: 100%; margin: 10px; border: none">
+                                            <div class="card-body">
+                                                    <div class="row align-items-center text-start">
+                                                        <div class="col-auto">
+                                                            <h1 style="color: rgb(0, 157, 255) ">|</h1>
+                                                        </div>
+                                                        <div class="col">
+                                                            <h6 style="color: #000"><span class="fw-bold">({{Carbon::parse($incident1->created_at)->format('M, j H:ia' )}}) </span>{{$incident1->incident->user->barangay}}:   {{$incident1->incident->type}}</h6>
+                                                        
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                        </div>
+                                    @endif
+                                    
+                                    @endforeach
                                 </div>
                             </div>
                         </div>
                 </div>
 
-                <div class="col-sm-4 col-md-4 shadow p-4 mb-4 bg-white rounded-4" style="margin: 10px">
+                <div class="col-sm-4 col-md-5 shadow p-4 mb-4 bg-white rounded-4" style="margin: 10px">
                 
                     <div class="card-body">
                             <div class="row align-items-center">
                                 <div class="col">
-                                    <h5 class="fw-bold">Latest Request</h5>
+                                    <h5 class="fw-bold" style="color: #D2AC76">Latest Emergency Request</h5>
                                     @foreach($pendingIncidents as $incident)
                                     @if ($incident->type == 'Requesting for Ambulance')
                                         <div class="btn btn-primary shadow p-1 mb-1 bg-white rounded " type="button" data-bs-toggle="modal" data-bs-target="#exampleModal{{$incident->id}}" style="width: 100%; margin: 10px; border: none">
@@ -127,7 +175,7 @@
                                                             <h1 style="color: red">|</h1>
                                                         </div>
                                                         <div class="col">
-                                                            <h6 style="color: #000">{{$incident->type}}</h6>
+                                                            <h6 style="color: #000"><span class="fw-bold">({{Carbon::parse($incident->created_at)->format('M, j H:ia' )}}) </span>{{$incident->type}}</h6>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -140,7 +188,7 @@
                                                             <h1 style="color: rgb(255, 132, 0)">|</h1>
                                                         </div>
                                                         <div class="col">
-                                                            <h6 style="color: #000">{{$incident->type}}</h6>
+                                                            <h6 style="color: #000"><span class="fw-bold">({{Carbon::parse($incident->created_at)->format('M, j H:ia' )}}) </span>{{$incident->type}}</h6>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -153,7 +201,7 @@
                                                             <h1 style="color: rgb(0, 157, 255) ">|</h1>
                                                         </div>
                                                         <div class="col">
-                                                            <h6 style="color: #000">{{$incident->type}}</h6>
+                                                            <h6 style="color: #000"><span class="fw-bold">({{Carbon::parse($incident->created_at)->format('M, j H:ia' )}}) </span>{{$incident->type}}</h6>
                                                         
                                                         </div>
                                                     </div>
@@ -163,50 +211,7 @@
                                     
                                     @endforeach
 
-                                    @foreach($forwardedIncidents as $incident1)
-                                    @if ($incident1->type == 'Requesting for Ambulance')
-                                        <div class="btn btn-primary shadow p-1 mb-1 bg-white rounded " type="button" data-bs-toggle="modal" data-bs-target="#exampleModal1{{$incident1->id}}" style="width: 100%; margin: 10px; border: none">
-                                            <div class="card-body">
-                                                    <div class="row align-items-center text-start">
-                                                        <div class="col-auto">
-                                                            <h1 style="color: red">|</h1>
-                                                        </div>
-                                                        <div class="col">
-                                                            <h6 style="color: #000">{{$incident1->incident->type}}</h6>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                        </div>
-                                    @elseif ($incident1->type == 'Requesting for a Fire Truck')
-                                        <div class="btn btn-primary shadow p-1 mb-1 bg-white rounded " type="button" data-bs-toggle="modal" data-bs-target="#exampleModal1{{$incident1->id}}" style="width: 100%; margin: 10px; border: none">
-                                            <div class="card-body">
-                                                    <div class="row align-items-center text-start">
-                                                        <div class="col-auto">
-                                                            <h1 style="color: rgb(255, 132, 0)">|</h1>
-                                                        </div>
-                                                        <div class="col">
-                                                            <h6 style="color: #000">{{$incident1->incident->type}}</h6>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                        </div>
-                                    @else
-                                        <div class="btn btn-primary shadow p-1 mb-1 bg-white rounded " type="button" data-bs-toggle="modal" data-bs-target="#exampleModal1{{$incident1->id}}" style="width: 100%; margin: 10px; border: none">
-                                            <div class="card-body">
-                                                    <div class="row align-items-center text-start">
-                                                        <div class="col-auto">
-                                                            <h1 style="color: rgb(0, 157, 255) ">|</h1>
-                                                        </div>
-                                                        <div class="col">
-                                                            <h6 style="color: #000">{{$incident1->incident->type}}</h6>
-                                                        
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                        </div>
-                                    @endif
-                                    
-                                    @endforeach
+                                   
 
                                     
                                 </div>
@@ -232,6 +237,7 @@
                                             <hr class="style-one">
                                             <div class="square-container mt-2 p-20">
                                                 <div class="shadow p-3 mb-1 rounded modalInfo">
+                                                    <h5><i class="bi bi-calendar2-event-fill modalIcon"></i>Date: {{Carbon::parse($incident_modal->created_at)->format('M, j H:ia' )}}</h5>
                                                     <h5><i class="bi bi-exclamation-circle-fill modalIcon"></i>Type: {{$incident_modal->type}}</h5>
                                                     <h5><i class="bi bi-person-circle modalIcon"></i>Name: {{$incident_modal->user->first_name}} {{$incident_modal->user->last_name}}</h5>
                                                     <h5><i class="bi bi-calendar-event-fill modalIcon"></i>Age: {{$incident_modal->user->age}}</h5>
@@ -339,7 +345,7 @@
                                             <hr class="style-one">
                                             <div class="square-container mt-2 p-20">
                                                 <div class="shadow p-3 mb-1 rounded modalInfo">
-                                                    <h5><i class="bi bi-calendar2-event-fill modalIcon"></i>Date: {{$incident_modal1->created_at}}</h5>
+                                                    <h5><i class="bi bi-calendar2-event-fill modalIcon"></i>Date: {{Carbon::parse($incident1->incident->created_at)->format('M, j H:ia' )}}</h5>
                                                     <h5><i class="bi bi-exclamation-circle-fill modalIcon"></i>Type: {{$incident_modal1->incident->type}}</h5>
                                                     <h5><i class="bi bi-person-circle modalIcon"></i>Name: {{$incident_modal1->incident->user->first_name}} {{$incident_modal1->incident->user->last_name}}</h5>
                                                     <h5><i class="bi bi-calendar-event-fill modalIcon"></i>Age: {{$incident_modal1->incident->user->age}}</h5>
@@ -487,6 +493,7 @@
     document.addEventListener('DOMContentLoaded', function () {
         initMaps();
     });
+
 </script>
 
 

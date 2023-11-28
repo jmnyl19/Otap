@@ -5,7 +5,7 @@ use App\Models\ForwardedIncident;
 use App\Models\Incident;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
+use Carbon\Carbon;
 class IncidentController extends Controller
 {
     /**
@@ -28,10 +28,17 @@ class IncidentController extends Controller
         $respondingCount = $incidents->where('status', 'Responding')->where('user.barangay', auth()->user()->barangay)->count();
         $completedCount = $incidents->where('status', 'Completed')->where('user.barangay', auth()->user()->barangay)->count();
         $forwardedCount = $incidents->where('status', 'Forwarded')->where('user.barangay', auth()->user()->barangay)->count();
-        $pendingIncidents = $incidents->where('status', 'Pending')->where('user.barangay', auth()->user()->barangay);
-        $forwardedIncidents =  $recincidents->where('barangay', auth()->user()->barangay);
+        $pendingIncidents = $incidents->where('status', 'Pending')->where('user.barangay', auth()->user()->barangay)->take(5);
+        $forwardedIncidents =  $recincidents->where('barangay', auth()->user()->barangay)->take(5);
         return view('landingpage', compact('pendingCount','respondingCount','completedCount', 'forwardedCount' , 'pendingIncidents', 'forwardedIncidents'));
     }
+
+    public function getLatestIncidents()
+{
+    $incidents = Incident::with('user')->orderByDesc('created_at')->get();
+    $pendingIncidents = $incidents->where('status', 'Pending')->where('user.barangay', auth()->user()->barangay)->take(5);
+    return response()->json(['incidents' => $pendingIncidents]);
+}
     
     public function user_emegency_history( $id)
     {

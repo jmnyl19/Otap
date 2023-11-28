@@ -9,7 +9,9 @@
 <script src="{{ asset('js/sidenav.js') }}"></script>
 
 @endsection
-
+@php
+    use Carbon\Carbon;
+@endphp
 
     @include('sidebar.sidenav')
     <div class="latest-container p-4 mt-5" style="flex: 1">
@@ -28,7 +30,7 @@
                                                             <h1 style="color: red">|</h1>
                                                         </div>
                                                         <div class="col">
-                                                            <h6 style="color: #000">{{$incident->type}}</h6>
+                                                            <h6 style="color: #000"><span class="fw-bold">({{Carbon::parse($incident->created_at)->format('M, j H:ia' )}}) </span>{{$incident->type}}</h6>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -41,7 +43,7 @@
                                                             <h1 style="color: rgb(255, 132, 0)">|</h1>
                                                         </div>
                                                         <div class="col">
-                                                            <h6 style="color: #000">{{$incident->type}}</h6>
+                                                            <h6 style="color: #000"><span class="fw-bold">({{Carbon::parse($incident->created_at)->format('M, j H:ia' )}}) </span>{{$incident->type}}</h6>
                                                         
                                                         </div>
                                                     </div>
@@ -55,7 +57,7 @@
                                                             <h1 style="color: rgb(0, 157, 255) ">|</h1>
                                                         </div>
                                                         <div class="col">
-                                                            <h6 style="color: #000">{{$incident->type}}</h6>
+                                                            <h6 style="color: #000"><span class="fw-bold">({{Carbon::parse($incident->created_at)->format('M, j H:ia' )}}) </span>{{$incident->type}}</h6>
                                                         
                                                         </div>
                                                     </div>
