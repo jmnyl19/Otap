@@ -5,6 +5,7 @@ use App\Models\ForwardedIncident;
 use App\Models\Incident;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Events\IncidentCreated;
 use Carbon\Carbon;
 class IncidentController extends Controller
 {
@@ -35,8 +36,8 @@ class IncidentController extends Controller
 
     public function getLatestIncidents()
 {
-    $incidents = Incident::with('user')->get();
-    $pendingIncidents = $incidents->where('status', 'Pending')->where('user.barangay', auth()->user()->barangay);
+    $incidents = Incident::with('user')->orderByDesc('created_at')->get();
+    $pendingIncidents = $incidents->where('status', 'Pending')->where('user.barangay', auth()->user()->barangay)->take(5);
     return response()->json(['incidents' => $pendingIncidents, 'message' => 'Success',]);
 }
     
@@ -126,6 +127,8 @@ class IncidentController extends Controller
         $incident->longitude = $request->longitude;
 
         $incident->save();
+        
+        event(new IncidentCreated($incident));
 
         return response()->json([
             'message' => 'Successfull',

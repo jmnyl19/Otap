@@ -164,16 +164,17 @@
                 
                     <div class="card-body">
                             <div class="row align-items-center">
-                                <div class="col" id="latestIncidentCont">
+                                <div class="col">
                                     <h5 class="fw-bold" style="color: #D2AC76">Latest Emergency Request</h5>
-                                    
+                                    <div class="col" id="latestIncidentCont">
+                                    </div>
                                 </div>
                             </div>
                     </div>
 
                         <!-- Modal -->
                         @foreach ($pendingIncidents as $incident_modal)
-                            <div class="modal fade" id="exampleModal{{$incident_modal->id}}" tabindex="-1"  aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal fade"  id="exampleModal{{$incident_modal->id}}" tabindex="-1"  aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-lg modal-dialog-centered">
                                     <div class="modal-content rounded-4 border border-success border-3">
                                         <div class="modal-header">

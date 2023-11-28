@@ -1,6 +1,8 @@
+
 $(document).ready(function () {
   getLatest();
 });
+
 function forward(incidentID) {
     var selectedBarangay = document.getElementById('forwardDropdown').value;
     var incidentStatus = document.getElementById('incidentStatus').value;
@@ -69,11 +71,9 @@ function forward(incidentID) {
       type: 'GET',
       dataType: 'json',
       success: function (response) {
-
-
         $.each(response.incidents, function(index, value) {
           var incidentHtml = `
-          <div class="btn btn-primary shadow p-1 mb-1 bg-white rounded" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal${value.id}" style="width: 100%; margin: 10px; border: none">
+          <div class="btn btn-primary shadow p-1 mb-1 bg-white rounded" type="button" data-bs-toggle="modal" data-incident-id="${value.id}" data-bs-target="#exampleModal${value.id}" style="width: 100%; margin: 10px; border: none">
               <div class="card-body">
                   <div class="row align-items-center text-start">
                       <div class="col-auto">
@@ -91,29 +91,21 @@ function forward(incidentID) {
       $('#latestIncidentCont').append(incidentHtml);
         });
 
-        response.incidents.forEach(function (incident) {
-          // Create HTML dynamically for each incident
-          var incidentHtml = `
-              <div class="btn btn-primary shadow p-1 mb-1 bg-white rounded" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal${incident.id}" style="width: 100%; margin: 10px; border: none">
-                  <div class="card-body">
-                      <div class="row align-items-center text-start">
-                          <div class="col-auto">
-                              <h1 style="color: red">|</h1>
-                          </div>
-                          <div class="col">
-                              <h6 style="color: #000"><span class="fw-bold">(${incident.created_at}) </span>${incident.type}</h6>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-          `;
-
-          // Append the HTML to the container (replace 'your-container' with the actual container ID or class)
-          $('#latestIncidentCont').append(incidentHtml);
-      });
       },
       error: function (error) {
           console.log('Error fetching latest incidents:', error);
       }
   });
   }
+
+  window.Echo.channel('incident-channel')
+  .listen('IncidentCreated', (event) => {
+      console.log('New incident created:', event.incident);
+      $('#latestIncidentCont').empty();
+      getLatest();
+  });
+
+  $('#latestIncidentCont').on('click', '.btn-primary', function() {
+    var incidentId = $(this).data('incident-id');
+    $('#exampleModal' + incidentId).modal('show');
+});

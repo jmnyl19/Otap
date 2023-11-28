@@ -4,9 +4,18 @@
     font-family: 'Poppins', sans-serif !important;
 }
 
-#shape{
+h1 {
+    font-size: 2.5rem;
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif !important;
+}
+
+#containerBody {
+    background-color: #73ff08;
     height: 100vh;
 }
 
-
-
+#containerBody row {
+    width: 100%;
+    height: 100%;
+} 
