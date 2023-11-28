@@ -35,9 +35,9 @@ class IncidentController extends Controller
 
     public function getLatestIncidents()
 {
-    $incidents = Incident::with('user')->orderByDesc('created_at')->get();
-    $pendingIncidents = $incidents->where('status', 'Pending')->where('user.barangay', auth()->user()->barangay)->take(5);
-    return response()->json(['incidents' => $pendingIncidents]);
+    $incidents = Incident::with('user')->get();
+    $pendingIncidents = $incidents->where('status', 'Pending')->where('user.barangay', auth()->user()->barangay);
+    return response()->json(['incidents' => $pendingIncidents, 'message' => 'Success',]);
 }
     
     public function user_emegency_history( $id)

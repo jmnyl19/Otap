@@ -164,55 +164,8 @@
                 
                     <div class="card-body">
                             <div class="row align-items-center">
-                                <div class="col">
+                                <div class="col" id="latestIncidentCont">
                                     <h5 class="fw-bold" style="color: #D2AC76">Latest Emergency Request</h5>
-                                    @foreach($pendingIncidents as $incident)
-                                    @if ($incident->type == 'Requesting for Ambulance')
-                                        <div class="btn btn-primary shadow p-1 mb-1 bg-white rounded " type="button" data-bs-toggle="modal" data-bs-target="#exampleModal{{$incident->id}}" style="width: 100%; margin: 10px; border: none">
-                                            <div class="card-body">
-                                                    <div class="row align-items-center text-start">
-                                                        <div class="col-auto">
-                                                            <h1 style="color: red">|</h1>
-                                                        </div>
-                                                        <div class="col">
-                                                            <h6 style="color: #000"><span class="fw-bold">({{Carbon::parse($incident->created_at)->format('M, j H:ia' )}}) </span>{{$incident->type}}</h6>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                        </div>
-                                    @elseif ($incident->type == 'Requesting for a Fire Truck')
-                                        <div class="btn btn-primary shadow p-1 mb-1 bg-white rounded " type="button" data-bs-toggle="modal" data-bs-target="#exampleModal{{$incident->id}}" style="width: 100%; margin: 10px; border: none">
-                                            <div class="card-body">
-                                                    <div class="row align-items-center text-start">
-                                                        <div class="col-auto">
-                                                            <h1 style="color: rgb(255, 132, 0)">|</h1>
-                                                        </div>
-                                                        <div class="col">
-                                                            <h6 style="color: #000"><span class="fw-bold">({{Carbon::parse($incident->created_at)->format('M, j H:ia' )}}) </span>{{$incident->type}}</h6>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                        </div>
-                                    @else
-                                        <div class="btn btn-primary shadow p-1 mb-1 bg-white rounded " type="button" data-bs-toggle="modal" data-bs-target="#exampleModal{{$incident->id}}" style="width: 100%; margin: 10px; border: none">
-                                            <div class="card-body">
-                                                    <div class="row align-items-center text-start">
-                                                        <div class="col-auto">
-                                                            <h1 style="color: rgb(0, 157, 255) ">|</h1>
-                                                        </div>
-                                                        <div class="col">
-                                                            <h6 style="color: #000"><span class="fw-bold">({{Carbon::parse($incident->created_at)->format('M, j H:ia' )}}) </span>{{$incident->type}}</h6>
-                                                        
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                        </div>
-                                    @endif
-                                    
-                                    @endforeach
-
-                                   
-
                                     
                                 </div>
                             </div>

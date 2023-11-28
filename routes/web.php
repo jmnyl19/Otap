@@ -39,11 +39,11 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
     // Route::get('/login/admin', 'LoginController@showAdmin')->name('login.showAdmin');
     // Route::post('/ticketpage', 'Ticket@register')->name('ticket.perform');
     Route::get('/logout', 'LoginController@logout')->name('logout');
-    Route::get('/get-latest-incidents', 'IncidentController@getLatestIncidents');
+    // Route::get('/getlatestincidents', 'IncidentController@getLatestIncidents');
 });
 Route::get('/forwarded', [App\Http\Controllers\IncidentController::class, 'manageforwarded'])->name('forwarded');
 Route::get('/received', [App\Http\Controllers\IncidentController::class, 'managereceived'])->name('received');
-
+Route::get('/getlatestincidents', [App\Http\Controllers\IncidentController::class, 'getLatestIncidents'])->name('latest');
 Route::group(['middleware' => ['auth']], function() {
     Route::get('admin/index', [App\Http\Controllers\IncidentController::class, 'adminLanding'])->name('landingpage');
     Route::patch('respond/{id}', [App\Http\Controllers\StatusController::class, 'respond']);
