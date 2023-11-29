@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Report;
+use App\Models\ForwardedReport;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -17,11 +18,40 @@ class ReportController extends Controller
     {
         $reports = Report::with('user')->orderByDesc('datehappened')->get();
         $reportedIncident = $reports->where('user.barangay', auth()->user()->barangay)->where('status', 'Pending');
+        $incidents = ForwardedReport::with('report')->orderByDesc('created_at')->get();
+        $forwardedReports =  $incidents->where('status','Pending')->where('barangay', auth()->user()->barangay);
 
-     
-        return view('latest', compact('reportedIncident'));
+        return view('latest', compact('reportedIncident','forwardedReports'));
     }
 
+    public function respondedreports()
+    {
+        $reports = Report::with('user')->orderByDesc('created_at')->get();
+        $respondIncident = $reports->where('status', 'Responding')->where('user.barangay', auth()->user()->barangay);
+        $incidents = ForwardedReport::with('report')->orderByDesc('created_at')->get();
+        $forwardedReports =  $incidents->where('status','Responding')->where('barangay', auth()->user()->barangay);
+
+        return view('respondedreports', compact('respondIncident','forwardedReports')); 
+    }
+
+    public function manageforward()
+    {
+        $incidents = Report::with('user')->orderByDesc('created_at')->get();
+        $forwardedReports =  $incidents->where('status', 'Forwarded')->where('user.barangay', auth()->user()->barangay);
+
+        return view('forwardedreports', compact('forwardedReports'));
+    }
+
+
+    public function completedreports()
+    {
+        $reports = Report::with('user')->orderByDesc('created_at')->get();
+        $completedIncident = $reports->where('status', 'Completed')->where('user.barangay', auth()->user()->barangay);
+        $incidents = ForwardedReport::with('report')->orderByDesc('created_at')->get();
+        $forwardedReports =  $incidents->where('status','Completed')->where('barangay', auth()->user()->barangay);
+
+        return view('completedreports', compact('completedIncident','forwardedReports')); 
+    }
     
     /**
      * Show the form for creating a new resource.

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 use App\Models\ForwardedIncident;
+use App\Models\ForwardedReport;
+use App\Models\Report;
 use App\Models\Incident;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -24,6 +26,29 @@ class StatusController extends Controller
         $incidents->save();
         return redirect('/responding');
     }
+
+    public function responded(Request $request, $id)
+    {
+        $incidents = ForwardedIncident::find($id);
+        $incidents->status = 'Responding';
+        $incidents->save();
+        return redirect('/responding');
+    }
+    public function responding(Request $request, $id)
+    {
+        $incidents = Report::find($id);
+        $incidents->status = 'Responding';
+        $incidents->save();
+        return redirect('/respondedreports');
+    }
+    public function respondreport(Request $request, $id)
+    {
+        $incidents = ForwardedReport::find($id);
+        $incidents->status = 'Responding';
+        $incidents->save();
+        return redirect('/respondedreports');
+    }
+
     public function forward(Request $request, $id)
     {
         $incidents = Incident::find($id);
@@ -38,12 +63,59 @@ class StatusController extends Controller
 
         return redirect('/forwarded');
     }
+    public function forwarded(Request $request, $id)
+    {
+        $incidents = Report::find($id);
+        $incidents->status = 'Forwarded';
+        $incidents->save();
+
+        $forwarded = new ForwardedReport;
+        $forwarded->report_id = $request->report_id;
+        $forwarded->barangay = $request->barangay;
+        $forwarded->status = $request->status;
+        $forwarded->save();
+
+        return redirect('/forwardedreports');
+    }
     public function completed(Request $request, $id)
     {
         $incidents = Incident::find($id);
         $incidents->status = 'Completed';
         $incidents->save();
         return redirect('/completedpage');
+    }
+    public function forcompleted(Request $request, $id)
+    {
+        $incidents = ForwardedIncident::find($id);
+        $incidents->status = 'Completed';
+        $incidents->save();
+        return redirect('/completedpage');
+    }
+    public function completing(Request $request, $id)
+    {
+        $incidents = Report::find($id);
+        $incidents->status = 'Completed';
+        $incidents->save();
+        return redirect('/completedreports');
+    }
+    public function completedreport(Request $request, $id)
+    {
+        $incidents = ForwardedReport::find($id);
+        $incidents->status = 'Completed';
+        $incidents->save();
+        return redirect('/completedreports');
+    }
+
+    public function cancelled(Request $request, $id)
+    {
+        $incidents = Incident::find($id);
+        $incidents->status = 'Cancelled';
+        $incidents->save();
+        
+        return response()->json([
+            'cancel' => $incidents,
+            'message' => 'Success',
+        ], 200);
     }
     /**
      * Show the form for creating a new resource.

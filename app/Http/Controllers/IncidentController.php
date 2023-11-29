@@ -26,12 +26,21 @@ class IncidentController extends Controller
         $incidents = Incident::with('user')->orderByDesc('created_at')->get();
         $recincidents = ForwardedIncident::with('incident')->orderByDesc('created_at')->get();
         $pendingCount = $incidents->where('status', 'Pending')->where('user.barangay', auth()->user()->barangay)->count();
+        $forpendingCount = $recincidents->where('status', 'Pending')->where('barangay', auth()->user()->barangay)->count();
+        $totalPending = $pendingCount + $forpendingCount;
+
         $respondingCount = $incidents->where('status', 'Responding')->where('user.barangay', auth()->user()->barangay)->count();
+        $forrespondingCount = $recincidents->where('status', 'Responding')->where('barangay', auth()->user()->barangay)->count();
+        $totalResponding = $respondingCount + $forrespondingCount;
+
         $completedCount = $incidents->where('status', 'Completed')->where('user.barangay', auth()->user()->barangay)->count();
+        $forcompletedCount = $recincidents->where('status', 'Completed')->where('barangay', auth()->user()->barangay)->count();
+        $totalCompleted = $completedCount + $forcompletedCount;
+
         $forwardedCount = $incidents->where('status', 'Forwarded')->where('user.barangay', auth()->user()->barangay)->count();
         $pendingIncidents = $incidents->where('status', 'Pending')->where('user.barangay', auth()->user()->barangay)->take(5);
-        $forwardedIncidents =  $recincidents->where('barangay', auth()->user()->barangay)->take(5);
-        return view('landingpage', compact('pendingCount','respondingCount','completedCount', 'forwardedCount' , 'pendingIncidents', 'forwardedIncidents'));
+        $forwardedIncidents =  $recincidents->where('status', 'Pending')->where('barangay', auth()->user()->barangay)->take(5);
+        return view('landingpage', compact('totalPending','totalResponding','totalCompleted', 'forwardedCount' , 'pendingIncidents', 'forwardedIncidents'));
     }
 
     public function getLatestIncidents()
@@ -82,35 +91,32 @@ class IncidentController extends Controller
     public function managepending()
     {
         $incidents = Incident::with('user')->orderByDesc('created_at')->get();
+        $recincidents = ForwardedIncident::with('incident')->orderByDesc('created_at')->get();
         $pendingIncidents = $incidents->where('status', 'Pending')->where('user.barangay', auth()->user()->barangay);
+        $forwardedIncidents =  $recincidents->where('status', 'Pending')->where('barangay', auth()->user()->barangay)->take(5);
 
-        return view('pendingpage', compact('pendingIncidents'));
-        // Get incidents from the Incident model
-        // $incidents = Incident::with('user')->orderByDesc('created_at')->get();
-        // Filter incidents by status and barangay
-        // $pendingIncidents1 = $incidents->where('status', 'Pending')->where('user.barangay', auth()->user()->barangay);
-        // Get forwarded incidents from the ForwardedIncident model
-        // $forwardedIncidents = ForwardedIncident::with('incident')->orderByDesc('created_at')->get();
-        // Filter forwarded incidents by barangay
-        // $pendingIncidents2 = $forwardedIncidents->where('barangay', auth()->user()->barangay);
-        // Merge the collections
-        // $allPendingIncidents = $pendingIncidents1->merge($pendingIncidents2);
-        // return view('pendingpage', compact('allPendingIncidents'));
+
+        return view('pendingpage', compact('pendingIncidents','forwardedIncidents'));
+        
     }
 
     public function managecompleted()
     {
         $incidents = Incident::with('user')->orderByDesc('created_at')->get();
+        $recincidents = ForwardedIncident::with('incident')->orderByDesc('created_at')->get();
         $completedIncidents = $incidents->where('status', 'Completed')->where('user.barangay', auth()->user()->barangay);
+        $forwardedIncidents =  $recincidents->where('status', 'Completed')->where('barangay', auth()->user()->barangay)->take(5);
 
-        return view('completedpage', compact('completedIncidents'));
+        return view('completedpage', compact('completedIncidents','forwardedIncidents'));
     }
     public function manageresponding()
     {
         $incidents = Incident::with('user')->orderByDesc('created_at')->get();
+        $recincidents = ForwardedIncident::with('incident')->orderByDesc('created_at')->get();
         $respondingIncidents = $incidents->where('status', 'Responding')->where('user.barangay', auth()->user()->barangay);
+        $forwardedIncidents =  $recincidents->where('status', 'Responding')->where('barangay', auth()->user()->barangay)->take(5);
 
-        return view('responding', compact('respondingIncidents'));
+        return view('responding', compact('respondingIncidents','forwardedIncidents'));
     }
     /**
      * Show the form for creating a new resource.

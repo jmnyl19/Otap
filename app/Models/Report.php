@@ -24,4 +24,8 @@ class Report extends Model
     public function user(){
         return $this->belongsTo(User::class, 'residents_id', 'id');
     }
+    
+    public function forwardedreport(){
+        return $this->hasMany(ForwardedReport::class);
+    }
 }

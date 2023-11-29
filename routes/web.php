@@ -42,18 +42,29 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
     // Route::get('/getlatestincidents', 'IncidentController@getLatestIncidents');
 });
 Route::get('/forwarded', [App\Http\Controllers\IncidentController::class, 'manageforwarded'])->name('forwarded');
+Route::get('/forwardedreports', [App\Http\Controllers\ReportController::class, 'manageforward'])->name('forwardedreports');
 Route::get('/received', [App\Http\Controllers\IncidentController::class, 'managereceived'])->name('received');
+
 Route::get('/getlatestincidents', [App\Http\Controllers\IncidentController::class, 'getLatestIncidents'])->name('latest');
 Route::group(['middleware' => ['auth']], function() {
     Route::get('admin/index', [App\Http\Controllers\IncidentController::class, 'adminLanding'])->name('landingpage');
     Route::patch('respond/{id}', [App\Http\Controllers\StatusController::class, 'respond']);
+    Route::patch('responded/{id}', [App\Http\Controllers\StatusController::class, 'responded']);
+    Route::patch('responding/{id}', [App\Http\Controllers\StatusController::class, 'responding']);
+    Route::patch('respondreport/{id}', [App\Http\Controllers\StatusController::class, 'respondreport']);
     Route::post('forward/{id}', [App\Http\Controllers\StatusController::class, 'forward']);
+    Route::post('forwarded/{id}', [App\Http\Controllers\StatusController::class, 'forwarded']);
     Route::patch('completed/{id}', [App\Http\Controllers\StatusController::class, 'completed']);
+    Route::patch('forcompleted/{id}', [App\Http\Controllers\StatusController::class, 'forcompleted']);
+    Route::patch('completing/{id}', [App\Http\Controllers\StatusController::class, 'completing']);
+    Route::patch('completedreport/{id}', [App\Http\Controllers\StatusController::class, 'completedreport']);
 
-   
     Route::get('/pendingpage', [App\Http\Controllers\IncidentController::class, 'managepending'])->name('pendingpage');
     Route::get('/completedpage', [App\Http\Controllers\IncidentController::class, 'managecompleted'])->name('completedpage');
     Route::get('/responding', [App\Http\Controllers\IncidentController::class, 'manageresponding'])->name('responding');
     Route::get('/latest', [App\Http\Controllers\ReportController::class, 'index'])->name('latest');
+    Route::get('/respondedreports', [App\Http\Controllers\ReportController::class, 'respondedreports'])->name('respondedreports');
+    Route::get('/completedreports', [App\Http\Controllers\ReportController::class, 'completedreports'])->name('completedreports');
+
 });
 

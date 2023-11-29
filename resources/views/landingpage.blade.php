@@ -48,7 +48,7 @@
                                     <i class="bi bi-exclamation-triangle h1 pendingLogo "></i>
                                 </div>
                                 <div class="col-auto col-md-4 countText">
-                                    <h1 class="fw-normal ">{{$pendingCount}}</h1>
+                                    <h1 class="fw-normal ">{{$totalPending}}</h1>
                                 </div>
                             </div>
                         </div>
@@ -65,7 +65,7 @@
                                     <i class="bi bi-arrow-repeat h1 respondingLogo"></i>
                                 </div>
                                 <div class="col-auto col-md-4 countText">
-                                    <h1 class="fw-normal ">{{$respondingCount}}</h1>
+                                    <h1 class="fw-normal ">{{$totalResponding}}</h1>
                                 </div>
                             </div>
                         </div>
@@ -98,7 +98,7 @@
                                     <i class="bi bi-check-circle h1 completedLogo"></i>
                                 </div>
                                 <div class="col-auto col-md-4  countText">
-                                    <h1 class="fw-normal ">{{$completedCount}}</h1>
+                                    <h1 class="fw-normal ">{{$totalCompleted}}</h1>
                                 </div>
                             </div>
                         </div>
@@ -310,26 +310,27 @@
                                         </div>
 
                                         <div class="modal-body">
-                                                            <!-- Dropdown -->
-                                                            <div class="form-group">
-                                                                <div class="form-group">
+                                                <!-- Dropdown -->
+                                            <div class="form-group">
+                                                    <div class="form-group">
 
-                                                                    <label for="forwardDropdown">Forward this Emergency?</label>
-                                                                    <select class="form-control" id="forwardDropdown" name="barangay">
-                                                                        <!-- Add your dropdown options here -->
-                                                                        <option value="" selected disabled>Choose a Barangay:</option>
-                                                                        <option value="East Tapinac">East Tapinac</option>
-                                                                        <option value="Santa Rita">Santa Rita</option>
-                                                                    </select>
-                                                                </div>
-                                                            
-                                                        </div>
+                                                        <label for="forwardDropdown">Forward this Emergency?</label>
+                                                        <select class="form-control" id="forwardDropdown" name="barangay">
+                                                            <!-- Add your dropdown options here -->
+                                                            <option value="" selected disabled>Choose a Barangay:</option>
+                                                            <option value="East Tapinac">East Tapinac</option>
+                                                            <option value="Santa Rita">Santa Rita</option>
+                                                        </select>
                                                     </div>
-                                                    <input type="hidden" name="incident_id" id="incidentID" value="{{$incident_modal1->id}}">
-                                                    <input type="hidden" name="status" id="incidentStatus" value="Pending">
+                                                
+                                            </div>
+                                        </div>
+                                        <input type="hidden" name="incident_id" id="incidentID" value="{{$incident_modal1->id}}">
+                                        <input type="hidden" name="status" id="incidentStatus" value="Pending">
                                     
-                                        <div class="modal-footer justify-content-center">
-                                            <form action="/respond/{{$incident_modal1->id}}" method="POST">
+                                        
+                                                    <div class="modal-footer justify-content-center">
+                                            <form action="/responded/{{$incident_modal1->id}}" method="POST">
                                                 @csrf
                                                 @method('PATCH')
                                                 <button class="respondBtn" type="submit">
@@ -365,6 +366,7 @@
                                             <form action="" method="POST">
                                                 @method('PATCH')
                                                 <button class="forwardBtn" type="button" onclick="forward({{$incident_modal1->id}})">
+                                               
                                                     <div class="svg-wrapper-1">
                                                         <div class="svg-wrapper">
                                                         <svg

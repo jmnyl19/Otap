@@ -63,6 +63,7 @@ class User extends Authenticatable
     public function incidents(){
         return $this->hasMany(Incident::class, 'residents_id', 'id');
     }
+    
 }
 
 // class User extends Model

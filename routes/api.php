@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Models\User;
+use App\Http\Controllers\StatusController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -38,8 +39,6 @@ Route::group(['namespace' => 'App\Http\Controllers'], function ()
 });
 
 
-
-
 Route::post('complaints/create',function(Request $request){
     $complaints = new \App\Models\Complaint;
     $complaints ->fill($request->all());
@@ -47,3 +46,5 @@ Route::post('complaints/create',function(Request $request){
 
     return $complaints;
 });
+
+Route::patch('cancelled/{id}', [App\Http\Controllers\StatusController::class, 'cancelled']);
