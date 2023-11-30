@@ -174,7 +174,7 @@
 
                         <!-- Modal -->
                         @foreach ($pendingIncidents as $incident_modal)
-                            <div class="modal fade"  id="exampleModal{{$incident_modal->id}}" tabindex="-1"  aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal fade"  id="pending{{$incident_modal->id}}" tabindex="-1"  aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-lg modal-dialog-centered">
                                     <div class="modal-content rounded-4 border border-success border-3">
                                         <div class="modal-header">
@@ -217,7 +217,7 @@
                                                        
                                                 </div>
                                             </div>
-                                            <input type="hidden" name="incident_id" id="incidentID" value="{{$incident_modal->id}}">
+                                            <input type="string" name="incident_id" id="incidentID" value="{{$incident_modal->id}}">
                                             <input type="hidden" name="status" id="incidentStatus" value="Pending">
                                
                                         <div class="modal-footer justify-content-center">

@@ -73,7 +73,7 @@ function forward(incidentID) {
       success: function (response) {
         $.each(response.incidents, function(index, value) {
           var incidentHtml = `
-          <div class="btn btn-primary shadow p-1 mb-1 bg-white rounded" type="button" data-bs-toggle="modal" data-incident-id="${value.id}" data-bs-target="#exampleModal${value.id}" style="width: 100%; margin: 10px; border: none">
+          <div class="btn btn-primary shadow p-1 mb-1 bg-white rounded" type="button" data-bs-toggle="modal" data-incident-id="${value.id}" data-bs-target="#pending${value.id}" style="width: 100%; margin: 10px; border: none">
               <div class="card-body">
                   <div class="row align-items-center text-start">
                       <div class="col-auto">
@@ -105,7 +105,4 @@ function forward(incidentID) {
       getLatest();
   });
 
-  $('#latestIncidentCont').on('click', '.btn-primary', function() {
-    var incidentId = $(this).data('incident-id');
-    $('#exampleModal' + incidentId).modal('show');
-});
+ 

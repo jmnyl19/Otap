@@ -82,7 +82,7 @@ class ReportController extends Controller
 
         return response()->json([
             'message' => 'Successfull',
-        ], 200);
+        ], 201);
     }
 
     /**
