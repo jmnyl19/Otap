@@ -314,8 +314,8 @@
                                             <div class="form-group">
                                                     <div class="form-group">
 
-                                                        <label for="forwardDropdown">Forward this Emergency?</label>
-                                                        <select class="form-control" id="forwardDropdown" name="barangay">
+                                                        <label for="forwardDropdown1">Forward this Emergency?</label>
+                                                        <select class="form-control" id="forwardDropdown1" name="barangay">
                                                             <!-- Add your dropdown options here -->
                                                             <option value="" selected disabled>Choose a Barangay:</option>
                                                             <option value="East Tapinac">East Tapinac</option>
@@ -325,11 +325,11 @@
                                                 
                                             </div>
                                         </div>
-                                        <input type="hidden" name="incident_id" id="incidentID" value="{{$incident_modal1->id}}">
+                                        <input type="hidden" name="incident_id" id="incidentID1" value="{{$incident_modal1->id}}">
                                         <input type="hidden" name="status" id="incidentStatus" value="Pending">
                                     
                                         
-                                                    <div class="modal-footer justify-content-center">
+                                        <div class="modal-footer justify-content-center">
                                             <form action="/responded/{{$incident_modal1->id}}" method="POST">
                                                 @csrf
                                                 @method('PATCH')
@@ -365,7 +365,7 @@
                                             </form>
                                             <form action="" method="POST">
                                                 @method('PATCH')
-                                                <button class="forwardBtn" type="button" onclick="forward({{$incident_modal1->id}})">
+                                                <button class="forwardBtn" type="button" onclick="reforward({{$incident_modal1->id}})">
                                                
                                                     <div class="svg-wrapper-1">
                                                         <div class="svg-wrapper">

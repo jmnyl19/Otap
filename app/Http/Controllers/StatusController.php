@@ -77,6 +77,38 @@ class StatusController extends Controller
 
         return redirect('/forwardedreports');
     }
+
+    public function reforward(Request $request, $id)
+    {
+
+        $incidents = ForwardedIncident::find($id);
+        $incidents->status = 'Forwarded';
+        $incidents->save();
+
+        $forward = new ForwardedIncident;
+        $forward->incident_id = $request->incident_id;
+        $forward->barangay = $request->barangay;
+        $forward->status = $request->status;
+        $forward->save();
+
+        return redirect('/forwarded');
+    }
+
+    public function reforwarded(Request $request, $id)
+    {
+        $incidents = ForwardedReport::find($id);
+        $incidents->status = 'Forwarded';
+        $incidents->save();
+
+        $forwarded = new ForwardedReport;
+        $forwarded->report_id = $request->report_id;
+        $forwarded->barangay = $request->barangay;
+        $forwarded->status = $request->status;
+        $forwarded->save();
+
+        return redirect('/forwardedreports');
+    }
+
     public function completed(Request $request, $id)
     {
         $incidents = Incident::find($id);

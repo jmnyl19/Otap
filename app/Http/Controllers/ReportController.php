@@ -38,8 +38,10 @@ class ReportController extends Controller
     {
         $incidents = Report::with('user')->orderByDesc('created_at')->get();
         $forwardedReports =  $incidents->where('status', 'Forwarded')->where('user.barangay', auth()->user()->barangay);
+        $incidents = ForwardedReport::with('report')->orderByDesc('created_at')->get();
+        $reforwardedReports =  $incidents->where('status','Forwarded')->where('barangay', auth()->user()->barangay);
 
-        return view('forwardedreports', compact('forwardedReports'));
+        return view('forwardedreports', compact('forwardedReports','reforwardedReports'));
     }
 
 

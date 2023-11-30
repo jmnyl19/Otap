@@ -53,7 +53,9 @@ Route::group(['middleware' => ['auth']], function() {
     Route::patch('responding/{id}', [App\Http\Controllers\StatusController::class, 'responding']);
     Route::patch('respondreport/{id}', [App\Http\Controllers\StatusController::class, 'respondreport']);
     Route::post('forward/{id}', [App\Http\Controllers\StatusController::class, 'forward']);
+    Route::post('reforward/{id}', [App\Http\Controllers\StatusController::class, 'reforward']);
     Route::post('forwarded/{id}', [App\Http\Controllers\StatusController::class, 'forwarded']);
+    Route::post('reforwarded/{id}', [App\Http\Controllers\StatusController::class, 'reforwarded']);
     Route::patch('completed/{id}', [App\Http\Controllers\StatusController::class, 'completed']);
     Route::patch('forcompleted/{id}', [App\Http\Controllers\StatusController::class, 'forcompleted']);
     Route::patch('completing/{id}', [App\Http\Controllers\StatusController::class, 'completing']);

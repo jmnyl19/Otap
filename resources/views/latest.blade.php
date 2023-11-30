@@ -97,7 +97,7 @@
                                             </div>         
                                         </div>
                                     </div>
-                                    <input type="hidden" name="report_id" id="reportID" value="{{$report1->id}}">
+                                    <input type="hidden" name="report_id" id="incidentId" value="{{$report1->id}}">
                                     <input type="hidden" name="status" id="incidentStatus" value="Pending">
                         
                                     <div class="modal-footer justify-content-center">
@@ -137,7 +137,7 @@
                                         </form>
                                         <form action="" method="POST">
                                                     @method('PATCH')
-                                                    <button class="forwardBtn" type="button" onclick="forwarded({{$report1->id}})">
+                                                    <button class="forwardBtn" type="button" onclick="reforwarded({{$report1->id}})">
                                                         <div class="svg-wrapper-1">
                                                         <div class="svg-wrapper">
                                                             <svg
@@ -251,7 +251,7 @@
                                             </div>         
                                         </div>
                                     </div>
-                                    <input type="hidden" name="report_id" id="reportID" value="{{$report->id}}">
+                                    <input type="hidden" name="report_id" id="incidentId" value="{{$report->id}}">
                                     <input type="hidden" name="status" id="incidentStatus" value="Pending">
                         
                                     <div class="modal-footer justify-content-center">
@@ -336,11 +336,11 @@ function initMaps() {
         initMap('map{{$report->id}}', {{$report->latitude}}, {{$report->longitude}}, '{{$report->id}}');
     @endforeach
     @foreach ($forwardedReports as $report1)
-        initMap('map{{$report1->report->id}}', {{$report1->report->latitude}}, {{$report1->report->longitude}}, '{{$report1->report->id}}');
+        initMap('map{{$report1->report->id}}', {{$report1->report->latitude}}, {{$report1->report->longitude}}, '{{$report1->id}}');
     @endforeach
 }
 
-function initMap(mapId, latitude, longitude, reportId) {
+function initMap(mapId, latitude, longitude, incidentId) {
     var incidentLocation = { lat: latitude, lng: longitude };
     var map = new google.maps.Map(document.getElementById(mapId), {
         zoom: 18,
@@ -362,7 +362,7 @@ function initMap(mapId, latitude, longitude, reportId) {
         if (status == google.maps.GeocoderStatus.OK) {
             if (results[1]) {
                 // Display the formatted address in an info window or console.log
-                var addressElement = document.getElementById('address' + reportId);
+                var addressElement = document.getElementById('address' + incidentId);
                 addressElement.innerHTML = '<i class="bi bi-house-down-fill modalIcon"></i>Sepecific Location:: ' + results[1].formatted_address;
             } else {
                 console.log('No results found');
