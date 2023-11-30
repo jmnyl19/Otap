@@ -154,6 +154,9 @@
                                         </div>
                                     @endif
                                     
+                                
+                            
+                        
                                     @endforeach
                                 </div>
                             </div>
@@ -281,8 +284,8 @@
                             </div>
                         @endforeach
 
-                        @foreach($forwardedIncidents as $incident_modal1)
-                            <div class="modal fade" id="exampleModal1{{$incident_modal1->id}}" tabindex="-1"  aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        @foreach($forwardedIncidents as $incident1)
+                        <div class="modal fade" id="exampleModal1{{$incident1->id}}" tabindex="-1"  aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-lg modal-dialog-centered">
                                     <div class="modal-content rounded-4 border border-success border-3">
                                         <div class="modal-header">
@@ -292,7 +295,7 @@
                             
                                         <div class="modal-body justify-content-center">
                                             <!-- Google Map Container -->
-                                            <div id="map{{$incident_modal1->incident->id}}" style="height: 350px;">
+                                            <div id="map{{$incident1->incident->id}}" style="height: 350px;">
                                             </div>
                             
                                             <!-- Rest of the modal content -->
@@ -300,11 +303,11 @@
                                             <div class="square-container mt-2 p-20">
                                                 <div class="shadow p-3 mb-1 rounded modalInfo">
                                                     <h5><i class="bi bi-calendar2-event-fill modalIcon"></i>Date: {{Carbon::parse($incident1->incident->created_at)->format('M, j H:ia' )}}</h5>
-                                                    <h5><i class="bi bi-exclamation-circle-fill modalIcon"></i>Type: {{$incident_modal1->incident->type}}</h5>
-                                                    <h5><i class="bi bi-person-circle modalIcon"></i>Name: {{$incident_modal1->incident->user->first_name}} {{$incident_modal1->incident->user->last_name}}</h5>
-                                                    <h5><i class="bi bi-calendar-event-fill modalIcon"></i>Age: {{$incident_modal1->incident->user->age}}</h5>
-                                                    <h5><i class="bi bi-house-down-fill modalIcon"></i>Resident of Barangay: {{$incident_modal1->incident->user->barangay}}</h5>
-                                                    <h5 id="address{{$incident_modal1->id}}" class="address"><i class="bi bi-house-down-fill modalIcon"></i>Specific Location: </h5>
+                                                    <h5><i class="bi bi-exclamation-circle-fill modalIcon"></i>Type: {{$incident1->incident->type}}</h5>
+                                                    <h5><i class="bi bi-person-circle modalIcon"></i>Name: {{$incident1->incident->user->first_name}} {{$incident1->incident->user->last_name}}</h5>
+                                                    <h5><i class="bi bi-calendar-event-fill modalIcon"></i>Age: {{$incident1->incident->user->age}}</h5>
+                                                    <h5><i class="bi bi-house-down-fill modalIcon"></i>Resident of Barangay: {{$incident1->incident->user->barangay}}</h5>
+                                                    <h5 id="address{{$incident1->id}}" class="address"><i class="bi bi-house-down-fill modalIcon"></i>Specific Location: </h5>
                                                 </div>
                                             </div>
                                         </div>
@@ -325,12 +328,12 @@
                                                 
                                             </div>
                                         </div>
-                                        <input type="hidden" name="incident_id" id="incidentID1" value="{{$incident_modal1->id}}">
+                                        <input type="hidden" name="incident_id" id="incidentID1" value="{{$incident1->id}}">
                                         <input type="hidden" name="status" id="incidentStatus" value="Pending">
                                     
                                         
                                         <div class="modal-footer justify-content-center">
-                                            <form action="/responded/{{$incident_modal1->id}}" method="POST">
+                                            <form action="/responded/{{$incident1->id}}" method="POST">
                                                 @csrf
                                                 @method('PATCH')
                                                 <button class="respondBtn" type="submit">
@@ -365,7 +368,7 @@
                                             </form>
                                             <form action="" method="POST">
                                                 @method('PATCH')
-                                                <button class="forwardBtn" type="button" onclick="reforward({{$incident_modal1->id}})">
+                                                <button class="forwardBtn" type="button" onclick="reforward({{$incident1->id}})">
                                                
                                                     <div class="svg-wrapper-1">
                                                         <div class="svg-wrapper">
@@ -408,8 +411,8 @@
         @foreach ($pendingIncidents as $incident_modal)
             initMap('map{{$incident_modal->id}}', {{$incident_modal->latitude}}, {{$incident_modal->longitude}}, '{{$incident_modal->id}}');
         @endforeach
-        @foreach ($forwardedIncidents as $incident_modal1)
-            initMap('map{{$incident_modal1->incident->id}}', {{$incident_modal1->incident->latitude}}, {{$incident_modal1->incident->longitude}}, '{{$incident_modal1->id}}');
+        @foreach ($forwardedIncidents as $incident1)
+            initMap('map{{$incident1->incident->id}}', {{$incident1->incident->latitude}}, {{$incident1->incident->longitude}}, '{{$incident1->id}}');
         @endforeach
     }
 
