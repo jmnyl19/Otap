@@ -50,6 +50,16 @@ class IncidentController extends Controller
     return response()->json(['incidents' => $pendingIncidents, 'message' => 'Success',]);
 }
     
+public function getCurrentIncident($id)
+{
+    $incidents = Incident::with('user')->where('id', $id)->get();
+
+    return response()->json([
+        'history' => $incidents,
+        'message' => 'Success',
+    ], 200);
+}
+
     public function user_emegency_history( $id)
     {
 
