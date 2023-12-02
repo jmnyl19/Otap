@@ -19,87 +19,30 @@
             <div class="shadow p-4 mb-4 bg-white rounded " >
                 <div class="row align-items-center">
                     <div class="col">
-                    @foreach($forwardedIncidents as $incident)
-                        @if ($incident->type == 'Requesting for Ambulance')
-                            <div class="btn btn-primary shadow p-1 mb-1 bg-white rounded " type="button" data-bs-toggle="modal" data-bs-target="#exampleModal{{$incident->id}}" style="width: 100%; margin: 10px; border: none">
-                                <div class="card-body">
-                                        <div class="row align-items-center text-start">
-                                            <div class="col-auto">
-                                                <h1 style="color: red">|</h1>
-                                            </div>
-                                            <div class="col">
-                                                <h6 style="color: #000">{{$incident->incident->type}}</h6>
-                                            </div>
-                                        </div>
-                                    </div>
-                            </div>
-                        @elseif ($incident->type == 'Requesting for a Fire Truck')
-                            <div class="btn btn-primary shadow p-1 mb-1 bg-white rounded " type="button" data-bs-toggle="modal" data-bs-target="#exampleModal{{$incident->id}}" style="width: 100%; margin: 10px; border: none">
-                                <div class="card-body">
-                                        <div class="row align-items-center text-start">
-                                            <div class="col-auto">
-                                                <h1 style="color: rgb(255, 132, 0)">|</h1>
-                                            </div>
-                                            <div class="col">
-                                                <h6 style="color: #000">{{$incident->incident->type}}</h6>
-                                            
-                                            </div>
-                                        </div>
-                                    </div>
-                            </div>
-                        @else
-                            <div class="btn btn-primary shadow p-1 mb-1 bg-white rounded " type="button" data-bs-toggle="modal" data-bs-target="#exampleModal{{$incident->id}}" style="width: 100%; margin: 10px; border: none">
-                                <div class="card-body">
-                                        <div class="row align-items-center text-start">
-                                            <div class="col-auto">
-                                                <h1 style="color: rgb(0, 157, 255) ">|</h1>
-                                            </div>
-                                            <div class="col">
-                                                <h6 style="color: #000">{{$incident->incident->type}}</h6>
-                                            
-                                            </div>
-                                        </div>
-                                    </div>
-                            </div>
-                        @endif
-                    @endforeach
-                    <!-- Modal -->
-                    @foreach($forwardedIncidents as $incident_modal)
-                    <div class="modal fade" id="exampleModal{{$incident_modal->id}}" tabindex="-1"  aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-lg modal-dialog-centered">
-                            <div class="modal-content rounded-4 border border-success border-3">
-                                <div class="modal-header">
-                                    <h5 style="text-align: center"><i class="bi bi-megaphone-fill mr-5 pendingLogo"></i>   Emergency Details</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                    
-                                <div class="modal-body justify-content-center">
-                                    <!-- Google Map Container -->
-                                    <div id="map{{$incident_modal->incident->id}}" style="height: 350px;">
-                                    </div>
-                    
-                                    <!-- Rest of the modal content -->
-                                    <hr class="style-one">
-                                    <div class="square-container mt-2 p-20">
-                                        <div class="shadow p-3 mb-1 rounded modalInfo">
-                                            <h5><i class="bi bi-calendar2-event-fill modalIcon"></i>Date: {{$incident_modal->created_at}}</h5>
-                                            <h5><i class="bi bi-exclamation-circle-fill modalIcon"></i>Type: {{$incident_modal->incident->type}}</h5>
-                                            <h5><i class="bi bi-person-circle modalIcon"></i>Name: {{$incident_modal->incident->user->first_name}} {{$incident_modal->incident->user->last_name}}</h5>
-                                            <h5><i class="bi bi-calendar-event-fill modalIcon"></i>Age: {{$incident_modal->incident->user->age}}</h5>
-                                            <h5><i class="bi bi-house-down-fill modalIcon"></i>Resident of Barangay: {{$incident_modal->incident->user->barangay}}</h5>
-                                            <h5 id="address{{$incident_modal->id}}" class="address"><i class="bi bi-house-down-fill modalIcon"></i>Sepecific Location: </h5>
-                                        </div>
-                                    </div>
-                                </div>
-                    
-                                <div class="modal-footer justify-content-center">
-                                    
-                                   
-                                </div>
-                            </div>
+                    <div class="col" id="allReceivedCont">
                         </div>
-                    </div>
-                    @endforeach
+                    <!-- Modal -->
+                    <div class="modal fade"  id="receivedModal" tabindex="-1"  aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-lg modal-dialog-centered">
+                                    <div class="modal-content rounded-4 border border-success border-3">
+                                        <div class="modal-header">
+                                            <h5 style="text-align: center"><i class="bi bi-megaphone-fill mr-5 pendingLogo"></i>   Emergency Details</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                            
+                                        <div class="modal-body justify-content-center" id="receivedModalBody">
+                                            
+                                        </div>
+                                        
+
+                                            <input type="hidden" name="status" id="incidentStatus" value="Pending">
+                                
+                                        <div class="modal-footer justify-content-center" id="receivedModalFooter">
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
                     </div>
                 </div>

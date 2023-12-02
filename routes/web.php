@@ -44,22 +44,22 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
 Route::get('/forwarded', [App\Http\Controllers\IncidentController::class, 'manageforwarded'])->name('forwarded');
 Route::get('/forwardedreports', [App\Http\Controllers\ReportController::class, 'manageforward'])->name('forwardedreports');
 Route::get('/received', [App\Http\Controllers\IncidentController::class, 'managereceived'])->name('received');
-Route::get('/getlatestincidents', [App\Http\Controllers\IncidentController::class, 'getLatestIncidents'])->name('latest');
+Route::get('/getlatestincidents', [App\Http\Controllers\IncidentController::class, 'getLatestIncidents']);
 Route::get('/currentincident/{id}', [App\Http\Controllers\IncidentController::class, 'getCurrentIncident']);
 Route::group(['middleware' => ['auth']], function() {
     Route::get('admin/index', [App\Http\Controllers\IncidentController::class, 'adminLanding'])->name('landingpage');
     Route::post('respond/{id}', [App\Http\Controllers\StatusController::class, 'respond']);
-    Route::patch('responded/{id}', [App\Http\Controllers\StatusController::class, 'responded']);
-    Route::patch('responding/{id}', [App\Http\Controllers\StatusController::class, 'responding']);
-    Route::patch('respondreport/{id}', [App\Http\Controllers\StatusController::class, 'respondreport']);
+    Route::post('responded/{id}', [App\Http\Controllers\StatusController::class, 'responded']);
+    Route::post('responding/{id}', [App\Http\Controllers\StatusController::class, 'responding']);
+    Route::post('respondreport/{id}', [App\Http\Controllers\StatusController::class, 'respondreport']);
     Route::post('forward/{id}', [App\Http\Controllers\StatusController::class, 'forward']);
     Route::post('reforward/{id}', [App\Http\Controllers\StatusController::class, 'reforward']);
     Route::post('forwarded/{id}', [App\Http\Controllers\StatusController::class, 'forwarded']);
     Route::post('reforwarded/{id}', [App\Http\Controllers\StatusController::class, 'reforwarded']);
-    Route::patch('completed/{id}', [App\Http\Controllers\StatusController::class, 'completed']);
-    Route::patch('forcompleted/{id}', [App\Http\Controllers\StatusController::class, 'forcompleted']);
-    Route::patch('completing/{id}', [App\Http\Controllers\StatusController::class, 'completing']);
-    Route::patch('completedreport/{id}', [App\Http\Controllers\StatusController::class, 'completedreport']);
+    Route::post('completed/{id}', [App\Http\Controllers\StatusController::class, 'completed']);
+    Route::post('forcompleted/{id}', [App\Http\Controllers\StatusController::class, 'forcompleted']);
+    Route::post('completing/{id}', [App\Http\Controllers\StatusController::class, 'completing']);
+    Route::post('completedreport/{id}', [App\Http\Controllers\StatusController::class, 'completedreport']);
 
     Route::get('/pendingpage', [App\Http\Controllers\IncidentController::class, 'managepending'])->name('pendingpage');
     Route::get('/completedpage', [App\Http\Controllers\IncidentController::class, 'managecompleted'])->name('completedpage');
