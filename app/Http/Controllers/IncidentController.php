@@ -49,117 +49,283 @@ class IncidentController extends Controller
         $incidents = Incident::with('user')->orderByDesc('created_at')->get();
         $pendingIncidents = $incidents->where('status', 'Pending')->where('user.barangay', auth()->user()->barangay)->take(5);
 
-        $allincidents = Incident::with('user')->orderByDesc('created_at')->get();
-        $allpendingIncidents = $allincidents->where('status', 'Pending')->where('user.barangay', auth()->user()->barangay);
-        
-        $resincidents = Incident::with('user')->orderByDesc('created_at')->get();
-        $allrespondingIncidents = $resincidents->where('status', 'Responding')->where('user.barangay', auth()->user()->barangay);
-
-        $recincidents = ForwardedIncident::with('incident')->orderByDesc('created_at')->get();
-        $forwardedIncidents =  $recincidents->where('status', 'Pending')->where('barangay', auth()->user()->barangay)->take(5);
-        
-        $allrecincidents = ForwardedIncident::with('incident')->orderByDesc('created_at')->get();
-        $allforwardedIncidents =  $allrecincidents->where('status', 'Pending')->where('barangay', auth()->user()->barangay);
-        
-        $resrecincidents = ForwardedIncident::with('incident')->orderByDesc('created_at')->get();
-        $respondingforwardedIncidents =  $resrecincidents->where('status', 'Responding')->where('barangay', auth()->user()->barangay);
-        
-        $forincidents = Incident::with('user')->orderByDesc('created_at')->get();
-        $forwardIncidents =  $forincidents->where('status', 'Forwarded')->where('user.barangay', auth()->user()->barangay);
-
-        $comincidents = Incident::with('user')->orderByDesc('created_at')->get();
-        $completedIncidents =  $comincidents->where('status', 'Completed')->where('user.barangay', auth()->user()->barangay);
-
-        $forcomincidents = ForwardedIncident::with('incident')->orderByDesc('created_at')->get();
-        $completedforwardedIncidents =  $forcomincidents->where('status', 'Completed')->where('barangay', auth()->user()->barangay);
-        
-        $receIncidents = ForwardedIncident::with('incident')->orderByDesc('created_at')->get();
-        $receivedincidents =  $receIncidents->where('barangay', auth()->user()->barangay);
-
-        $reports = Report::with('user')->orderByDesc('datehappened')->get();
-        $reportedIncident = $reports->where('user.barangay', auth()->user()->barangay)->where('status', 'Pending');
-        
-        $forreports = ForwardedReport::with('report')->orderByDesc('created_at')->get();
-        $forwardedReports =  $forreports->where('status','Pending')->where('barangay', auth()->user()->barangay);
-
-        $resreports = Report::with('user')->orderByDesc('created_at')->get();
-        $respondReports = $resreports->where('status', 'Responding')->where('user.barangay', auth()->user()->barangay);
-        
-        $resforreports = ForwardedReport::with('report')->orderByDesc('created_at')->get();
-        $resforwardedReports =  $resforreports->where('status','Responding')->where('barangay', auth()->user()->barangay);
-        
-        $foreport = Report::with('user')->orderByDesc('created_at')->get();
-        $transferedReports =  $foreport->where('status', 'Forwarded')->where('user.barangay', auth()->user()->barangay);
-        
-        $reforwarded = ForwardedReport::with('report')->orderByDesc('created_at')->get();
-        $transferedReports =  $reforwarded->where('status','Forwarded')->where('barangay', auth()->user()->barangay);
-        $completedReports = $foreport->where('status', 'Completed')->where('user.barangay', auth()->user()->barangay);
-        $completedForReports =  $reforwarded->where('status','Completed')->where('barangay', auth()->user()->barangay);
-
         return response()->json([
-            'foreport' => $transferedReports,
-            'reforwarded' => $transferedReports,
-            'compreport' => $completedReports,
-            'compforreport' => $completedForReports,
-
             'incidents' => $pendingIncidents,
-            'allincidents' => $allpendingIncidents,
-            'resincidents' => $allrespondingIncidents,
-            'recincidents' => $forwardedIncidents,
-            'allrecincidents' => $allforwardedIncidents,
-            'resrecincidents' => $respondingforwardedIncidents,
-            'forincidents' => $forwardIncidents,
-            'comincidents' => $completedIncidents,
-            'forcomincidents' => $completedforwardedIncidents,
-            'receIncidents' => $receivedincidents,
-            'reports' => $reportedIncident,
-            'forreports' => $forwardedReports,
-            'resreports' => $respondReports,
-            'resforreports' => $resforwardedReports,
-
             'message' => 'Success',
         ]);
-    
     }
-    
-
-    
-public function getCurrentIncident($id)
-{
+    public function getLatestForwardedIncidents(){
+        $recincidents = ForwardedIncident::with('incident')->orderByDesc('created_at')->get();
+        $forwardedIncidents =  $recincidents->where('status', 'Pending')->where('barangay', auth()->user()->barangay)->take(5);
+        return response()->json([
+            'recincidents' => $forwardedIncidents,
+            'message' => 'Success',
+        ]);
+    }
+    public function getpendingIncidents(){
+        $allincidents = Incident::with('user')->orderByDesc('created_at')->get();
+        $allpendingIncidents = $allincidents->where('status', 'Pending')->where('user.barangay', auth()->user()->barangay);
+        return response()->json([
+            'allincidents' => $allpendingIncidents,
+            'message' => 'Success',
+        ]);
+    }
+    public function getpendingForwarded(){
+        $allrecincidents = ForwardedIncident::with('incident')->orderByDesc('created_at')->get();
+        $allforwardedIncidents =  $allrecincidents->where('status', 'Pending')->where('barangay', auth()->user()->barangay);
+        return response()->json([
+            'allrecincidents' => $allforwardedIncidents,
+            'message' => 'Success',
+        ]);
+    }
+    public function getResponding(){
+        $resincidents = Incident::with('user')->orderByDesc('created_at')->get();
+        $allrespondingIncidents = $resincidents->where('status', 'Responding')->where('user.barangay', auth()->user()->barangay);
+        return response()->json([
+            'resincidents' => $allrespondingIncidents,
+            'message' => 'Success',
+        ]);
+    }
+    public function getRespondingForwarded(){
+        $resrecincidents = ForwardedIncident::with('incident')->orderByDesc('created_at')->get();
+        $respondingforwardedIncidents =  $resrecincidents->where('status', 'Responding')->where('barangay', auth()->user()->barangay);
+        return response()->json([
+            'resrecincidents' => $respondingforwardedIncidents,
+            'message' => 'Success',
+        ]);
+    }
+    public function getForwarded(){
+        $forincidents = Incident::with('user')->orderByDesc('created_at')->get();
+        $forwardIncidents =  $forincidents->where('status', 'Forwarded')->where('user.barangay', auth()->user()->barangay);
+        return response()->json([
+            'forincidents' => $forwardIncidents,
+            'message' => 'Success',
+        ]);
+    }
+    public function getCompleted(){
+        $comincidents = Incident::with('user')->orderByDesc('created_at')->get();
+        $completedIncidents =  $comincidents->where('status', 'Completed')->where('user.barangay', auth()->user()->barangay);
+        return response()->json([
+            'comincidents' => $completedIncidents,
+            'message' => 'Success',
+        ]);
+    }
+    public function getCompletedForwarded(){
+        $forcomincidents = ForwardedIncident::with('incident')->orderByDesc('created_at')->get();
+        $completedforwardedIncidents =  $forcomincidents->where('status', 'Completed')->where('barangay', auth()->user()->barangay);
+        return response()->json([
+            'forcomincidents' => $completedforwardedIncidents,
+            'message' => 'Success',
+        ]);
+    }
+    public function getReceived(){
+        $receIncidents = ForwardedIncident::with('incident')->orderByDesc('created_at')->get();
+        $receivedincidents =  $receIncidents->where('barangay', auth()->user()->barangay);
+        return response()->json([
+            'receIncidents' => $receivedincidents,
+            'message' => 'Success',
+        ]);
+    }
+    public function getReport(){
+        $reports = Report::with('user')->orderByDesc('datehappened')->get();
+        $reportedIncident = $reports->where('user.barangay', auth()->user()->barangay)->where('status', 'Pending');
+        return response()->json([
+            'reports' => $reportedIncident,
+            'message' => 'Success',
+        ]);
+    }
+    public function getForwardedReport(){
+        $forreports = ForwardedReport::with('report')->orderByDesc('created_at')->get();
+        $forwardedReports =  $forreports->where('status','Pending')->where('barangay', auth()->user()->barangay);
+        return response()->json([
+            'forreports' => $forwardedReports,
+            'message' => 'Success',
+        ]);
+    }
+    public function getRespondingReport(){
+        $resreports = Report::with('user')->orderByDesc('created_at')->get();
+        $respondReports = $resreports->where('status', 'Responding')->where('user.barangay', auth()->user()->barangay);
+        return response()->json([
+            'resreports' => $respondReports,
+            'message' => 'Success',
+        ]);
+    }
+    public function getRespondingForwardedReport(){
+        $resforreports = ForwardedReport::with('report')->orderByDesc('created_at')->get();
+        $resforwardedReports =  $resforreports->where('status','Responding')->where('barangay', auth()->user()->barangay);
+        return response()->json([
+            'resforreports' => $resforwardedReports,
+            'message' => 'Success',
+        ]);
+    }
+    public function getForwardReport(){
+        $foreport = Report::with('user')->orderByDesc('created_at')->get();
+        $transferedReports =  $foreport->where('status', 'Forwarded')->where('user.barangay', auth()->user()->barangay);
+        return response()->json([
+            'foreport' => $transferedReports,
+            'message' => 'Success',
+        ]);
+    }
+    public function getReForwardReport(){
+        $reforwarded = ForwardedReport::with('report')->orderByDesc('created_at')->get();
+        $transferedReports =  $reforwarded->where('status','Forwarded')->where('barangay', auth()->user()->barangay);
+        return response()->json([
+            'reforwarded' => $transferedReports,
+            'message' => 'Success',
+        ]);
+    }
+    public function getCompletedReport(){
+        $foreport = Report::with('user')->orderByDesc('created_at')->get();
+        $completedReports = $foreport->where('status', 'Completed')->where('user.barangay', auth()->user()->barangay);
+        return response()->json([
+            'compreport' => $completedReports,
+            'message' => 'Success',
+        ]);
+    }
+    public function getCompletedForwardReport(){
+        $reforwarded = ForwardedReport::with('report')->orderByDesc('created_at')->get();
+        $completedForReports =  $reforwarded->where('status','Completed')->where('barangay', auth()->user()->barangay);
+        return response()->json([
+            'compforreport' => $completedForReports,
+            'message' => 'Success',
+        ]);
+    }
+    public function reforwardReport($id){
+        $reforwarded = ForwardedReport::with('report.user')->where('id', $id)->get();
+        
+        return response()->json([
+            'history13' => $reforwarded,
+            'message' => 'Success',
+        ], 200);
+    }
+    public function completedReport($id){
+        $foreport = Report::with('user')->where('id', $id)->get();
+        
+        return response()->json([
+            'history12' => $foreport,
+            'message' => 'Success',
+        ], 200);
+    }
+    public function completedForwardReport($id){
+        $reforwarded = ForwardedReport::with('report.user')->where('id', $id)->get();
+        
+        return response()->json([
+            'history13' => $reforwarded,
+            'message' => 'Success',
+        ], 200);
+    }
+    public function forwardReport($id){
+        $foreport = Report::with('user')->where('id', $id)->get();
+        
+        return response()->json([
+            'history12' => $foreport,
+            'message' => 'Success',
+        ], 200);
+    }
+    public function RespondingReport($id){
+        $resreports = Report::with('user')->where('id', $id)->get();
+        
+        return response()->json([
+            'history10' => $resreports,
+            'message' => 'Success',
+        ], 200);
+    }
+    public function RespondingForwardedReport($id){
+        $resforreports = ForwardedReport::with('report.user')->where('id', $id)->get();
+        
+        return response()->json([
+            'history11' => $resforreports,
+            'message' => 'Success',
+        ], 200);
+    }
+    public function PendingReport($id){
+        $reports = Report::with('user')->where('id', $id)->get();
+        
+        return response()->json([
+            'history8' => $reports,
+            'message' => 'Success',
+        ], 200);
+    }
+    public function ReceivedIncident($id){
+        $receincident = ForwardedIncident::with('incident.user')->where('id', $id)->get();
+        
+        return response()->json([
+            'history7' => $receincident,
+            'message' => 'Success',
+        ], 200);
+    }
+    public function completedIncident($id){
+        $comincidents = Incident::with('user')->where('id', $id)->get();
+        
+        return response()->json([
+            'history5' => $comincidents,
+            'message' => 'Success',
+        ], 200);
+    }
+    public function completedForwarded($id){
+        $forcomincident = ForwardedIncident::with('incident.user')->where('id', $id)->get();
+        
+        return response()->json([
+            'history6' => $forcomincident,
+            'message' => 'Success',
+        ], 200);
+    }
+    public function getForwardedIncident($id){
+        $forincidents = Incident::with('user')->where('id', $id)->get();
+        
+        return response()->json([
+            'history4' => $forincidents,
+            'message' => 'Success',
+        ], 200);
+    }
+    public function RespondingForwarded($id){
+        $resrecincident = ForwardedIncident::with('incident.user')->where('id', $id)->get();
+        
+        return response()->json([
+            'history3' => $resrecincident,
+            'message' => 'Success',
+        ], 200);
+    }
+    public function RespondingIncident($id){
+        $resincidents = Incident::with('user')->where('id', $id)->get();
+        
+        return response()->json([
+            'history2' => $resincidents,
+            'message' => 'Success',
+        ], 200);
+    }
+    public function PendingForwarded($id){
+        $recincident = ForwardedIncident::with('incident.user')->where('id', $id)->get();
+        
+        return response()->json([
+            'history1' => $recincident,
+            'message' => 'Success',
+        ], 200);
+    }
+    public function PendingIncident($id){
+        $incidents = Incident::with('user')->where('id', $id)->get();
+        
+        return response()->json([
+            'history' => $incidents,
+            'message' => 'Success',
+        ], 200);
+    }
+    public function getCurrentForwarded($id){
+        $recincident = ForwardedIncident::with('incident.user')->where('id', $id)->get();
+        
+        return response()->json([
+            'history1' => $recincident,
+            'message' => 'Success',
+        ], 200);
+    }
+    public function getCurrentIncident($id){
     $incidents = Incident::with('user')->where('id', $id)->get();
-    $resincidents = Incident::with('user')->where('id', $id)->get();
-    $forincidents = Incident::with('user')->where('id', $id)->get();
-    $comincidents = Incident::with('user')->where('id', $id)->get();
-    $recincident = ForwardedIncident::with('incident.user')->where('id', $id)->get();
-    $resrecincident = ForwardedIncident::with('incident.user')->where('id', $id)->get();
-    $forcomincident = ForwardedIncident::with('incident.user')->where('id', $id)->get();
-    $receincident = ForwardedIncident::with('incident.user')->where('id', $id)->get();
-    $reports = Report::with('user')->where('id', $id)->get();
-    $forreports = ForwardedReport::with('report.user')->where('id', $id)->get();
-    $resreports = Report::with('user')->where('id', $id)->get();
-    $resforreports = ForwardedReport::with('report.user')->where('id', $id)->get();
-    $foreport = Report::with('user')->where('id', $id)->get();
-    $reforwarded = ForwardedReport::with('report.user')->where('id', $id)->get();
-
+    
     return response()->json([
         'history' => $incidents,
-        'history1' => $recincident,
-        'history2' => $resincidents,
-        'history3' => $resrecincident,
-        'history4' => $forincidents,
-        'history5' => $comincidents,
-        'history6' => $forcomincident,
-        'history7' => $receincident,
-        'history8' => $reports,
-        'history9' => $forreports,
-        'history10' => $resreports,
-        'history11' => $resforreports,
-        'history12' => $foreport,
-        'history13' => $reforwarded,
-
         'message' => 'Success',
     ], 200);
-}
+    }
 
     public function user_emegency_history( $id)
     {

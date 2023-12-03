@@ -142,6 +142,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
 <!-- Call the initMaps function once the Google Maps API is loaded -->
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB3sNbXeLLaZQcJiCWNzC4Rwp-xALyV4lM&callback=initMaps"></script>
+@section('pageJs')
+<script src="{{ asset('js/responding.js') }}"></script>
+@endsection
 
 
 

@@ -87,24 +87,7 @@ class ReportController extends Controller
         ], 200);
     }
 
-    // public function getLatestReports(){
-    //     $reports = Report::with('user')->orderByDesc('datehappened')->get();
-    //     $reportedIncident = $reports->where('user.barangay', auth()->user()->barangay)->where('status', 'Pending');
-    //     $incidents = ForwardedReport::with('report')->orderByDesc('created_at')->get();
-    //     $forwardedReports =  $incidents->where('status','Pending')->where('barangay', auth()->user()->barangay);
-
-        
-    //     return response()->json([
-    //         'reports' => $reportedIncident,
-    //         'incidents' => $forwardedReports,
-            
-
-    //         'message' => 'Success',
-    //     ]);
     
-    // }
-    
-
     /**
      * Store a newly created resource in storage.
      *

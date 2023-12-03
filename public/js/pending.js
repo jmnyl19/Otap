@@ -1,74 +1,73 @@
-
 $(document).ready(function () {
-  getLatest();
-  getLatestForwarded();
-});
+    getPending();
+    getPendingForwarded();
+  });
 
-  function getLatest() {
+  function getPending() {
     $.ajaxSetup({
       headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
       }
     });
     $.ajax({
-      url: '/getlatestincidents',
+      url: '/getpending',
       type: 'GET',
       dataType: 'json',
       success: function (response) {
         console.log(response);
-        $.each(response.incidents, function(index, value) {
-          var incidentHtml = '';
-          if (value.type == 'Requesting for Ambulance') {
-            incidentHtml += `
-              <div class="btn btn-primary shadow p-1 mb-1 bg-white rounded" type="button" onclick="pendingModal(${value.id})" style="width: 100%; margin: 10px; border: none">
-                  <div class="card-body">
-                      <div class="row align-items-center text-start">
-                          <div class="col-auto">
-                              <h1 style="color: red">|</h1>
-                          </div>
-                          <div class="col">
-                              <h6 style="color: #000"><span class="fw-bold">(${value.created_at})</span>${value.type}</h6>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-          `;
-          } else if (value.type == 'Requesting for a Fire Truck') {
-            incidentHtml += `
-            <div class="btn btn-primary shadow p-1 mb-1 bg-white rounded" type="button" onclick="pendingModal(${value.id})" style="width: 100%; margin: 10px; border: none">
-                <div class="card-body">
-                    <div class="row align-items-center text-start">
-                        <div class="col-auto">
-                            <h1 style="color: rgb(255, 132, 0)">|</h1>
-                        </div>
-                        <div class="col">
-                            <h6 style="color: #000"><span class="fw-bold">(${value.created_at})</span> ${value.type}</h6>
+        $.each(response.allincidents, function(index, value) {
+            var incidentHtml = '';
+            if (value.type == 'Requesting for Ambulance') {
+              incidentHtml += `
+                <div class="btn btn-primary shadow p-1 mb-1 bg-white rounded" type="button" onclick="pendingModal(${value.id})" style="width: 100%; margin: 10px; border: none">
+                    <div class="card-body">
+                        <div class="row align-items-center text-start">
+                            <div class="col-auto">
+                                <h1 style="color: red">|</h1>
+                            </div>
+                            <div class="col">
+                                <h6 style="color: #000"><span class="fw-bold">(${value.created_at})</span>${value.type}</h6>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-          `;
-        } else {
-          incidentHtml += `
+            `;
+            } else if (value.type == 'Requesting for a Fire Truck') {
+              incidentHtml += `
               <div class="btn btn-primary shadow p-1 mb-1 bg-white rounded" type="button" onclick="pendingModal(${value.id})" style="width: 100%; margin: 10px; border: none">
                   <div class="card-body">
                       <div class="row align-items-center text-start">
                           <div class="col-auto">
-                              <h1 style="color: rgb(0, 157, 255) ">|</h1>
+                              <h1 style="color: rgb(255, 132, 0)">|</h1>
                           </div>
                           <div class="col">
-                              <h6 style="color: #000"><span class="fw-bold">(${value.created_at})</span>${value.type}</h6>
+                              <h6 style="color: #000"><span class="fw-bold">(${value.created_at})</span> ${value.type}</h6>
                           </div>
                       </div>
                   </div>
               </div>
             `;
-          
-        }
-
-      // Append the HTML to the container (replace 'your-container' with the actual container ID or class)
-      $('#latestIncidentCont').append(incidentHtml);
-        });
+          } else {
+            incidentHtml += `
+                <div class="btn btn-primary shadow p-1 mb-1 bg-white rounded" type="button" onclick="pendingModal(${value.id})" style="width: 100%; margin: 10px; border: none">
+                    <div class="card-body">
+                        <div class="row align-items-center text-start">
+                            <div class="col-auto">
+                                <h1 style="color: rgb(0, 157, 255) ">|</h1>
+                            </div>
+                            <div class="col">
+                                <h6 style="color: #000"><span class="fw-bold">(${value.created_at})</span>${value.type}</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+              `;
+            
+          }
+  
+        // Append the HTML to the container (replace 'your-container' with the actual container ID or class)
+        $('#allIncidentCont').append(incidentHtml);
+          });
 
 
       },
@@ -77,7 +76,6 @@ $(document).ready(function () {
       }
   });
   }
-  
   function pendingModal(id) {
     $.ajaxSetup({
         headers: {
@@ -85,7 +83,7 @@ $(document).ready(function () {
         }
     });
     $.ajax({
-        url: '/currentincident/' + id,
+        url: '/pendingincident/' + id,
         type: 'GET',
         dataType: 'json',
         success: function (response) {
@@ -178,19 +176,19 @@ $(document).ready(function () {
     });
 }
 
-function getLatestForwarded() {
+  function getPendingForwarded() {
     $.ajaxSetup({
       headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
       }
     });
     $.ajax({
-      url: '/getlatestforwarded',
+      url: '/getpendingforwarded',
       type: 'GET',
       dataType: 'json',
       success: function (response) {
         console.log(response);
-        $.each(response.recincidents, function(index, value) {
+        $.each(response.allrecincidents, function(index, value) {
             var incidentHtml = '';
     
             // Add your custom condition here
@@ -241,7 +239,7 @@ function getLatestForwarded() {
               `;
             }   
           // Append the HTML to the container (replace 'your-container' with the actual container ID or class)
-          $('#latestForIncidentCont').append(incidentHtml);
+          $('#allForIncidentCont').append(incidentHtml);
             });
 
       },
@@ -257,7 +255,7 @@ function getLatestForwarded() {
         }
     });
     $.ajax({
-        url: '/currentforwarded/' + id,
+        url: '/pendingforwarded/' + id,
         type: 'GET',
         dataType: 'json',
         success: function (response) {
@@ -349,60 +347,3 @@ function getLatestForwarded() {
         }
     });
   }
-
-var maps = [];
-
-    // function initMaps() {
-    //     @foreach ($pendingIncidents as $incident_modal)
-    //         initMap('map{{$incident_modal->id}}', {{$incident_modal->latitude}}, {{$incident_modal->longitude}}, '{{$incident_modal->id}}');
-    //     @endforeach
-    //     @foreach ($forwardedIncidents as $incident1)
-    //         initMap('map{{$incident1->incident->id}}', {{$incident1->incident->latitude}}, {{$incident1->incident->longitude}}, '{{$incident1->id}}');
-    //     @endforeach
-    // }
-
-    function initMap(mapId, latitude, longitude, incidentId) {
-        var incidentLocation = { lat: latitude, lng: longitude };
-        var map = new google.maps.Map(document.getElementById(mapId), {
-            zoom: 18,
-            center: incidentLocation
-        });
-        var marker = new google.maps.Marker({
-            position: incidentLocation,
-            map: map
-        });
-
-        // Store the map instance in the array
-        maps.push({ id: mapId, map: map });
-
-        // Reverse geocoding
-        var geocoder = new google.maps.Geocoder();
-        var latlng = new google.maps.LatLng(latitude, longitude);
-
-        geocoder.geocode({ 'latLng': latlng }, function (results, status) {
-            if (status == google.maps.GeocoderStatus.OK) {
-                if (results[1]) {
-                    // Display the formatted address in an info window or console.log
-                    var addressElement = document.getElementById('address' + incidentId);
-                    addressElement.innerHTML = '<i class="bi bi-house-down-fill modalIcon"></i>Specific Location: ' + results[1].formatted_address;
-                } else {
-                    console.log('No results found');
-                }
-            } else {
-                console.log('Geocoder failed due to: ' + status);
-            }
-        });
-    }
-
-
-  window.Echo.channel('incident-channel')
-  .listen('IncidentCreated', (event) => {
-      console.log('New incident created:', event.incident);
-      $('#latestIncidentCont').empty();
-      getLatest();
-  });
-
-  $('#latestIncidentCont').on('click', '.btn-primary', function() {
-    var incidentId = $(this).data('incident-id');
-    $('#exampleModal' + incidentId).modal('show');
-});

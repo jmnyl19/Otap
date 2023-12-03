@@ -4,7 +4,10 @@
 <link href="{{ asset('css/sidenav.css') }}" rel="stylesheet">
 @endsection
 @section('content')
-
+@section('js')
+<script src="{{ asset('path/to/maps.js') }}"></script>
+\
+@endsection
 
     @include('sidebar.sidenav')
     <div class="latest-container p-4 mt-5" style="flex: 1">
@@ -147,6 +150,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
 <!-- Call the initMaps function once the Google Maps API is loaded -->
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB3sNbXeLLaZQcJiCWNzC4Rwp-xALyV4lM&callback=initMaps"></script>
+
+@section('pageJs')
+<script src="{{ asset('js/completedreports.js')}}"></script>
+
+@endsection
 
 
 
