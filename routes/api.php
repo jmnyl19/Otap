@@ -36,6 +36,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function ()
     Route::post('/sendreport', 'IncidentController@create');
     Route::post('/reportincident', 'ReportController@create');
     Route::get('/emergency/{id}', 'IncidentController@user_emegency_history');
+    Route::get('/user/{id}', 'UserLoginController@getUserDetails');
 });
 
 
@@ -43,7 +44,6 @@ Route::post('complaints/create',function(Request $request){
     $complaints = new \App\Models\Complaint;
     $complaints ->fill($request->all());
     $complaints ->save();
-
     return $complaints;
 });
 

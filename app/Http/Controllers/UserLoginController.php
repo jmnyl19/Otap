@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
-
+use App\Models\User;
 class UserLoginController extends Controller
 {
     public function userlogin(Request $request)
@@ -30,5 +30,14 @@ class UserLoginController extends Controller
         return response()->json([
             'message' => 'Invalid credentials',
         ], 401);
+    }
+
+    public function getUserDetails($id) {
+        $userdetail = User::where('id', $id)->get();
+
+        return response()->json([
+            'userDetail' => $userdetail,
+            'message' => 'Success',
+        ], 200);
     }
 }
