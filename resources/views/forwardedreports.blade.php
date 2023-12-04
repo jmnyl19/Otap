@@ -3,6 +3,11 @@
 <link href="{{ asset('css/landingpage.css') }}" rel="stylesheet">
 <link href="{{ asset('css/sidenav.css') }}" rel="stylesheet">
 @endsection
+
+@section('pageTitle')
+Forward
+@endsection
+
 @section('content')
 
 
