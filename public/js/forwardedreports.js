@@ -16,6 +16,7 @@ $(document).ready(function () {
       success: function (response) {
         console.log(response);
         $.each(response.foreport, function(index, value) {
+            var date = moment(value.created_at).format('lll');
             var incidentHtml = `
             <div class="btn btn-primary shadow p-1 mb-1 bg-white rounded" type="button" onclick="reportsForModal(${value.id})" style="width: 100%; margin: 10px; border: none">
             <div class="card-body">
@@ -24,7 +25,7 @@ $(document).ready(function () {
                         <h1 style="color: red">|</h1>
                     </div>
                     <div class="col">
-                        <h6 style="color: #000"><span class="fw-bold">(${value.created_at})</span></h6>
+                        <h6 style="color: #000"><span class="fw-bold">(${date})</span></h6>
                     </div>
                 </div>
             </div>
@@ -54,6 +55,7 @@ $(document).ready(function () {
       success: function (response) {
         console.log(response);
         $.each(response.reforwarded, function(index, value) {
+            var date = moment(value.created_at).format('lll');
             var incidentHtml = `
             <div class="btn btn-primary shadow p-1 mb-1 bg-white rounded" type="button" onclick="reportsForModal1(${value.id})" style="width: 100%; margin: 10px; border: none">
             <div class="card-body">
@@ -62,7 +64,7 @@ $(document).ready(function () {
                         <h1 style="color: red">|</h1>
                     </div>
                     <div class="col">
-                        <h6 style="color: #000"><span class="fw-bold">(${value.created_at})</span></h6>
+                        <h6 style="color: #000"><span class="fw-bold">(${date})</span></h6>
                     </div>
                 </div>
             </div>
@@ -98,7 +100,7 @@ $(document).ready(function () {
           <div class="square-container p-20">
             <div class="shadow p-1 mb-1 bg-white rounded">
             <div class="container row ps-5">
-            <img src="{{asset('file/' + ${response.history12[0].file})}}" class="img-thumbnail mt-3" alt="...">
+            <img src="file/${response.history12[0].file}" class="img-thumbnail mt-3" alt="...">
           <form class="row gt-3 gx-3" action="" method="">
           
           <div class="col-md-6 mt-3">
@@ -139,7 +141,7 @@ $(document).ready(function () {
           $('#reportsForModalBody').append(incidentHtml);
   
          
-          initMap('map' + response.history12[0].id, response.history12[0].latitude, response.history12[0].longitude, response.history12[0].id);
+          initMap('map' + response.history12[0].id, parseFloat(response.history12[0].latitude), parseFloat(response.history12[0].longitude), response.history12[0].id);
         
         },
         error: function (error) {
@@ -166,7 +168,7 @@ $(document).ready(function () {
           <div class="square-container p-20">
             <div class="shadow p-1 mb-1 bg-white rounded">
             <div class="container row ps-5">
-            <img src="{{asset('file/' + ${response.history13[0].file})}}" class="img-thumbnail mt-3" alt="...">
+            <img src="file/${response.history13[0].file}" class="img-thumbnail mt-3" alt="...">
           <form class="row gt-3 gx-3" action="" method="">
           
           <div class="col-md-6 mt-3">
@@ -207,11 +209,47 @@ $(document).ready(function () {
           $('#reportsForModal1Body').append(incidentHtml);
   
           
-          initMap('map' + response.history13[0].id, response.history13[0].latitude, response.history13[0].longitude, response.history13[0].id);
+          initMap('map' + response.history13[0].id, parseFloat(response.history13[0].latitude), parseFloat(response.history13[0].longitude), response.history13[0].id);
         
         },
         error: function (error) {
             console.log('Error fetching latest incidents:', error);
         }
     });
+  }
+
+  var maps = [];
+
+
+  function initMap(mapId, latitude, longitude, incidentId) {
+      var incidentLocation = { lat: latitude, lng: longitude };
+      var map = new google.maps.Map(document.getElementById(mapId), {
+          zoom: 18,
+          center: incidentLocation
+      });
+      var marker = new google.maps.Marker({
+          position: incidentLocation,
+          map: map
+      });
+
+      // Store the map instance in the array
+      maps.push({ id: mapId, map: map });
+
+      // Reverse geocoding
+      var geocoder = new google.maps.Geocoder();
+      var latlng = new google.maps.LatLng(latitude, longitude);
+
+      geocoder.geocode({ 'latLng': latlng }, function (results, status) {
+          if (status == google.maps.GeocoderStatus.OK) {
+              if (results[1]) {
+                  // Display the formatted address in an info window or console.log
+                  var addressElement = document.getElementById('address' + incidentId);
+                  addressElement.innerHTML = '<i class="bi bi-house-down-fill modalIcon"></i>Specific Location: ' + results[1].formatted_address;
+              } else {
+                  console.log('No results found');
+              }
+          } else {
+              console.log('Geocoder failed due to: ' + status);
+          }
+      });
   }

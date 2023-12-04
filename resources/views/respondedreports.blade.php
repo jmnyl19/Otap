@@ -59,7 +59,7 @@
 
                         <!-- Modal -->
                         <div class="modal fade" id="respondingreportModal" tabindex="-1"  aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog modal-lg modal-dialog-centered">
+                            <div class="modal-dialog modal-xl modal-dialog-centered">
                                 <div class="modal-content rounded-4 border border-success border-3">
                                     <div class="modal-header">
                                     <h4 style="text-align: center">Incident Report</h4>                                        

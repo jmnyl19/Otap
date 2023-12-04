@@ -15,8 +15,8 @@ $(document).ready(function () {
       type: 'GET',
       dataType: 'json',
       success: function (response) {
-        console.log(response);
         $.each(response.incidents, function(index, value) {
+          var date = moment(value.created_at).format('lll');
           var incidentHtml = '';
           if (value.type == 'Requesting for Ambulance') {
             incidentHtml += `
@@ -27,7 +27,7 @@ $(document).ready(function () {
                               <h1 style="color: red">|</h1>
                           </div>
                           <div class="col">
-                              <h6 style="color: #000"><span class="fw-bold">(${value.created_at})</span>${value.type}</h6>
+                              <h6 style="color: #000"><span class="fw-bold">(${date})</span>${value.type}</h6>
                           </div>
                       </div>
                   </div>
@@ -42,7 +42,7 @@ $(document).ready(function () {
                             <h1 style="color: rgb(255, 132, 0)">|</h1>
                         </div>
                         <div class="col">
-                            <h6 style="color: #000"><span class="fw-bold">(${value.created_at})</span> ${value.type}</h6>
+                            <h6 style="color: #000"><span class="fw-bold">(${date})</span> ${value.type}</h6>
                         </div>
                     </div>
                 </div>
@@ -57,7 +57,7 @@ $(document).ready(function () {
                               <h1 style="color: rgb(0, 157, 255) ">|</h1>
                           </div>
                           <div class="col">
-                              <h6 style="color: #000"><span class="fw-bold">(${value.created_at})</span>${value.type}</h6>
+                              <h6 style="color: #000"><span class="fw-bold">(${date})</span>${value.type}</h6>
                           </div>
                       </div>
                   </div>
@@ -189,10 +189,9 @@ function getLatestForwarded() {
       type: 'GET',
       dataType: 'json',
       success: function (response) {
-        console.log(response);
         $.each(response.recincidents, function(index, value) {
+            var date = moment(value.created_at).format('lll');
             var incidentHtml = '';
-    
             // Add your custom condition here
             if (value.incident.type == 'Requesting for Ambulance') {
               incidentHtml += `
@@ -203,7 +202,7 @@ function getLatestForwarded() {
                                 <h1 style="color: red">|</h1>
                             </div>
                             <div class="col">
-                                <h6 style="color: #000"><span class="fw-bold">(${value.created_at})</span>${ value.barangay}:  ${value.incident.type} </h6>
+                                <h6 style="color: #000"><span class="fw-bold">(${date})</span>${ value.incident.user.barangay}:  ${value.incident.type} </h6>
                             </div>
                         </div>
                     </div>
@@ -218,7 +217,7 @@ function getLatestForwarded() {
                                 <h1 style="color: rgb(255, 132, 0)">|</h1>
                             </div>
                             <div class="col">
-                                <h6 style="color: #000"><span class="fw-bold">(${value.created_at})</span>${ value.barangay}:  ${value.incident.type}</h6>
+                                <h6 style="color: #000"><span class="fw-bold">(${date})</span>${ value.incident.user.barangay}:  ${value.incident.type}</h6>
                             </div>
                         </div>
                     </div>
@@ -233,7 +232,7 @@ function getLatestForwarded() {
                                 <h1 style="color: rgb(0, 157, 255) ">|</h1>
                             </div>
                             <div class="col">
-                                <h6 style="color: #000"><span class="fw-bold">(${value.created_at})</span>${ value.barangay}:   ${value.incident.type}</h6>
+                                <h6 style="color: #000"><span class="fw-bold">(${date})</span>${ value.incident.user.barangay}:   ${value.incident.type}</h6>
                             </div>
                         </div>
                     </div>
@@ -261,7 +260,7 @@ function getLatestForwarded() {
         type: 'GET',
         dataType: 'json',
         success: function (response) {
-          
+          var date = moment(response.history1[0].created_at).format('lll');
             console.log(response);
           $('#pendingModal1Body').empty();
           $('#pendingModal1').modal('show');
@@ -274,7 +273,7 @@ function getLatestForwarded() {
               <hr class="style-one">
               <div class="square-container mt-2 p-20">
                   <div class="shadow p-3 mb-1 rounded modalInfo">
-                      <h5><i class="bi bi-calendar2-event-fill modalIcon"></i>Date: ${response.history1[0].created_at}</h5>
+                      <h5><i class="bi bi-calendar2-event-fill modalIcon"></i>Date: ${date}</h5>
                       <h5><i class="bi bi-exclamation-circle-fill modalIcon"></i>Type: ${response.history1[0].incident.type}</h5>
                       <h5><i class="bi bi-person-circle modalIcon"></i>Name: ${response.history1[0].incident.user.first_name} ${response.history1[0].incident.user.last_name}</h5>
                       <h5><i class="bi bi-calendar-event-fill modalIcon"></i>Age: ${response.history1[0].incident.user.age}</h5>

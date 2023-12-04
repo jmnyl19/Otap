@@ -80,6 +80,7 @@ Route::get('/currentforwarded/{id}', [App\Http\Controllers\IncidentController::c
 Route::get('/currentincident/{id}', [App\Http\Controllers\IncidentController::class, 'getCurrentIncident']);
 Route::get('/pendingforwarded/{id}', [App\Http\Controllers\IncidentController::class, 'PendingForwarded']);
 Route::get('/pendingincident/{id}', [App\Http\Controllers\IncidentController::class, 'PendingIncident']);
+Route::get('/getrespondingforwardedreport', [App\Http\Controllers\IncidentController::class, 'getRespondingForwardedReport']);
 Route::group(['middleware' => ['auth']], function() {
     Route::get('admin/index', [App\Http\Controllers\IncidentController::class, 'adminLanding'])->name('landingpage');
     Route::post('respond/{id}', [App\Http\Controllers\StatusController::class, 'respond']);

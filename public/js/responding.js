@@ -16,6 +16,7 @@ $(document).ready(function () {
       success: function (response) {
         console.log(response);
         $.each(response.resincidents, function(index, value) {
+            var date = moment(value.created_at).format('lll');
             var incidentHtml = '';
             if (value.type == 'Requesting for Ambulance') {
               incidentHtml += `
@@ -26,7 +27,7 @@ $(document).ready(function () {
                                 <h1 style="color: red">|</h1>
                             </div>
                             <div class="col">
-                                <h6 style="color: #000"><span class="fw-bold">(${value.created_at})</span>${value.type}</h6>
+                                <h6 style="color: #000"><span class="fw-bold">(${date})</span>${value.type}</h6>
                             </div>
                         </div>
                     </div>
@@ -41,7 +42,7 @@ $(document).ready(function () {
                               <h1 style="color: rgb(255, 132, 0)">|</h1>
                           </div>
                           <div class="col">
-                              <h6 style="color: #000"><span class="fw-bold">(${value.created_at})</span> ${value.type}</h6>
+                              <h6 style="color: #000"><span class="fw-bold">(${date})</span> ${value.type}</h6>
                           </div>
                       </div>
                   </div>
@@ -56,7 +57,7 @@ $(document).ready(function () {
                                 <h1 style="color: rgb(0, 157, 255) ">|</h1>
                             </div>
                             <div class="col">
-                                <h6 style="color: #000"><span class="fw-bold">(${value.created_at})</span>${value.type}</h6>
+                                <h6 style="color: #000"><span class="fw-bold">(${date})</span>${value.type}</h6>
                             </div>
                         </div>
                     </div>
@@ -85,7 +86,7 @@ $(document).ready(function () {
         type: 'GET',
         dataType: 'json',
         success: function (response) {
-          
+            var date = moment(response.history2[0].created_at).format('lll');
             console.log(response);
           $('#respondingModalBody').empty();
           $('#respondingModal').modal('show');
@@ -98,7 +99,7 @@ $(document).ready(function () {
               <hr class="style-one">
               <div class="square-container mt-2 p-20">
                   <div class="shadow p-3 mb-1 rounded modalInfo">
-                      <h5><i class="bi bi-calendar2-event-fill modalIcon"></i>Date: ${response.history2[0].created_at}</h5>
+                      <h5><i class="bi bi-calendar2-event-fill modalIcon"></i>Date: ${date}</h5>
                       <h5><i class="bi bi-exclamation-circle-fill modalIcon"></i>Type: ${response.history2[0].type}</h5>
                       <h5><i class="bi bi-person-circle modalIcon"></i>Name: ${response.history2[0].user.first_name} ${response.history2[0].user.last_name}</h5>
                       <h5><i class="bi bi-calendar-event-fill modalIcon"></i>Age: ${response.history2[0].user.age}</h5>
@@ -150,6 +151,7 @@ $(document).ready(function () {
       success: function (response) {
         console.log(response);
         $.each(response.resrecincidents, function(index, value) {
+            var date = moment(value.created_at).format('lll');
             var incidentHtml = '';
     
             // Add your custom condition here
@@ -162,7 +164,7 @@ $(document).ready(function () {
                                 <h1 style="color: red">|</h1>
                             </div>
                             <div class="col">
-                                <h6 style="color: #000"><span class="fw-bold">(${value.created_at})</span>${ value.barangay}:  ${value.incident.type} </h6>
+                                <h6 style="color: #000"><span class="fw-bold">(${date})</span>${ value.incident.user.barangay}:  ${value.incident.type} </h6>
                             </div>
                         </div>
                     </div>
@@ -177,7 +179,7 @@ $(document).ready(function () {
                                 <h1 style="color: rgb(255, 132, 0)">|</h1>
                             </div>
                             <div class="col">
-                                <h6 style="color: #000"><span class="fw-bold">(${value.created_at})</span>${ value.barangay}:  ${value.incident.type}</h6>
+                                <h6 style="color: #000"><span class="fw-bold">(${date})</span>${ value.incident.user.barangay}:  ${value.incident.type}</h6>
                             </div>
                         </div>
                     </div>
@@ -192,7 +194,7 @@ $(document).ready(function () {
                                 <h1 style="color: rgb(0, 157, 255) ">|</h1>
                             </div>
                             <div class="col">
-                                <h6 style="color: #000"><span class="fw-bold">(${value.created_at})</span>${ value.barangay}:   ${value.incident.type}</h6>
+                                <h6 style="color: #000"><span class="fw-bold">(${date})</span>${ value.incident.user.barangay}:   ${value.incident.type}</h6>
                             </div>
                         </div>
                     </div>
@@ -220,7 +222,7 @@ $(document).ready(function () {
         type: 'GET',
         dataType: 'json',
         success: function (response) {
-          
+            var date = moment(response.history3[0].created_at).format('lll');
             console.log(response);
           $('#respondingModal1Body').empty();
           $('#respondingModal1').modal('show');
@@ -233,7 +235,7 @@ $(document).ready(function () {
               <hr class="style-one">
               <div class="square-container mt-2 p-20">
                   <div class="shadow p-3 mb-1 rounded modalInfo">
-                      <h5><i class="bi bi-calendar2-event-fill modalIcon"></i>Date: ${response.history3[0].created_at}</h5>
+                      <h5><i class="bi bi-calendar2-event-fill modalIcon"></i>Date: ${date}</h5>
                       <h5><i class="bi bi-exclamation-circle-fill modalIcon"></i>Type: ${response.history3[0].incident.type}</h5>
                       <h5><i class="bi bi-person-circle modalIcon"></i>Name: ${response.history3[0].incident.user.first_name} ${response.history3[0].incident.user.last_name}</h5>
                       <h5><i class="bi bi-calendar-event-fill modalIcon"></i>Age: ${response.history3[0].incident.user.age}</h5>

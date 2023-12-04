@@ -55,7 +55,7 @@ class IncidentController extends Controller
         ]);
     }
     public function getLatestForwardedIncidents(){
-        $recincidents = ForwardedIncident::with('incident')->orderByDesc('created_at')->get();
+        $recincidents = ForwardedIncident::with(['incident', 'incident.user'])->orderByDesc('created_at')->get();
         $forwardedIncidents =  $recincidents->where('status', 'Pending')->where('barangay', auth()->user()->barangay)->take(5);
         return response()->json([
             'recincidents' => $forwardedIncidents,
@@ -71,7 +71,7 @@ class IncidentController extends Controller
         ]);
     }
     public function getpendingForwarded(){
-        $allrecincidents = ForwardedIncident::with('incident')->orderByDesc('created_at')->get();
+        $allrecincidents = ForwardedIncident::with(['incident', 'incident.user'])->orderByDesc('created_at')->get();
         $allforwardedIncidents =  $allrecincidents->where('status', 'Pending')->where('barangay', auth()->user()->barangay);
         return response()->json([
             'allrecincidents' => $allforwardedIncidents,
@@ -87,7 +87,7 @@ class IncidentController extends Controller
         ]);
     }
     public function getRespondingForwarded(){
-        $resrecincidents = ForwardedIncident::with('incident')->orderByDesc('created_at')->get();
+        $resrecincidents = ForwardedIncident::with(['incident', 'incident.user'])->orderByDesc('created_at')->get();
         $respondingforwardedIncidents =  $resrecincidents->where('status', 'Responding')->where('barangay', auth()->user()->barangay);
         return response()->json([
             'resrecincidents' => $respondingforwardedIncidents,
@@ -111,7 +111,7 @@ class IncidentController extends Controller
         ]);
     }
     public function getCompletedForwarded(){
-        $forcomincidents = ForwardedIncident::with('incident')->orderByDesc('created_at')->get();
+        $forcomincidents = ForwardedIncident::with(['incident', 'incident.user'])->orderByDesc('created_at')->get();
         $completedforwardedIncidents =  $forcomincidents->where('status', 'Completed')->where('barangay', auth()->user()->barangay);
         return response()->json([
             'forcomincidents' => $completedforwardedIncidents,
@@ -119,7 +119,7 @@ class IncidentController extends Controller
         ]);
     }
     public function getReceived(){
-        $receIncidents = ForwardedIncident::with('incident')->orderByDesc('created_at')->get();
+        $receIncidents = ForwardedIncident::with(['incident', 'incident.user'])->orderByDesc('created_at')->get();
         $receivedincidents =  $receIncidents->where('barangay', auth()->user()->barangay);
         return response()->json([
             'receIncidents' => $receivedincidents,
