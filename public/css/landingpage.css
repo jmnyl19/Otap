@@ -33,18 +33,27 @@ body{
 }
  .pendingLogo{
     color: #d25b46 !important;
+    font-weight: bolder;
  }
 
  .respondingLogo{
     color: #d3cc3a !important;
+     font-weight: bolder;
  }
 
  .forwardedLogo{
     color: #5f69e8 !important;
+     font-weight: bolder;
  }
+
+ .recievedLogo{
+  color: rgb(224, 128, 17) !important;
+   font-weight: bolder;
+}
 
  .completedLogo{
     color: #84ec6a !important;
+     font-weight: bolder;
  }
 
  .dateCont{
@@ -57,7 +66,7 @@ body{
  }
 
  .pageTitle{
-    color: #D2AC76;
+    color: #012763;
  }
 
 .modalInfo{
@@ -214,6 +223,11 @@ body{
     background-image: linear-gradient(to right, #ccc, rgb(151, 5, 0), #ccc);
 }
 
+.latestCont{
+  width:48% !important
+}
+
+
   @keyframes fly-1 {
     from {
       transform: translateY(0.1em);
@@ -232,3 +246,14 @@ body{
     background-color:#a8895e;
     color: white;
 }  */
+
+@media screen and (max-width: 768px){ 
+
+  .latestMain{
+    display: flex !important;
+    flex-direction: column !important;
+  }
+  .latestCont{
+    width:100% !important
+  }
+}

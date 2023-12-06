@@ -14,7 +14,26 @@ $(document).ready(function () {
       type: 'GET',
       dataType: 'json',
       success: function (response) {
-        console.log(response);
+        if (response.compreport.length === 0) {
+            var incidentHtml = '';
+            
+            incidentHtml += `
+                <div class="btn btn-primary shadow p-4 mb-1 bg-white rounded" type="button" style="width: 100%; border: none">
+                    <div class="card-body">
+                        <div class="row align-items-center text-start">
+                            <div class="col-auto">
+                                
+                            </div>
+                            <div class="col">
+                                <h6 style="color: #ababab; text-align: center;" ><i>No completed incidents!</i><span class="fw-bold"></span></h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+              `;
+  
+            $('#completedReports').append(incidentHtml);
+          } else {
         $.each(response.compreport, function(index, value) {
             var date = moment(value.created_at).format('lll');
             var incidentHtml = `
@@ -35,6 +54,7 @@ $(document).ready(function () {
         // Append the HTML to the container (replace 'your-container' with the actual container ID or class)
         $('#completedReports').append(incidentHtml);
           });
+        }
       },
       error: function (error) {
           console.log('Error fetching latest incidents:', error);
@@ -53,7 +73,26 @@ $(document).ready(function () {
       type: 'GET',
       dataType: 'json',
       success: function (response) {
-        console.log(response);
+        if (response.compforreport.length === 0) {
+            var incidentHtml = '';
+            
+            incidentHtml += `
+                <div class="btn btn-primary shadow p-4 mb-1 bg-white rounded" type="button" style="width: 100%; border: none">
+                    <div class="card-body">
+                        <div class="row align-items-center text-start">
+                            <div class="col-auto">
+                                
+                            </div>
+                            <div class="col">
+                                <h6 style="color: #ababab; text-align: center;" ><i>No incidents completed from other barangay!</i><span class="fw-bold"></span></h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+              `;
+  
+            $('#completedReports1').append(incidentHtml);
+          } else {
         $.each(response.compforreport, function(index, value) {
             var date = moment(value.created_at).format('lll');
             var incidentHtml = `
@@ -74,6 +113,7 @@ $(document).ready(function () {
         // Append the HTML to the container (replace 'your-container' with the actual container ID or class)
         $('#completedReports1').append(incidentHtml);
           });
+        }
       },
       error: function (error) {
           console.log('Error fetching latest incidents:', error);

@@ -15,7 +15,30 @@ $(document).ready(function () {
       type: 'GET',
       dataType: 'json',
       success: function (response) {
+        if (response.incidents.length === 0) {
+          var incidentHtml = '';
+          
+          incidentHtml += `
+              <div class="btn btn-primary shadow p-4 mb-1 bg-white rounded" type="button" style="width: 100%; border: none">
+                  <div class="card-body">
+                      <div class="row align-items-center text-start">
+                          <div class="col-auto">
+                              
+                          </div>
+                          <div class="col">
+                              <h6 style="color: #ababab; text-align: center;" ><i>No pending emrgency!</i><span class="fw-bold"></span></h6>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+            `;
+
+          $('#latestIncidentCont').append(incidentHtml);
+        } else {
+
         $.each(response.incidents, function(index, value) {
+          
+          
           var date = moment(value.created_at).format('lll');
           var incidentHtml = '';
           if (value.type == 'Requesting for Ambulance') {
@@ -27,7 +50,7 @@ $(document).ready(function () {
                               <h1 style="color: red">|</h1>
                           </div>
                           <div class="col">
-                              <h6 style="color: #000"><span class="fw-bold">(${date})</span>${value.type}</h6>
+                              <h6 style="color: #000"><span class="fw-bold">(${date})</span> ${value.type}</h6>
                           </div>
                       </div>
                   </div>
@@ -57,7 +80,7 @@ $(document).ready(function () {
                               <h1 style="color: rgb(0, 157, 255) ">|</h1>
                           </div>
                           <div class="col">
-                              <h6 style="color: #000"><span class="fw-bold">(${date})</span>${value.type}</h6>
+                              <h6 style="color: #000"><span class="fw-bold">(${date})</span> ${value.type}</h6>
                           </div>
                       </div>
                   </div>
@@ -70,7 +93,7 @@ $(document).ready(function () {
       $('#latestIncidentCont').append(incidentHtml);
         });
 
-
+      }
       },
       error: function (error) {
           console.log('Error fetching latest incidents:', error);
@@ -189,6 +212,26 @@ function getLatestForwarded() {
       type: 'GET',
       dataType: 'json',
       success: function (response) {
+        if (response.recincidents.length === 0) {
+          var incidentHtml = '';
+          
+          incidentHtml += `
+              <div class="btn btn-primary shadow p-4 mb-1 bg-white rounded" type="button" style="width: 100%; border: none">
+                  <div class="card-body">
+                      <div class="row align-items-center text-start">
+                          <div class="col-auto">
+                              
+                          </div>
+                          <div class="col">
+                              <h6 style="color: #ababab; text-align: center;" ><i>No emergency received from other barangay!</i><span class="fw-bold"></span></h6>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+            `;
+
+          $('#latestForIncidentCont').append(incidentHtml);
+        } else {
         $.each(response.recincidents, function(index, value) {
             var date = moment(value.created_at).format('lll');
             var incidentHtml = '';
@@ -202,7 +245,7 @@ function getLatestForwarded() {
                                 <h1 style="color: red">|</h1>
                             </div>
                             <div class="col">
-                                <h6 style="color: #000"><span class="fw-bold">(${date})</span>${ value.incident.user.barangay}:  ${value.incident.type} </h6>
+                                <h6 style="color: #000"><span class="fw-bold">(${date})</span> ${ value.incident.user.barangay}:  ${value.incident.type} </h6>
                             </div>
                         </div>
                     </div>
@@ -217,7 +260,7 @@ function getLatestForwarded() {
                                 <h1 style="color: rgb(255, 132, 0)">|</h1>
                             </div>
                             <div class="col">
-                                <h6 style="color: #000"><span class="fw-bold">(${date})</span>${ value.incident.user.barangay}:  ${value.incident.type}</h6>
+                                <h6 style="color: #000"><span class="fw-bold">(${date})</span> ${ value.incident.user.barangay}:  ${value.incident.type}</h6>
                             </div>
                         </div>
                     </div>
@@ -232,7 +275,7 @@ function getLatestForwarded() {
                                 <h1 style="color: rgb(0, 157, 255) ">|</h1>
                             </div>
                             <div class="col">
-                                <h6 style="color: #000"><span class="fw-bold">(${date})</span>${ value.incident.user.barangay}:   ${value.incident.type}</h6>
+                                <h6 style="color: #000"><span class="fw-bold">(${date})</span> ${ value.incident.user.barangay}:   ${value.incident.type}</h6>
                             </div>
                         </div>
                     </div>
@@ -241,8 +284,9 @@ function getLatestForwarded() {
             }   
           // Append the HTML to the container (replace 'your-container' with the actual container ID or class)
           $('#latestForIncidentCont').append(incidentHtml);
-            });
-
+          }
+            );
+        }
       },
       error: function (error) {
           console.log('Error fetching latest incidents:', error);
@@ -277,7 +321,7 @@ function getLatestForwarded() {
                       <h5><i class="bi bi-exclamation-circle-fill modalIcon"></i>Type: ${response.history1[0].incident.type}</h5>
                       <h5><i class="bi bi-person-circle modalIcon"></i>Name: ${response.history1[0].incident.user.first_name} ${response.history1[0].incident.user.last_name}</h5>
                       <h5><i class="bi bi-calendar-event-fill modalIcon"></i>Age: ${response.history1[0].incident.user.age}</h5>
-                      <h5><i class="bi bi-house-down-fill modalIcon"></i>Resident of Barangay: ${response.history1[0].barangay}</h5>
+                      <h5><i class="bi bi-house-down-fill modalIcon"></i>Resident of Barangay: ${response.history1[0].incident.user.barangay}</h5>
                       <h5 id="address${response.history1[0].incident.id}" class="address"><i class="bi bi-house-down-fill modalIcon"></i>Specific Location: </h5>
                   </div>
               </div>

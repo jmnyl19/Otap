@@ -43,7 +43,7 @@ class IncidentController extends Controller
         $forwardedCount = $incidents->where('status', 'Forwarded')->where('user.barangay', auth()->user()->barangay)->count();
         // $pendingIncidents = $incidents->where('status', 'Pending')->where('user.barangay', auth()->user()->barangay)->take(5);
         // $forwardedIncidents =  $recincidents->where('status', 'Pending')->where('barangay', auth()->user()->barangay)->take(5);
-
+        $recievedCount = $recincidents->where('barangay', auth()->user()->barangay)->count();
         $chartData = DB::table('incidents')->select(DB::raw('COUNT(*) as count'),DB::raw('MONTH(created_at) as month'),'status')
         ->whereIn('status', ['Pending', 'Completed', 'Responding'])
         ->groupBy('status', DB::raw('YEAR(created_at)'), DB::raw('MONTH(created_at)'))
@@ -76,7 +76,7 @@ class IncidentController extends Controller
             }
 
 
-        return view('landingpage', compact('labels', 'datasets','totalPending','totalResponding','totalCompleted', 'forwardedCount'));
+        return view('landingpage', compact('labels', 'datasets','totalPending','totalResponding','totalCompleted', 'forwardedCount', 'recievedCount'));
     }
 
     public function getLatestIncidents(){

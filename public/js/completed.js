@@ -15,8 +15,28 @@ $(document).ready(function () {
       dataType: 'json',
       success: function (response) {
         
-        console.log(response);
+        if (response.comincidents.length === 0) {
+            var incidentHtml = '';
+            
+            incidentHtml += `
+                <div class="btn btn-primary shadow p-4 mb-1 bg-white rounded" type="button" style="width: 100%; border: none">
+                    <div class="card-body">
+                        <div class="row align-items-center text-start">
+                            <div class="col-auto">
+                                
+                            </div>
+                            <div class="col">
+                                <h6 style="color: #ababab; text-align: center;" ><i>No completed emergency!</i><span class="fw-bold"></span></h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+              `;
+  
+            $('#CompletedCont').append(incidentHtml);
+          } else {
         $.each(response.comincidents, function(index, value) {
+
             var date = moment(value.created_at).format('lll');
             var incidentHtml = '';
             if (value.type == 'Requesting for Ambulance') {
@@ -70,6 +90,7 @@ $(document).ready(function () {
         // Append the HTML to the container (replace 'your-container' with the actual container ID or class)
         $('#CompletedCont').append(incidentHtml);
           });
+          }
       },
       error: function (error) {
           console.log('Error fetching latest incidents:', error);
@@ -88,7 +109,7 @@ $(document).ready(function () {
         dataType: 'json',
         success: function (response) {
             var date = moment(response.history5[0].created_at).format('lll');
-            console.log(response);
+
           $('#completedModalBody').empty();
           $('#completedModal').modal('show');
           var incidentHtml = `
@@ -192,7 +213,26 @@ $(document).ready(function () {
       type: 'GET',
       dataType: 'json',
       success: function (response) {
-        console.log(response);
+        if (response.forcomincidents.length === 0) {
+            var incidentHtml = '';
+            
+            incidentHtml += `
+                <div class="btn btn-primary shadow p-4 mb-1 bg-white rounded" type="button" style="width: 100%; border: none">
+                    <div class="card-body">
+                        <div class="row align-items-center text-start">
+                            <div class="col-auto">
+                                
+                            </div>
+                            <div class="col">
+                                <h6 style="color: #ababab; text-align: center;" ><i>No emergency completed from other barangay!!</i><span class="fw-bold"></span></h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+              `;
+  
+            $('#completedForwardedCont').append(incidentHtml);
+          } else {
         $.each(response.forcomincidents, function(index, value) {
             var date = moment(value.created_at).format('lll');
             var incidentHtml = '';
@@ -247,6 +287,7 @@ $(document).ready(function () {
           // Append the HTML to the container (replace 'your-container' with the actual container ID or class)
           $('#completedForwardedCont').append(incidentHtml);
             });
+        }
       },
       error: function (error) {
           console.log('Error fetching latest incidents:', error);

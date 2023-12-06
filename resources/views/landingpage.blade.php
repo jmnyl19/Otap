@@ -28,95 +28,125 @@ Dashboard
             <div class="col-md-2 col-sm-4  p-4 rounded-3">
                 <h3 class="fw-bolder pageTitle">Dashboard</h3>
             </div>
-            {{-- <div class=" col-lg-2 col-md-6 col-sm-4 shadow p-4 rounded-5 dateCont">
-                <div class="row justify-content-center align-items-center">
-                    <div class="col-auto col-md-2">
-                        <i class="bi bi-calendar2-week-fill h3"></i>
+         
+        </div>
+
+        {{-- <div class="card-body">
+            <div class="row align-items-center">
+                <div class="row shadow p-4 mb-4 bg-white rounded-4 justify-content-around">
+                    <div class="col col-md-6">
+                        <h3 class="fw-bolder">Welcome back Barangay {{auth()->user()->barangay}}!</h3>
                     </div>
-                    <div class="col-auto col-md-9 mt-2 justify-content-center align-items-center">
-                        <h6 id="datetime"></h6>
+                    <div class="col col-md-6">
+                        <img src="{{ asset('assets/dashboard.png') }}" width="250" height="250" alt="dashboardpng">
                     </div>
                 </div>
-            </div> --}}
-        </div>
+            </div>
+        </div> --}}
         
 
-            <div class="row justify-content-around text-center gap-3" style="width: 100%">
-                <div class="col-sm-4 col-md-2 shadow p-4 mb-4 bg-white rounded-4" type="button" onclick="window.location='{{route('pendingpage')}}'" style=" margin: 10px">
+            <div class="row justify-content-between text-center mb-4" style="width: 100%">
+                <div class="col col-md-2  p-4 mb-4 rounded-4 countCont" type="button" onclick="window.location='{{route('pendingpage')}}'" style="background-color: #fedcdc">
                     <div class="card-body ">
-                        
-                            <div class="countLabel">
-                                <h4 class="pendingLogo">Pending</h4>
-                                <i class="bi bi-chevron-right"></i>
+                        <div class="countLabel">
+                            <div class="col-auto col-md-4">
+                                <i class="bi bi-exclamation-triangle h1 pendingLogo "></i>
                             </div>
+                            <i class="bi bi-chevron-right"></i>
+                        </div>
                             <div class="row justify-content-center">
-                                <div class="col-auto col-md-4">
-                                    <i class="bi bi-exclamation-triangle h1 pendingLogo "></i>
-                                </div>
+                               
                                 <div class="col-auto col-md-4 countText">
-                                    <h1 class="fw-normal ">{{$totalPending}}</h1>
+                                    <h1 class="fw-normal " style="color: #012763">{{$totalPending}}</h1>
                                 </div>
+                                <h6 class="pendingLogo">Pending Emergency</h6>
+                            </div>
+                            
+                        </div>
+                </div>
+
+                <div class="col-sm-4 col-md-2  p-4 mb-4 rounded-4 countCont" type="button" onclick="window.location='{{route('responding')}}'" style="background-color: #f5f8d4">
+                    <div class="card-body ">
+                        <div class="countLabel">
+                            <div class="col-auto col-md-4">
+                                <i class="bi bi-arrow-repeat h1 respondingLogo"></i>
+                            </div>
+                            <i class="bi bi-chevron-right"></i>
+                        </div>
+                            <div class="row justify-content-center">
+                               
+                                <div class="col-auto col-md-4 countText">
+                                    <h1 class="fw-normal " style="color: #012763">{{$totalResponding}}</h1>
+                                </div>
+                                <h6 class="respondingLogo">Responding Emergency</h6>
+                            </div>
+                        </div>
+                </div>
+                <div class="col-sm-4 col-md-2  p-4 mb-4 rounded-4 countCont" type="button" onclick="window.location='{{route('forwarded')}}'" style="background-color: #d0d5fbd5">
+                    <div class="card-body ">
+                        <div class="countLabel">
+                            <div class="col-auto col-md-4">
+                                <i class="bi bi-send-check h1 forwardedLogo"></i>
+                            </div>
+                            <i class="bi bi-chevron-right"></i>
+                        </div>
+                        <div class="row justify-content-center">
+                            <div class="col-auto col-md-4 countText">
+                                <h1 class="fw-normal " style="color: #012763">{{$forwardedCount}}</h1>
+                            </div>
+                            <h6 class="forwardedLogo">Forwarded Emergency</h6>
+                        </div>
+                        </div>
+                </div>
+                <div class="col-sm-4 col-md-2  p-4 mb-4 rounded-4 countCont" type="button" onclick="window.location='{{route('forwarded')}}'" style="background-color: #ffe6c9df">
+                    <div class="card-body ">
+                        <div class="countLabel">
+                            <div class="col-auto col-md-4">
+                                <i class="bi bi-send-exclamation h1 recievedLogo"></i>
+                                </div>
+                            <i class="bi bi-chevron-right"></i>
+                        </div>
+                            <div class="row justify-content-center">
+                                
+                                <div class="col-auto col-md-4 countText">
+                                    <h1 class="fw-normal " style="color: #012763">{{$recievedCount}}</h1>
+                                </div>
+                                <h6 class="recievedLogo">Recieved Emergency</h6>
                             </div>
                         </div>
                 </div>
 
-                <div class="col-sm-4 col-md-2 shadow p-4 mb-4 bg-white rounded-4" type="button" onclick="window.location='{{route('responding')}}'" style=" margin: 10px">
-                    <div class="card-body">
-                        <div class="countLabel">
-                            <h4 class="respondingLogo">Responding</h4>
-                            <i class="bi bi-chevron-right"></i>
-                        </div>
-                            <div class="row justify-content-center">
-                                <div class="col-auto col-md-4">
-                                    <i class="bi bi-arrow-repeat h1 respondingLogo"></i>
-                                </div>
-                                <div class="col-auto col-md-4 countText">
-                                    <h1 class="fw-normal ">{{$totalResponding}}</h1>
-                                </div>
-                            </div>
-                        </div>
-                </div>
-                <div class="col-sm-4 col-md-2 shadow p-4 mb-4 bg-white rounded-4" type="button" onclick="window.location='{{route('forwarded')}}'" style=" margin: 10px">
-                    <div class="card-body">
-                        <div class="countLabel">
-                            <h4 class="forwardedLogo">Forwarded</h4>
-                            <i class="bi bi-chevron-right"></i>
-                        </div>
-                            <div class="row justify-content-center">
-                                <div class="col-auto col-md-4">
-                                <i class="bi bi-send-exclamation h1 forwardedLogo"></i>
-                                </div>
-                                <div class="col-auto col-md-4 countText">
-                                    <h1 class="fw-normal ">{{$forwardedCount}}</h1>
-                                </div>
-                            </div>
-                        </div>
-                </div>
 
-                <div class="col-sm-4 col-md-2 shadow p-4 mb-4 bg-white rounded-4" type="button" onclick="window.location='{{route('completedpage')}}'" style=" margin: 10px">
-                    <div class="card-body">
+                <div class="col-sm-4 col-md-2  p-4 mb-4 rounded-4 countCont" type="button" onclick="window.location='{{route('completedpage')}}'" style="background-color: #daf7d7">
+                    <div class="card-body ">
                             <div class="row justify-content-center">
                                 <div class="countLabel">
-                                    <h4 class="completedLogo">Completed</h4>
+                                    <div class="col-auto col-md-4 ">
+                                        <i class="bi bi-check-circle h1 completedLogo"></i>
+                                    </div>
                                     <i class="bi bi-chevron-right"></i>
                                 </div>
-                                <div class="col-auto col-md-4 ">
-                                    <i class="bi bi-check-circle h1 completedLogo"></i>
-                                </div>
+                                
                                 <div class="col-auto col-md-4  countText">
-                                    <h1 class="fw-normal ">{{$totalCompleted}}</h1>
+                                    <h1 class="fw-normal " style="color: #012763">{{$totalCompleted}}</h1>
                                 </div>
+                                <h6 class="completedLogo">Completed Emergency</h6>
                             </div>
                         </div>
                 </div>
 
             </div>
-            <div class="row justify-content-around" style="width: 100%;">
-                <div class="col-sm-8 col-md-5 shadow p-4 mb-4 bg-white rounded-4" style="margin: 10px">
+
+
+          
+
+
+            <div class="row justify-content-between latestMain mb-4" style="width: 100%;">
+                <div class="col-sm-8 col-md-5 latestCont shadow p-4 mb-4 bg-white rounded-4">
                     <div class="card-body">
                             <div class="row align-items-center">
                                 <div class="col">
-                                    <h5 class="fw-bold" style="color: #D2AC76">Latest Forwarded Emergency Request</h5>
+                                    <h5 class="fw-bold" style="color: #012763">Latest Forwarded Emergency Request</h5>
                                     <div class="col" id="latestForIncidentCont">
                                     </div>
                                     
@@ -125,12 +155,12 @@ Dashboard
                         </div>
                 </div>
 
-                <div class="col-sm-4 col-md-5 shadow p-4 mb-4 bg-white rounded-4" style="margin: 10px">
+                <div class="col-sm-4 col-md-5 latestCont shadow p-4 mb-4 bg-white rounded-4">
                 
                     <div class="card-body">
                             <div class="row align-items-center">
                                 <div class="col">
-                                    <h5 class="fw-bold" style="color: #D2AC76">Latest Emergency Request</h5>
+                                    <h5 class="fw-bold" style="color: #012763">Latest Emergency Request</h5>
                                     <div class="col" id="latestIncidentCont">
                                     </div>
                                 </div>
@@ -223,8 +253,13 @@ Dashboard
 
             </div>
 
-            <div class="row shadow p-4 mb-4 bg-white rounded-4">
-            <canvas id="myChart" ></canvas>
+            <div class="row justify-content-between">
+                <div class="col col-md-6 shadow p-4 mb-4 bg-white rounded-4">
+                    <canvas id="myChart" ></canvas>
+                </div>
+                <div class="col col-md-6 shadow p-4 mb-4 bg-white rounded-4">
+                    <canvas id="lineChart" style="width: 600px; height: 300px;" ></canvas>
+                </div>
             </div>
     </div>
     
@@ -268,6 +303,7 @@ const myChart = new Chart(
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB3sNbXeLLaZQcJiCWNzC4Rwp-xALyV4lM&callback=initMaps"></script>
 @section('pageJs')
 <script src="{{ asset('js/landing.js')}}"></script>
+<script src="{{ asset('js/chart.js')}}"></script>
 @endsection
 @endauth
 @endsection

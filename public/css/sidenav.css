@@ -2,7 +2,7 @@
 :root{
     --header-height: 3rem;
     --nav-width: 68px;
-    --first-color: #D2AC76;
+    --first-color: #393D3F;
     --first-color-light: #efe0c0;
     --white-color: #F7F6FB;
     --body-font: 'Nunito', sans-serif;
@@ -48,7 +48,7 @@ a{text-decoration: none !important}
     justify-content: center;
     display: flex;
     overflow: hidden;
-    background-color: #D2AC76;
+    background-color: #393D3F;
     color: white;
     border-radius: 30px;
     padding-top: 10px;
