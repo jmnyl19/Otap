@@ -222,17 +222,45 @@ Dashboard
                 </div>
 
             </div>
-    </div>
 
+            <div class="row shadow p-4 mb-4 bg-white rounded-4">
+            <canvas id="myChart" ></canvas>
+            </div>
+    </div>
+    
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" ></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script type="text/javascript">
+  
+var labels = {!! json_encode($labels) !!};
+var datasets = {!! json_encode($datasets) !!};
+
+const data = {
+  labels: labels,
+  datasets: datasets,
+};
+
+const config = {
+  type: 'bar',
+  data: data,
+  options: {}
+};
+
+const myChart = new Chart(
+  document.getElementById('myChart'),
+  config
+);
+  
+</script>
 
 <!-- Add this script to initialize the maps -->
 <script>
     // Array to store map instances
     // Your JavaScript code here
-
-    
-
 </script>
+
 
 
 
