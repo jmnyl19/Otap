@@ -6,6 +6,7 @@ use App\Models\ForwardedReport;
 use App\Models\Report;
 use App\Models\Incident;
 use App\Http\Controllers\Controller;
+use App\Events\UpdateStatus;
 use Illuminate\Http\Request;
 
 class StatusController extends Controller
@@ -24,7 +25,11 @@ class StatusController extends Controller
         $incidents = Incident::find($id);
         $incidents->status = 'Responding';
         $incidents->save();
-        return redirect('/responding');
+        // event(new UpdateStatus($incidents));
+        return response()->json([
+            
+            'message' => 'Responding...',
+        ], 200);
     }
 
     public function responded(Request $request, $id)
