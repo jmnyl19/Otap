@@ -41,6 +41,9 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
     Route::get('/logout', 'LoginController@logout')->name('logout');
     // Route::get('/getlatestincidents', 'IncidentController@getLatestIncidents');
 });
+Route::get('/getChartData', [App\Http\Controllers\ChartController::class, 'getChartData']);
+Route::get('/getPieData', [App\Http\Controllers\ChartController::class, 'getPieData']);
+
 Route::get('/forwarded', [App\Http\Controllers\IncidentController::class, 'manageforwarded'])->name('forwarded');
 Route::get('/forwardedreports', [App\Http\Controllers\ReportController::class, 'manageforward'])->name('forwardedreports');
 Route::get('/received', [App\Http\Controllers\IncidentController::class, 'managereceived'])->name('received');
@@ -51,6 +54,7 @@ Route::get('/getpendingforwarded', [App\Http\Controllers\IncidentController::cla
 Route::get('/getresponding', [App\Http\Controllers\IncidentController::class, 'getResponding']);
 Route::get('/getrespondingforwarded', [App\Http\Controllers\IncidentController::class, 'getRespondingForwarded']);
 Route::get('/getforwarded', [App\Http\Controllers\IncidentController::class, 'getForwarded']);
+Route::get('/getreforwarded', [App\Http\Controllers\IncidentController::class, 'getreForwarded']);
 Route::get('/getcompleted', [App\Http\Controllers\IncidentController::class, 'getCompleted']);
 Route::get('/getcompletedforwarded', [App\Http\Controllers\IncidentController::class, 'getCompletedForwarded']);
 Route::get('/getreceived', [App\Http\Controllers\IncidentController::class, 'getReceived']);
@@ -62,6 +66,7 @@ Route::get('/getreforwardreport', [App\Http\Controllers\IncidentController::clas
 Route::get('/getcompletedreport', [App\Http\Controllers\IncidentController::class, 'getCompletedReport']);
 Route::get('/getcompletedforwardedreport', [App\Http\Controllers\IncidentController::class, 'getCompletedForwardReport']);
 
+Route::get('/reforwarded/{id}', [App\Http\Controllers\IncidentController::class, 'reForwarded']);
 Route::get('/completedreport/{id}', [App\Http\Controllers\IncidentController::class, 'completedReport']);
 Route::get('/completedforwardedreport/{id}', [App\Http\Controllers\IncidentController::class, 'completedForwardReport']);
 Route::get('/reforwardreport/{id}', [App\Http\Controllers\IncidentController::class, 'reforwardReport']);

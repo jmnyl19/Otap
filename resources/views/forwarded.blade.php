@@ -26,6 +26,8 @@ Forward
                     <div class="col">
                         <div class="col" id="ForwardedCont">
                         </div>
+                        <div class="col" id="reForwardedCont">
+                        </div>
                         <!-- Modal -->
                         <div class="modal fade"  id="forwardedModal" tabindex="-1"  aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-lg modal-dialog-centered">
@@ -43,6 +45,29 @@ Forward
                                             <input type="hidden" name="status" id="incidentStatus" value="Pending">
                                 
                                         <div class="modal-footer justify-content-center" id="forwardedModalFooter">
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="modal fade"  id="forwardedModal1" tabindex="-1"  aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-lg modal-dialog-centered">
+                                    <div class="modal-content rounded-4 border border-success border-3">
+                                        <div class="modal-header">
+                                            <h5 style="text-align: center"><i class="bi bi-megaphone-fill mr-5 pendingLogo"></i>   Emergency Details</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                            
+                                        <div class="modal-body justify-content-center" id="forwardedModal1Body">
+                                            
+                                        </div>
+                                        
+
+                                            <input type="hidden" name="status" id="incidentStatus" value="Pending">
+                                
+                                        <div class="modal-footer justify-content-center" id="forwardedModal1Footer">
                                             
                                         </div>
                                     </div>

@@ -1,34 +1,34 @@
-
 $(document).ready(function () {
-    pieChart()
+  getPieChartData();
 });
 
-const pieChartdata = {
-    labels: [
-      'Ambulance',
-      'Fire Truck',
-      'BPSO'
-    ],
-    datasets: [{
-      label: 'Total Incidents',
-      data: [300, 50, 100],
-      backgroundColor: [
-        'rgb(255, 99, 132)',
-        'rgb(255, 205, 86)',
-        'rgb(54, 162, 235)'
-      ],
-      hoverOffset: 4
-    }]
+function getPieChartData() {
+  $.ajax({
+      url: '/getPieData', // Replace with your actual route
+      method: 'GET',
+      dataType: 'json',
+      success: function (chartData) {
+          console.log(chartData.labels);
+         
+          updatePieChart(chartData);
+      },
+      error: function (error) {
+          console.error('Error fetching chart data:', error);
+      }
+  });
+}
+
+function updatePieChart(chartData) {
+  const pieChartConfig = {
+      type: 'pie',
+      data: {
+          labels: chartData.labels,
+          datasets: chartData.datasets,
+      },
   };
 
-function pieChart() {
-    new Chart(
-        document.getElementById('lineChart'),
-        {
-            type: 'doughnut',
-            data: pieChartdata,
-          }
-      );
-}  
+  new Chart(document.getElementById('PieChart'), pieChartConfig);
+}
+
 
   

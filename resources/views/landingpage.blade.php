@@ -258,43 +258,12 @@ Dashboard
                     <canvas id="myChart" ></canvas>
                 </div>
                 <div class="col col-md-6 shadow p-4 mb-4 bg-white rounded-4">
-                    <canvas id="lineChart" style="width: 600px; height: 300px;" ></canvas>
+                    <canvas id="PieChart" style="width: 600px; height: 300px;" ></canvas>
                 </div>
             </div>
     </div>
     
 
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" ></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script type="text/javascript">
-  
-var labels = {!! json_encode($labels) !!};
-var datasets = {!! json_encode($datasets) !!};
-
-const data = {
-  labels: labels,
-  datasets: datasets,
-};
-
-const config = {
-  type: 'bar',
-  data: data,
-  options: {}
-};
-
-const myChart = new Chart(
-  document.getElementById('myChart'),
-  config
-);
-  
-</script>
-
-<!-- Add this script to initialize the maps -->
-<script>
-    // Array to store map instances
-    // Your JavaScript code here
-</script>
 
 
 
@@ -302,8 +271,11 @@ const myChart = new Chart(
 <!-- Call the initMaps function once the Google Maps API is loaded -->
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB3sNbXeLLaZQcJiCWNzC4Rwp-xALyV4lM&callback=initMaps"></script>
 @section('pageJs')
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="{{ asset('js/landing.js')}}"></script>
 <script src="{{ asset('js/chart.js')}}"></script>
+<script src="{{ asset('js/barchart.js')}}"></script>
+
 @endsection
 @endauth
 @endsection

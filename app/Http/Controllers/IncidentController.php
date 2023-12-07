@@ -23,6 +23,7 @@ class IncidentController extends Controller
 
         return view('landingpage', compact('incidents'));
     }
+    
 
     public function adminLanding(){
         // $barangayIncident = Incident::where('barangay', auth()->user()->barangay)->get(); 
@@ -44,39 +45,10 @@ class IncidentController extends Controller
         // $pendingIncidents = $incidents->where('status', 'Pending')->where('user.barangay', auth()->user()->barangay)->take(5);
         // $forwardedIncidents =  $recincidents->where('status', 'Pending')->where('barangay', auth()->user()->barangay)->take(5);
         $recievedCount = $recincidents->where('barangay', auth()->user()->barangay)->count();
-        $chartData = DB::table('incidents')->select(DB::raw('COUNT(*) as count'),DB::raw('MONTH(created_at) as month'),'status')
-        ->whereIn('status', ['Pending', 'Completed', 'Responding'])
-        ->groupBy('status', DB::raw('YEAR(created_at)'), DB::raw('MONTH(created_at)'))
-        ->get();
-
-            $chartDataByStatus = $chartData->groupBy('status');
-
-            $labels = [];
-            $datasets = [];
-            $statusColors = [
-                'Pending' =>  '#d25b46',
-                'Completed' => ' #84ec6a',
-                'Responding' => '#d3cc3a',
-            ];
-
-            foreach ($chartDataByStatus as $status => $statusData) {
-                $data = $statusData->pluck('count');
-                $backgroundColor = $statusColors[$status];
-
-                $datasets[] = [
-                    'label' => ucfirst($status) . ' Incidents',
-                    'backgroundColor' => $backgroundColor,
-                    'borderColor' => 'rgb(255, 99, 132)',
-                    'data' => $data,
-                ];
-
-                if (empty($labels)) {
-                    $labels = $statusData->pluck('month');
-                }
-            }
+        
 
 
-        return view('landingpage', compact('labels', 'datasets','totalPending','totalResponding','totalCompleted', 'forwardedCount', 'recievedCount'));
+        return view('landingpage', compact('totalPending','totalResponding','totalCompleted', 'forwardedCount', 'recievedCount'));
     }
 
     public function getLatestIncidents(){
@@ -135,6 +107,22 @@ class IncidentController extends Controller
             'forincidents' => $forwardIncidents,
             'message' => 'Success',
         ]);
+    }
+    public function getreForwarded(){
+        $forincidents = ForwardedIncident::with(['incident', 'incident.user'])->orderByDesc('created_at')->get();
+        $forwardIncidents =  $forincidents->where('status', 'Forwarded')->where('barangay', auth()->user()->barangay);
+        return response()->json([
+            'forincidents' => $forwardIncidents,
+            'message' => 'Success',
+        ]);
+    }
+    public function reForwarded($id){
+        $forcomincident = ForwardedIncident::with('incident.user')->where('id', $id)->get();
+        
+        return response()->json([
+            'history6' => $forcomincident,
+            'message' => 'Success',
+        ], 200);
     }
     public function getCompleted(){
         $comincidents = Incident::with('user')->orderByDesc('created_at')->get();
