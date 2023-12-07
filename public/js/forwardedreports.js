@@ -112,7 +112,8 @@ $(document).ready(function () {
         type: 'GET',
         dataType: 'json',
         success: function (response) {
-          
+        var imagePath = 'file/' + response.history12[0].file;
+
             console.log(response);
           $('#reportsForModalBody').empty();
           $('#reportsForModal').modal('show');
@@ -120,7 +121,7 @@ $(document).ready(function () {
           <div class="square-container p-20">
             <div class="shadow p-1 mb-1 bg-white rounded">
             <div class="container row ps-5">
-            <img src="file/${response.history12[0].file}" class="img-thumbnail mt-3" alt="...">
+            <img src="${imagePath}" class="img-thumbnail mt-3" alt="...">
           <form class="row gt-3 gx-3" action="" method="">
           
           <div class="col-md-6 mt-3">
@@ -180,15 +181,17 @@ $(document).ready(function () {
         type: 'GET',
         dataType: 'json',
         success: function (response) {
-          
+            var imagePath = 'file/' + response.history13[0].report.file;
+
             console.log(response);
+            
           $('#reportsForModal1Body').empty();
           $('#reportsForModal1').modal('show');
           var incidentHtml = `
           <div class="square-container p-20">
             <div class="shadow p-1 mb-1 bg-white rounded">
             <div class="container row ps-5">
-            <img src="file/${response.history13[0].file}" class="img-thumbnail mt-3" alt="...">
+            <img src="${imagePath}" class="img-thumbnail mt-3" alt="...">
           <form class="row gt-3 gx-3" action="" method="">
           
           <div class="col-md-6 mt-3">
@@ -229,7 +232,7 @@ $(document).ready(function () {
           $('#reportsForModal1Body').append(incidentHtml);
   
           
-          initMap('map' + response.history13[0].id, parseFloat(response.history13[0].latitude), parseFloat(response.history13[0].longitude), response.history13[0].id);
+          initMap('map' + response.history13[0].id, parseFloat(response.history13[0].report.latitude), parseFloat(response.history13[0].report.longitude), response.history13[0].id);
         
         },
         error: function (error) {

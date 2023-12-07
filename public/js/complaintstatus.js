@@ -145,7 +145,7 @@ function forwarded(incidentID) {
             confirmButtonColor: '#4BB1F7',
             background: '#fff',
           }).then((result) => {
-            location.reload();
+            window.location.href = '/forwardedreports'; 
           });
         },
         error: function(xhr, status, error) {
@@ -263,7 +263,7 @@ function reforwarded(incidentID) {
             confirmButtonColor: '#4BB1F7',
             background: '#fff',
           }).then((result) => {
-            location.reload();
+            window.location.href = '/forwardedreports'; 
           });
         },
         error: function(xhr, status, error) {
@@ -369,7 +369,7 @@ function responding(incidentID) {
             confirmButtonColor: '#4BB1F7',
             background: '#fff',
           }).then((result) => {
-            location.reload();
+            window.location.href = '/respondedreports'; 
           });
         },
         error: function(xhr, status, error) {
@@ -422,7 +422,7 @@ function respondreport(incidentID) {
             confirmButtonColor: '#4BB1F7',
             background: '#fff',
           }).then((result) => {
-            location.reload();
+            window.location.href = '/respondedreports'; 
           });
         },
         error: function(xhr, status, error) {
@@ -581,7 +581,7 @@ function completing(incidentID) {
             confirmButtonColor: '#4BB1F7',
             background: '#fff',
           }).then((result) => {
-            location.reload();
+            window.location.href = '/completedreports'; 
           });
         },
         error: function(xhr, status, error) {
@@ -634,7 +634,7 @@ function completedreport(incidentID) {
             confirmButtonColor: '#4BB1F7',
             background: '#fff',
           }).then((result) => {
-            location.reload();
+            window.location.href = '/completedreports'; 
           });
         },
         error: function(xhr, status, error) {

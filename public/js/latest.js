@@ -195,15 +195,15 @@ $(document).ready(function () {
         type: 'GET',
         dataType: 'json',
         success: function (response) {
-          
-            console.log(response);
+          console.log(response);
+          var imagePath = 'file/' + response.history9[0].report.file;
           $('#reportModal1Body').empty();
           $('#reportModal1').modal('show');
           var incidentHtml = `
           <div class="square-container p-20">
             <div class="shadow p-1 mb-1 bg-white rounded">
             <div class="container row ps-5">
-            <img src="file/${response.history9[0].file}" class="img-thumbnail mt-3" alt="...">
+            <img src="${imagePath}" class="img-thumbnail mt-3" alt="...">
           <form class="row gt-3 gx-3" action="" method="">
           
           <div class="col-md-6 mt-3">
@@ -299,8 +299,8 @@ $(document).ready(function () {
           `;
   
           $('#reportModal1Footer').append(pendingFooter);
-          initMap('map' + response.history9[0].id, parseFloat(response.history9[0].latitude), parseFloat(response.history9[0].longitude), response.history9[0].id);
-        
+          initMap('map' + response.history9[0].id, parseFloat(response.history9[0].report.latitude), parseFloat(response.history9[0].report.longitude), response.history9[0].id);
+          
         },
         error: function (error) {
             console.log('Error fetching latest incidents:', error);

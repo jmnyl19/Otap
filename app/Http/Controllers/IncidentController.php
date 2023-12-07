@@ -268,6 +268,14 @@ class IncidentController extends Controller
             'message' => 'Success',
         ], 200);
     }
+    public function ForwardedReport($id){
+        $reports = ForwardedReport::with('report.user')->where('id', $id)->get();
+        
+        return response()->json([
+            'history9' => $reports,
+            'message' => 'Success',
+        ], 200);
+    }
     public function ReceivedIncident($id){
         $receincident = ForwardedIncident::with('incident.user')->where('id', $id)->get();
         
