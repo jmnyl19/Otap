@@ -255,10 +255,12 @@ Dashboard
 
             <div class="row justify-content-between">
                 <div class="col col-md-6 shadow p-4 mb-4 bg-white rounded-4">
+                    <h5 class="fw-bold" style="color: #012763">Emergency Status Count</h5>
                     <canvas id="myChart" ></canvas>
                 </div>
-                <div class="col col-md-6 shadow p-4 mb-4 bg-white rounded-4">
-                    <canvas id="PieChart" style="width: 600px; height: 300px;" ></canvas>
+                <div class="col col-md-5 d-flex flex-column gap-5 shadow p-4 mb-4 bg-white rounded-4">
+                    <h5 class="fw-bold" style="color: #012763">Emergency Count</h5>
+                    <div><canvas id="PieChart" style="width: 200; height: 200;"></canvas></div>
                 </div>
             </div>
     </div>
@@ -268,8 +270,6 @@ Dashboard
 
 
 
-<!-- Call the initMaps function once the Google Maps API is loaded -->
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB3sNbXeLLaZQcJiCWNzC4Rwp-xALyV4lM&callback=initMaps"></script>
 @section('pageJs')
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="{{ asset('js/landing.js')}}"></script>

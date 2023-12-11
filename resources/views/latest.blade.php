@@ -25,7 +25,7 @@ Incident
                         </div>
 
                         <div class="modal fade" id="reportModal1" tabindex="-1"  aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog modal-lg modal-dialog-centered">
+                            <div class="modal-dialog modal-xl modal-dialog-centered">
                                 <div class="modal-content rounded-4 border border-success border-3">
                                     <div class="modal-header">
                                     <h4 style="text-align: center">Received Incident Report</h4>                                        
@@ -132,8 +132,7 @@ Incident
 
  
 
-<!-- Call the initMaps function once the Google Maps API is loaded -->
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB3sNbXeLLaZQcJiCWNzC4Rwp-xALyV4lM&callback=initMaps"></script>
+
 
 @section('pageJs')
 <script src="{{ asset('js/latest.js')}}"></script>

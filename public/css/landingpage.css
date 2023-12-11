@@ -227,6 +227,18 @@ body{
   width:48% !important
 }
 
+.pendingStatus{
+  background-color: #fedcdc;
+  border-radius: 30px;
+  display: flex;
+  padding: 6px;
+  justify-content: center;
+  align-content: center;
+}
+
+.pendingStatus h5{
+  text-transform: capitalize;
+}
 
   @keyframes fly-1 {
     from {

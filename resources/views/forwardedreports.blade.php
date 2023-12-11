@@ -23,6 +23,8 @@ Forward
                         <div class="col" id="reportForwarded">
                         </div>
 
+                        <div class="col" id="reportForwarded1">
+                        </div>
                         <!-- Modal -->
                         <div class="modal fade" id="reportsForModal" tabindex="-1"  aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-lg modal-dialog-centered">
@@ -50,8 +52,7 @@ Forward
                         </div>
                   
 
-                        <div class="col" id="reportForwarded1">
-                        </div>
+                        
 
                         <!-- Modal -->
                         <div class="modal fade" id="reportsForModal1" tabindex="-1"  aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -90,8 +91,7 @@ Forward
 
     
 
-<!-- Call the initMaps function once the Google Maps API is loaded -->
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB3sNbXeLLaZQcJiCWNzC4Rwp-xALyV4lM&callback=initMaps"></script>
+
 
 @section('pageJs')
 <script src="{{ asset('js/forwardedreports.js')}}"></script>

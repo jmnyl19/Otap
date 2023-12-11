@@ -121,6 +121,7 @@ $(document).ready(function () {
                       <h5><i class="bi bi-calendar2-event-fill modalIcon"></i>Date: ${date}</h5>
                       <h5><i class="bi bi-exclamation-circle-fill modalIcon"></i>Type: ${response.history7[0].incident.type}</h5>
                       <h5><i class="bi bi-person-circle modalIcon"></i>Name: ${response.history7[0].incident.user.first_name} ${response.history7[0].incident.user.last_name}</h5>
+                      <h5><i class="bi bi-telephone-fill modalIcon"></i>Contact No.: ${response.history7[0].incident.user.contact_no}</h5>
                       <h5><i class="bi bi-calendar-event-fill modalIcon"></i>Age: ${response.history7[0].incident.user.age}</h5>
                       <h5><i class="bi bi-house-down-fill modalIcon"></i>Resident of Barangay: ${response.history7[0].barangay}</h5>
                       <h5 id="address${response.history7[0].incident.id}" class="address"><i class="bi bi-house-down-fill modalIcon"></i>Specific Location: </h5>
@@ -139,37 +140,4 @@ $(document).ready(function () {
     });
   }
 
-  var maps = [];
 
-    function initMap(mapId, latitude, longitude, incidentId) {
-        var incidentLocation = { lat: latitude, lng: longitude };
-        var map = new google.maps.Map(document.getElementById(mapId), {
-            zoom: 18,
-            center: incidentLocation
-        });
-        var marker = new google.maps.Marker({
-            position: incidentLocation,
-            map: map
-        });
-
-        // Store the map instance in the array
-        maps.push({ id: mapId, map: map });
-
-        // Reverse geocoding
-        var geocoder = new google.maps.Geocoder();
-        var latlng = new google.maps.LatLng(latitude, longitude);
-
-        geocoder.geocode({ 'latLng': latlng }, function (results, status) {
-            if (status == google.maps.GeocoderStatus.OK) {
-                if (results[1]) {
-                    // Display the formatted address in an info window or console.log
-                    var addressElement = document.getElementById('address' + incidentId);
-                    addressElement.innerHTML = '<i class="bi bi-house-down-fill modalIcon"></i>Specific Location: ' + results[1].formatted_address;
-                } else {
-                    console.log('No results found');
-                }
-            } else {
-                console.log('Geocoder failed due to: ' + status);
-            }
-        });
-    }

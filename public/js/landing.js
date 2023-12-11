@@ -113,7 +113,7 @@ $(document).ready(function () {
         dataType: 'json',
         success: function (response) {
           
-            console.log(response);
+          var date = moment(response.created_at).format('lll');
           $('#pendingModalBody').empty();
           $('#pendingModal').modal('show');
           var incidentHtml = `
@@ -125,12 +125,13 @@ $(document).ready(function () {
               <hr class="style-one">
               <div class="square-container mt-2 p-20">
                   <div class="shadow p-3 mb-1 rounded modalInfo">
-                      <h5><i class="bi bi-calendar2-event-fill modalIcon"></i>Date: ${response.history[0].created_at}</h5>
+                      <h5><i class="bi bi-calendar2-event-fill modalIcon"></i>Date: ${date}</h5>
                       <h5><i class="bi bi-exclamation-circle-fill modalIcon"></i>Type: ${response.history[0].type}</h5>
                       <h5><i class="bi bi-person-circle modalIcon"></i>Name: ${response.history[0].user.first_name} ${response.history[0].user.last_name}</h5>
                       <h5><i class="bi bi-calendar-event-fill modalIcon"></i>Age: ${response.history[0].user.age}</h5>
+                      <h5><i class="bi bi-telephone-fill modalIcon"></i>Contact No.: ${response.history[0].user.contact_no}</h5>
                       <h5><i class="bi bi-house-down-fill modalIcon"></i>Resident of Barangay: ${response.history[0].user.barangay}</h5>
-                      <h5 id="address${response.history[0].id}" class="address"><i class="bi bi-house-down-fill modalIcon"></i>Specific Location: </h5>
+                      <h5 id="address${response.history[0].id}" class="address"><i class="bi bi-geo-alt-fill modalIcon"></i>Specific Location: </h5>
                   </div>
               </div>
           `;
@@ -192,8 +193,9 @@ $(document).ready(function () {
           `;
 
           $('#pendingModalFooter').append(pendingFooter);
+
           initMap('map' + response.history[0].id, response.history[0].latitude, response.history[0].longitude, response.history[0].id);
-        
+ 
         },
         error: function (error) {
             console.log('Error fetching latest incidents:', error);
@@ -320,9 +322,10 @@ function getLatestForwarded() {
                       <h5><i class="bi bi-calendar2-event-fill modalIcon"></i>Date: ${date}</h5>
                       <h5><i class="bi bi-exclamation-circle-fill modalIcon"></i>Type: ${response.history1[0].incident.type}</h5>
                       <h5><i class="bi bi-person-circle modalIcon"></i>Name: ${response.history1[0].incident.user.first_name} ${response.history1[0].incident.user.last_name}</h5>
+                      <h5><i class="bi bi-telephone-fill modalIcon"></i>Contact No.: ${response.history1[0].incident.user.contact_no}</h5>
                       <h5><i class="bi bi-calendar-event-fill modalIcon"></i>Age: ${response.history1[0].incident.user.age}</h5>
                       <h5><i class="bi bi-house-down-fill modalIcon"></i>Resident of Barangay: ${response.history1[0].incident.user.barangay}</h5>
-                      <h5 id="address${response.history1[0].incident.id}" class="address"><i class="bi bi-house-down-fill modalIcon"></i>Specific Location: </h5>
+                      <h5 id="address${response.history1[0].incident.id}" class="address"><i class="bi bi-geo-alt-fill modalIcon"></i>Specific Location: </h5>
                   </div>
               </div>
           `;
@@ -384,8 +387,9 @@ function getLatestForwarded() {
           `;
   
           $('#pendingModal1Footer').append(pendingFooter);
-          initMap('map' + response.history1[0].incident.id, response.history1[0].incident.latitude, response.history1[0].incident.longitude, response.history1[0].incident.id);
-        
+  
+            initMap('map' + response.history1[0].incident.id, response.history1[0].incident.latitude, response.history1[0].incident.longitude, response.history1[0].incident.id);
+      
         },
         error: function (error) {
             console.log('Error fetching latest incidents:', error);
@@ -393,16 +397,21 @@ function getLatestForwarded() {
     });
   }
 
-var maps = [];
 
-    // function initMaps() {
-    //     @foreach ($pendingIncidents as $incident_modal)
-    //         initMap('map{{$incident_modal->id}}', {{$incident_modal->latitude}}, {{$incident_modal->longitude}}, '{{$incident_modal->id}}');
-    //     @endforeach
-    //     @foreach ($forwardedIncidents as $incident1)
-    //         initMap('map{{$incident1->incident->id}}', {{$incident1->incident->latitude}}, {{$incident1->incident->longitude}}, '{{$incident1->id}}');
-    //     @endforeach
-    // }
+
+  window.Echo.channel('incident-channel')
+  .listen('IncidentCreated', (event) => {
+      console.log('New incident created:', event.incident);
+      $('#latestIncidentCont').empty();
+      getLatest();
+  });
+
+  $('#latestIncidentCont').on('click', '.btn-primary', function() {
+    var incidentId = $(this).data('incident-id');
+    $('#exampleModal' + incidentId).modal('show');
+});
+
+var maps = [];
 
     function initMap(mapId, latitude, longitude, incidentId) {
         var incidentLocation = { lat: latitude, lng: longitude };
@@ -427,7 +436,7 @@ var maps = [];
                 if (results[1]) {
                     // Display the formatted address in an info window or console.log
                     var addressElement = document.getElementById('address' + incidentId);
-                    addressElement.innerHTML = '<i class="bi bi-house-down-fill modalIcon"></i>Specific Location: ' + results[1].formatted_address;
+                    addressElement.innerHTML = '<i class="bi bi-geo-alt-fill modalIcon"></i>Specific Location: ' + results[1].formatted_address;
                 } else {
                     console.log('No results found');
                 }
@@ -436,16 +445,3 @@ var maps = [];
             }
         });
     }
-
-
-  window.Echo.channel('incident-channel')
-  .listen('IncidentCreated', (event) => {
-      console.log('New incident created:', event.incident);
-      $('#latestIncidentCont').empty();
-      getLatest();
-  });
-
-  $('#latestIncidentCont').on('click', '.btn-primary', function() {
-    var incidentId = $(this).data('incident-id');
-    $('#exampleModal' + incidentId).modal('show');
-});

@@ -124,6 +124,7 @@ $(document).ready(function () {
                       <h5><i class="bi bi-calendar2-event-fill modalIcon"></i>Date: ${date}</h5>
                       <h5><i class="bi bi-exclamation-circle-fill modalIcon"></i>Type: ${response.history5[0].type}</h5>
                       <h5><i class="bi bi-person-circle modalIcon"></i>Name: ${response.history5[0].user.first_name} ${response.history5[0].user.last_name}</h5>
+                      <h5><i class="bi bi-telephone-fill modalIcon"></i>Contact No.: ${response.history5[0].user.contact_no}</h5>
                       <h5><i class="bi bi-calendar-event-fill modalIcon"></i>Age: ${response.history5[0].user.age}</h5>
                       <h5><i class="bi bi-house-down-fill modalIcon"></i>Resident of Barangay: ${response.history5[0].user.barangay}</h5>
                       <h5 id="address${response.history5[0].id}" class="address"><i class="bi bi-house-down-fill modalIcon"></i>Specific Location: </h5>
@@ -167,6 +168,7 @@ $(document).ready(function () {
                       <h5><i class="bi bi-calendar2-event-fill modalIcon"></i>Date: ${date}</h5>
                       <h5><i class="bi bi-exclamation-circle-fill modalIcon"></i>Type: ${response.history6[0].incident.type}</h5>
                       <h5><i class="bi bi-person-circle modalIcon"></i>Name: ${response.history6[0].incident.user.first_name} ${response.history6[0].incident.user.last_name}</h5>
+                      <h5><i class="bi bi-telephone-fill modalIcon"></i>Contact No.: ${response.history6[0].incident.user.contact_no}</h5>
                       <h5><i class="bi bi-calendar-event-fill modalIcon"></i>Age: ${response.history6[0].incident.user.age}</h5>
                       <h5><i class="bi bi-house-down-fill modalIcon"></i>Resident of Barangay: ${response.history6[0].barangay}</h5>
                       <h5 id="address${response.history6[0].incident.id}" class="address"><i class="bi bi-house-down-fill modalIcon"></i>Specific Location: </h5>
