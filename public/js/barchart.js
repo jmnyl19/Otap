@@ -20,7 +20,6 @@ function getBarChartData() {
 
 function updateBarChart(chartData) {
 
-    console.log("Received chart data:", chartData);
 
     const barChartConfig = {
         type: 'bar',
@@ -28,6 +27,7 @@ function updateBarChart(chartData) {
             labels: chartData.labels,
             datasets: chartData.datasets,
         },
+        
     };
     
 

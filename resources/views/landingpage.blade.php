@@ -137,10 +137,6 @@ Dashboard
 
             </div>
 
-
-          
-
-
             <div class="row justify-content-between latestMain mb-4" style="width: 100%;">
                 <div class="col-sm-8 col-md-5 latestCont shadow p-4 mb-4 bg-white rounded-4">
                     <div class="card-body">
@@ -250,19 +246,19 @@ Dashboard
                         </div>
                 
                 </div>
-
-            </div>
-
-            <div class="row justify-content-between">
-                <div class="col col-md-6 shadow p-4 mb-4 bg-white rounded-4">
+                <div class="col-sm-8 col-md-5 latestCont shadow p-4 mb-4 bg-white rounded-4">
                     <h5 class="fw-bold" style="color: #012763">Emergency Status Count</h5>
                     <canvas id="myChart" ></canvas>
                 </div>
-                <div class="col col-md-5 d-flex flex-column gap-5 shadow p-4 mb-4 bg-white rounded-4">
+                <div class="col-sm-4 col-md-5 latestCont shadow p-4 mb-4 bg-white rounded-4">
                     <h5 class="fw-bold" style="color: #012763">Emergency Count</h5>
                     <div><canvas id="PieChart" style="width: 200; height: 200;"></canvas></div>
                 </div>
             </div>
+
+            <!-- <div class="row justify-content-between" syle="width:100%;">
+                
+            </div> -->
     </div>
     
 
