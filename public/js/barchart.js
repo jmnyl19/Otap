@@ -8,7 +8,7 @@ function getBarChartData() {
         method: 'GET',
         dataType: 'json',
         success: function (chartData) {
-            console.log("displayed barchart");
+            console.log(chartData.datasets);
            
             updateBarChart(chartData);
         },
@@ -19,6 +19,9 @@ function getBarChartData() {
 }
 
 function updateBarChart(chartData) {
+
+    console.log("Received chart data:", chartData);
+
     const barChartConfig = {
         type: 'bar',
         data: {
@@ -26,6 +29,7 @@ function updateBarChart(chartData) {
             datasets: chartData.datasets,
         },
     };
+    
 
     new Chart(document.getElementById('myChart'), barChartConfig);
 }

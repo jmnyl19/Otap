@@ -12,12 +12,23 @@ class ChartController extends Controller
 {
     public function getChartData(Request $request){
         $chartData = DB::table('incidents')
-        ->select(DB::raw('COUNT(*) as count'),DB::raw('MONTH(created_at) as month'),'status')
-        ->whereIn('status', ['Pending', 'Completed', 'Responding'])
-        ->groupBy('status', DB::raw('YEAR(created_at)'), DB::raw('MONTH(created_at)'))
+        ->select(DB::raw('COUNT(*) as count'),DB::raw('MONTH(incidents.created_at) as month'),'status')
+        ->join('users', 'incidents.residents_id', '=', 'users.id')
+        ->where('users.barangay', auth()->user()->barangay)
+        ->whereIn('incidents.status', ['Pending', 'Completed', 'Responding'])
+        ->groupBy('incidents.status', DB::raw('YEAR(incidents.created_at)'), DB::raw('MONTH(incidents.created_at)'))
         ->get();
 
-            $chartDataByStatus = $chartData->groupBy('status');
+        $otherTable = DB::table('forwarded_incidents')
+        ->select(DB::raw('COUNT(*) as count'),DB::raw('MONTH(forwarded_incidents.created_at) as month'),'forwarded_incidents.status')
+        ->join('incidents', 'forwarded_incidents.incident_id', '=', 'incidents.id')
+        ->where('forwarded_incidents.barangay', auth()->user()->barangay)
+        ->whereIn('forwarded_incidents.status', ['Pending', 'Completed', 'Responding'])
+        ->groupBy('forwarded_incidents.status', DB::raw('YEAR(forwarded_incidents.created_at)'), DB::raw('MONTH(forwarded_incidents.created_at)'))
+        ->get();
+
+        $combChartData = $chartData->concat($otherTable);
+
 
             $labels = [];
             $datasets = [];
@@ -27,19 +38,25 @@ class ChartController extends Controller
                 'Responding' => '#d3cc3a',
             ];
 
-            foreach ($chartDataByStatus as $status => $statusData) {
-                $data = $statusData->pluck('count');
-                $backgroundColor = $statusColors[$status];
-
+            foreach ($statusColors as $status => $color) {
+                $data = $combChartData
+                    ->where('status', $status)
+                    ->pluck('count')
+                    ->toArray();
+             
                 $datasets[] = [
                     'label' => ucfirst($status) . ' Incidents',
-                    'backgroundColor' => $backgroundColor,
+                    'backgroundColor' => $color,
                     'borderColor' => 'rgb(255, 99, 132)',
                     'data' => $data,
                 ];
 
                 if (empty($labels)) {
-                    $labels = $statusData->pluck('month');
+                    $labels = $combChartData
+                ->where('status', $status)
+                ->pluck('month')
+                ->toArray();
+
                 }
             }
             return response()->json([
@@ -50,10 +67,13 @@ class ChartController extends Controller
 
     public function getPieData(Request $request){
         $chartData = DB::table('incidents')
-        ->select(DB::raw('COUNT(*) as count'), DB::raw('YEAR(created_at) as year'),'type')
-        ->whereIn('type', ['Requesting for Ambulance', 'Requesting for a Barangay Public Safety Officer', 'Requesting for a Fire Truck'])
-        ->groupBy('type', DB::raw('YEAR(created_at)'))
+        ->select(DB::raw('COUNT(*) as count'), DB::raw('YEAR(incidents.created_at) as year'),'type')
+        ->join('users', 'incidents.residents_id', '=', 'users.id')
+        ->where('users.barangay', auth()->user()->barangay)
+        ->whereIn('incidents.type', ['Requesting for Ambulance', 'Requesting for a Barangay Public Safety Officer', 'Requesting for a Fire Truck'])
+        ->groupBy('incidents.type', DB::raw('YEAR(incidents.created_at)'))
         ->get();
+        
 
             $chartDataByType = $chartData->groupBy('type');
 
