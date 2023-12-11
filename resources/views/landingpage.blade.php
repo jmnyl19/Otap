@@ -92,13 +92,13 @@ Dashboard
                         </div>
                         <div class="row justify-content-center">
                             <div class="col-auto col-md-4 countText">
-                                <h1 class="fw-normal " style="color: #012763">{{$forwardedCount}}</h1>
+                                <h1 class="fw-normal " style="color: #012763">{{$totalForwarded}}</h1>
                             </div>
                             <h6 class="forwardedLogo">Forwarded Emergency</h6>
                         </div>
                         </div>
                 </div>
-                <div class="col-sm-4 col-md-2  p-4 mb-4 rounded-4 countCont" type="button" onclick="window.location='{{route('forwarded')}}'" style="background-color: #ffe6c9df">
+                <div class="col-sm-4 col-md-2  p-4 mb-4 rounded-4 countCont" type="button" onclick="window.location='{{route('received')}}'" style="background-color: #ffe6c9df">
                     <div class="card-body ">
                         <div class="countLabel">
                             <div class="col-auto col-md-4">

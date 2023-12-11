@@ -42,13 +42,16 @@ class IncidentController extends Controller
         $totalCompleted = $completedCount + $forcompletedCount;
 
         $forwardedCount = $incidents->where('status', 'Forwarded')->where('user.barangay', auth()->user()->barangay)->count();
+        $forforwardedCount = $recincidents->where('status', 'Forwarded')->where('barangay', auth()->user()->barangay)->count();
+        $totalForwarded = $forwardedCount + $forforwardedCount;
+
         // $pendingIncidents = $incidents->where('status', 'Pending')->where('user.barangay', auth()->user()->barangay)->take(5);
         // $forwardedIncidents =  $recincidents->where('status', 'Pending')->where('barangay', auth()->user()->barangay)->take(5);
         $recievedCount = $recincidents->where('barangay', auth()->user()->barangay)->count();
         
 
 
-        return view('landingpage', compact('totalPending','totalResponding','totalCompleted', 'forwardedCount', 'recievedCount'));
+        return view('landingpage', compact('totalPending','totalResponding','totalCompleted', 'totalForwarded', 'recievedCount'));
     }
 
     public function getLatestIncidents(){
