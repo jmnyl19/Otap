@@ -26,7 +26,6 @@ class IncidentController extends Controller
     
 
     public function adminLanding(){
-        // $barangayIncident = Incident::where('barangay', auth()->user()->barangay)->get(); 
         $incidents = Incident::with('user')->orderByDesc('created_at')->get();
         $recincidents = ForwardedIncident::with('incident')->orderByDesc('created_at')->get();
         $pendingCount = $incidents->where('status', 'Pending')->where('user.barangay', auth()->user()->barangay)->count();
@@ -45,8 +44,6 @@ class IncidentController extends Controller
         $forforwardedCount = $recincidents->where('status', 'Forwarded')->where('barangay', auth()->user()->barangay)->count();
         $totalForwarded = $forwardedCount + $forforwardedCount;
 
-        // $pendingIncidents = $incidents->where('status', 'Pending')->where('user.barangay', auth()->user()->barangay)->take(5);
-        // $forwardedIncidents =  $recincidents->where('status', 'Pending')->where('barangay', auth()->user()->barangay)->take(5);
         $recievedCount = $recincidents->where('barangay', auth()->user()->barangay)->count();
         
 

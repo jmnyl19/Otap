@@ -4,11 +4,11 @@ $(document).ready(function () {
 
 function getPieChartData() {
   $.ajax({
-      url: '/getPieData', // Replace with your actual route
+      url: '/getPieData',
       method: 'GET',
       dataType: 'json',
       success: function (chartData) {
-          console.log(chartData.labels);
+          console.log("Successfully Displayed Pie Chart");
          
           updatePieChart(chartData);
       },
@@ -26,7 +26,7 @@ function updatePieChart(chartData) {
       datasets: chartData.datasets,
     },
     options: {
-      responsive: true, // This allows the chart to be responsive
+      responsive: true, 
       maintainAspectRatio: false,
     },
   };

@@ -4,11 +4,11 @@ $(document).ready(function () {
 
 function getBarChartData() {
     $.ajax({
-        url: '/getChartData', // Replace with your actual route
+        url: '/getChartData',
         method: 'GET',
         dataType: 'json',
         success: function (chartData) {
-            console.log(chartData.datasets);
+            console.log("Successfully Displayed Bar Graph");
            
             updateBarChart(chartData);
         },
@@ -27,7 +27,9 @@ function updateBarChart(chartData) {
             labels: chartData.labels,
             datasets: chartData.datasets,
         },
-        
+        options: {
+           
+        },
     };
     
 
