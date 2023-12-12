@@ -357,10 +357,19 @@ class IncidentController extends Controller
     ], 200);
     }
 
-    public function user_emegency_history( $id)
+    public function user_emegency_history($id)
     {
-
         $incidents = Incident::where('residents_id', $id)->orderByDesc('created_at')->get();
+
+        return response()->json([
+            'history' => $incidents,
+            'message' => 'Success',
+        ], 200);
+    }
+
+    public function user_incident_history($id)
+    {
+        $incidents = Report::where('residents_id', $id)->orderByDesc('created_at')->get();
 
         return response()->json([
             'history' => $incidents,
