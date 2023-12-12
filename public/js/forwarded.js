@@ -87,7 +87,6 @@ $(document).ready(function () {
             
           }
   
-        // Append the HTML to the container (replace 'your-container' with the actual container ID or class)
         $('#ForwardedCont').append(incidentHtml);
           });
         }
@@ -160,7 +159,6 @@ $(document).ready(function () {
             
           }
   
-        // Append the HTML to the container (replace 'your-container' with the actual container ID or class)
         $('#reForwardedCont').append(incidentHtml);
           });
       },

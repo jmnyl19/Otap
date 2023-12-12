@@ -85,7 +85,6 @@ $(document).ready(function () {
             
           }
   
-        // Append the HTML to the container (replace 'your-container' with the actual container ID or class)
         $('#allPendingCont').append(incidentHtml);
           });
         }
@@ -194,7 +193,6 @@ $(document).ready(function () {
             var date = moment(value.created_at).format('lll');
             var incidentHtml = '';
     
-            // Add your custom condition here
             if (value.incident.type == 'Requesting for Ambulance') {
               incidentHtml += `
                 <div class="btn btn-primary shadow p-1 mb-1 bg-white rounded" type="button" onclick="respondingModal1(${value.id})" style="width: 100%; margin: 10px; border: none">
@@ -241,7 +239,6 @@ $(document).ready(function () {
                 </div>
               `;
             }   
-          // Append the HTML to the container (replace 'your-container' with the actual container ID or class)
           $('#allForwardedPendingCont').append(incidentHtml);
             });
         }

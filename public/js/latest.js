@@ -356,7 +356,6 @@ $(document).ready(function () {
         </div>
         `;
           
-        // Append the HTML to the container (replace 'your-container' with the actual container ID or class)
         $('#getReceivedReportsCont').append(incidentHtml);
           });
         }

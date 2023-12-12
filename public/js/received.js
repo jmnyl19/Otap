@@ -37,7 +37,6 @@ $(document).ready(function () {
           var date = moment(value.created_at).format('lll');
             var incidentHtml = '';
     
-            // Add your custom condition here
             if (value.incident.type == 'Requesting for Ambulance') {
               
               incidentHtml += `
@@ -85,7 +84,6 @@ $(document).ready(function () {
                 </div>
               `;
             }   
-          // Append the HTML to the container (replace 'your-container' with the actual container ID or class)
           $('#allReceivedCont').append(incidentHtml);
             });
         }

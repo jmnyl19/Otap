@@ -49,7 +49,7 @@ Pending
 
                                                         <label for="forwardDropdown">Forward this Emergency?</label>
                                                         <select class="form-control" id="forwardDropdown" name="barangay">
-                                                            <!-- Add your dropdown options here -->
+                                                            
                                                             <option value="" selected disabled>Choose a Barangay:</option>
                                                             <option value="East Tapinac">East Tapinac</option>
                                                             <option value="Santa Rita">Santa Rita</option>
@@ -100,7 +100,7 @@ Pending
 
                                                     <label for="forwardDropdown1">Forward this Emergency?</label>
                                                     <select class="form-control" id="forwardDropdown1" name="barangay">
-                                                        <!-- Add your dropdown options here -->
+                                                        
                                                         <option value="" selected disabled>Choose a Barangay:</option>
                                                         <option value="East Tapinac">East Tapinac</option>
                                                         <option value="Santa Rita">Santa Rita</option>

@@ -51,7 +51,6 @@ $(document).ready(function () {
         </div>
         `;
           
-        // Append the HTML to the container (replace 'your-container' with the actual container ID or class)
         $('#completedReports').append(incidentHtml);
           });
         }
@@ -110,7 +109,6 @@ $(document).ready(function () {
         </div>
         `;
           
-        // Append the HTML to the container (replace 'your-container' with the actual container ID or class)
         $('#completedReports1').append(incidentHtml);
           });
         }
@@ -276,17 +274,14 @@ $(document).ready(function () {
             map: map
         });
 
-        // Store the map instance in the array
         maps.push({ id: mapId, map: map });
 
-        // Reverse geocoding
         var geocoder = new google.maps.Geocoder();
         var latlng = new google.maps.LatLng(latitude, longitude);
 
         geocoder.geocode({ 'latLng': latlng }, function (results, status) {
             if (status == google.maps.GeocoderStatus.OK) {
                 if (results[1]) {
-                    // Display the formatted address in an info window or console.log
                     var addressElement = document.getElementById('address' + incidentId);
                     addressElement.innerHTML = '<i class="bi bi-house-down-fill modalIcon"></i>Specific Location: ' + results[1].formatted_address;
                 } else {

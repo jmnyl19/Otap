@@ -51,7 +51,6 @@ $(document).ready(function () {
         </div>
         `;
           
-        // Append the HTML to the container (replace 'your-container' with the actual container ID or class)
         $('#reportForwarded').append(incidentHtml);
           });
         }
@@ -91,7 +90,6 @@ $(document).ready(function () {
         </div>
         `;
           
-        // Append the HTML to the container (replace 'your-container' with the actual container ID or class)
         $('#reportForwarded1').append(incidentHtml);
           });
       },
