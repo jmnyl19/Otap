@@ -13,7 +13,7 @@ function forward(incidentID) {
     cancelButtonColor: '#c2c2c2',
     
   }).then((result) => {
-    if (result.isConfirmed) {
+    if (result.isConfirmed && selectedBarangay !== null) {
       $.ajaxSetup({
         headers: {
           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -43,11 +43,11 @@ function forward(incidentID) {
           console.error(error); // Handle the error response as per your requirements
           Swal.fire({
             title: 'Error!',
-            text: 'Failed to forward the emergency. Please try again.',
+            text: 'Failed to forward the emergency. Please select a barangay.',
             icon: 'error',
             confirmButtonText: 'OK',
             confirmButtonColor: '#4BB1F7',
-            color: '#fff',
+            background: '#fff',
           });
         }
       });
@@ -122,7 +122,7 @@ function forwarded(incidentID) {
     cancelButtonColor: '#c2c2c2',
     
   }).then((result) => {
-    if (result.isConfirmed) {
+    if (result.isConfirmed && selectedBarangay !== null) {
       $.ajaxSetup({
         headers: {
           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -178,7 +178,7 @@ function reforward(incidentID1) {
     cancelButtonColor: '#c2c2c2',
     
   }).then((result) => {
-    if (result.isConfirmed) {
+    if (result.isConfirmed && selectedBarangay !== null) {
       console.log('incident_id:', incidentID1);
       console.log('status:', incidentStatus);
       console.log('Selected Barangay:', selectedBarangay);
@@ -237,7 +237,7 @@ function reforwarded(incidentID) {
     cancelButtonColor: '#c2c2c2',
     
   }).then((result) => {
-    if (result.isConfirmed) {
+    if (result.isConfirmed && selectedBarangay !== null) {
       console.log('report_id:', incidentID);
       console.log('status:', incidentStatus);
       console.log('Selected Barangay:', selectedBarangay);

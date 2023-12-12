@@ -45,15 +45,25 @@ class UserLoginController extends Controller
 
     public function userEdit(Request $request, $id)
     {
+        
+
+        
         $user = User::find($id);
+
+        if ($request->filled('current_password') && !Hash::check($request->current_password, $user->password)) {
+            return response()->json([
+                'message' => 'Current password is incorrect.',
+            ], 422);
+        } 
+
         $user->first_name = $request->first_name;
         $user->last_name = $request->last_name;
         $user->contact_no = $request->contact_no;
         $user->age = $request->age;
         $user->email = $request->email;
+        
     
-        // Hash the password only if it is provided in the request
-        if ($request->has('password')) {
+        if ($request->filled('password')) {
             $user->password = Hash::make($request->password);
         }
     
