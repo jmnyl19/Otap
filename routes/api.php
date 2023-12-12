@@ -51,3 +51,4 @@ Route::post('complaints/create',function(Request $request){
 });
 
 Route::patch('cancelled/{id}', [App\Http\Controllers\StatusController::class, 'cancelled']);
+Route::patch('cancelledIncident/{id}', [App\Http\Controllers\StatusController::class, 'cancelledIncident']);

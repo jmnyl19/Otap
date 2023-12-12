@@ -149,6 +149,18 @@ class StatusController extends Controller
             'message' => 'Success',
         ], 200);
     }
+
+    public function cancelledIncident(Request $request, $id)
+    {
+        $incidents = Report::find($id);
+        $incidents->status = 'Cancelled';
+        $incidents->save();
+        
+        return response()->json([
+            'cancel' => $incidents,
+            'message' => 'Success',
+        ], 200);
+    }
     /**
      * Show the form for creating a new resource.
      *

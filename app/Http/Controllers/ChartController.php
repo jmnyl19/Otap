@@ -31,7 +31,7 @@ class ChartController extends Controller
             }
         ]);
 
-        $labels = [];
+        $labels = collect();
 
         $datasets = [];
 
