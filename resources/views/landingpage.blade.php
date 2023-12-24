@@ -45,7 +45,7 @@ Dashboard
         </div> --}}
         
 
-            <div class="row justify-content-between text-center mb-4" style="width: 100%">
+            <div class="row justify-content-evenly text-center mb-4" style="width: 100%">
                 <div class="col col-md-2  p-4 mb-4 rounded-4 countCont" type="button" onclick="window.location='{{route('pendingpage')}}'" style="background-color: #fedcdc">
                     <div class="card-body ">
                         <div class="countLabel">
@@ -57,7 +57,7 @@ Dashboard
                             <div class="row justify-content-center">
                                
                                 <div class="col-auto col-md-4 countText">
-                                    <h1 class="fw-normal " style="color: #012763">{{$totalPending}}</h1>
+                                    <h1 class="fw-normal " style="color: #012763">{{$pendingCount}}</h1>
                                 </div>
                                 <h6 class="pendingLogo">Pending Emergency</h6>
                             </div>
@@ -76,47 +76,13 @@ Dashboard
                             <div class="row justify-content-center">
                                
                                 <div class="col-auto col-md-4 countText">
-                                    <h1 class="fw-normal " style="color: #012763">{{$totalResponding}}</h1>
+                                    <h1 class="fw-normal " style="color: #012763">{{$respondingCount}}</h1>
                                 </div>
                                 <h6 class="respondingLogo">Responding Emergency</h6>
                             </div>
                         </div>
                 </div>
-                <div class="col-sm-4 col-md-2  p-4 mb-4 rounded-4 countCont" type="button" onclick="window.location='{{route('forwarded')}}'" style="background-color: #d0d5fbd5">
-                    <div class="card-body ">
-                        <div class="countLabel">
-                            <div class="col-auto col-md-4">
-                                <i class="bi bi-send-check h1 forwardedLogo"></i>
-                            </div>
-                            <i class="bi bi-chevron-right"></i>
-                        </div>
-                        <div class="row justify-content-center">
-                            <div class="col-auto col-md-4 countText">
-                                <h1 class="fw-normal " style="color: #012763">{{$totalForwarded}}</h1>
-                            </div>
-                            <h6 class="forwardedLogo">Forwarded Emergency</h6>
-                        </div>
-                        </div>
-                </div>
-                <div class="col-sm-4 col-md-2  p-4 mb-4 rounded-4 countCont" type="button" onclick="window.location='{{route('received')}}'" style="background-color: #ffe6c9df">
-                    <div class="card-body ">
-                        <div class="countLabel">
-                            <div class="col-auto col-md-4">
-                                <i class="bi bi-send-exclamation h1 recievedLogo"></i>
-                                </div>
-                            <i class="bi bi-chevron-right"></i>
-                        </div>
-                            <div class="row justify-content-center">
-                                
-                                <div class="col-auto col-md-4 countText">
-                                    <h1 class="fw-normal " style="color: #012763">{{$recievedCount}}</h1>
-                                </div>
-                                <h6 class="recievedLogo">Recieved Emergency</h6>
-                            </div>
-                        </div>
-                </div>
-
-
+                
                 <div class="col-sm-4 col-md-2  p-4 mb-4 rounded-4 countCont" type="button" onclick="window.location='{{route('completedpage')}}'" style="background-color: #daf7d7">
                     <div class="card-body ">
                             <div class="row justify-content-center">
@@ -128,9 +94,26 @@ Dashboard
                                 </div>
                                 
                                 <div class="col-auto col-md-4  countText">
-                                    <h1 class="fw-normal " style="color: #012763">{{$totalCompleted}}</h1>
+                                    <h1 class="fw-normal " style="color: #012763">{{$completedCount}}</h1>
                                 </div>
                                 <h6 class="completedLogo">Completed Emergency</h6>
+                            </div>
+                        </div>
+                </div>
+                <div class="col-sm-4 col-md-2  p-4 mb-4 rounded-4 countCont" type="button" onclick="window.location='{{route('unavailable')}}'" style="background-color: #ffe6c9df">
+                    <div class="card-body ">
+                        <div class="countLabel">
+                            <div class="col-auto col-md-4">
+                                <i class="bi bi-send-exclamation h1 recievedLogo"></i>
+                                </div>
+                            <i class="bi bi-chevron-right"></i>
+                        </div>
+                            <div class="row justify-content-center">
+                                
+                                <div class="col-auto col-md-4 countText">
+                                    <h1 class="fw-normal " style="color: #012763">{{$unavailableCount}}</h1>
+                                </div>
+                                <h6 class="recievedLogo">Unavailable</h6>
                             </div>
                         </div>
                 </div>
@@ -142,8 +125,8 @@ Dashboard
                     <div class="card-body">
                             <div class="row align-items-center">
                                 <div class="col">
-                                    <h5 class="fw-bold" style="color: #012763">Latest Forwarded Emergency Request</h5>
-                                    <div class="col" id="latestForIncidentCont">
+                                    <h5 class="fw-bold" style="color: #012763">Latest Incident Reports</h5>
+                                    <div class="col" id="getLatestReportsCont">
                                     </div>
                                     
                                 </div>
@@ -202,17 +185,16 @@ Dashboard
                                 </div>
                             </div>
                         </div>
-                
 
-                        <div class="modal fade" id="pendingModal1" tabindex="-1"  aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog modal-lg modal-dialog-centered">
+                        <div class="modal fade" id="reportModal" tabindex="-1"  aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-xl modal-dialog-centered">
                                 <div class="modal-content rounded-4 border border-success border-3">
                                     <div class="modal-header">
-                                        <h5 style="text-align: center"><i class="bi bi-megaphone-fill mr-5 pendingLogo"></i>   Emergency Details</h5>
+                                        <h4 style="text-align: center">Incident Report</h4>                                        
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
 
-                                    <div class="modal-body justify-content-center" id="pendingModal1Body">
+                                    <div class="modal-body justify-content-center" id="reportModalBody">
                                     
                                     </div>
                                     
@@ -222,8 +204,8 @@ Dashboard
                                         <div class="form-group">
                                                 <div class="form-group">
 
-                                                    <label for="forwardDropdown1">Forward this Emergency?</label>
-                                                    <select class="form-control" id="forwardDropdown1" name="barangay">
+                                                    <label for="forwardDropdown">Forward this Emergency?</label>
+                                                    <select class="form-control" id="forwardDropdown" name="barangay">
                                                         <!-- Add your dropdown options here -->
                                                         <option value="" selected disabled>Choose a Barangay:</option>
                                                         <option value="East Tapinac">East Tapinac</option>
@@ -236,7 +218,7 @@ Dashboard
                                     
                                     <input type="hidden" name="status" id="incidentStatus" value="Pending">
                         
-                                    <div class="modal-footer justify-content-center" id="pendingModal1Footer">
+                                    <div class="modal-footer justify-content-center" id="reportModalFooter">
                                         
                                     </div>
                                     
@@ -244,6 +226,8 @@ Dashboard
                                 </div>
                             </div>
                         </div>
+
+                        
                 
                 </div>
                 <div class="col-sm-8 col-md-5 latestCont shadow p-4 mb-4 bg-white rounded-4">

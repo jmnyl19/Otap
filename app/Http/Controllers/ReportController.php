@@ -34,14 +34,14 @@ class ReportController extends Controller
         return view('respondedreports', compact('respondIncident','forwardedReports')); 
     }
 
-    public function manageforward()
+    public function manageUnavailableReports()
     {
         $incidents = Report::with('user')->orderByDesc('created_at')->get();
-        $forwardedReports =  $incidents->where('status', 'Forwarded')->where('user.barangay', auth()->user()->barangay);
-        $incidents = ForwardedReport::with('report')->orderByDesc('created_at')->get();
-        $reforwardedReports =  $incidents->where('status','Forwarded')->where('barangay', auth()->user()->barangay);
+        $forwardedReports =  $incidents->where('status', 'Unavailable')->where('user.barangay', auth()->user()->barangay);
+        // $incidents = ForwardedReport::with('report')->orderByDesc('created_at')->get();
+        // $reforwardedReports =  $incidents->where('status','Forwarded')->where('barangay', auth()->user()->barangay);
 
-        return view('forwardedreports', compact('forwardedReports','reforwardedReports'));
+        return view('unavailablereports', compact('forwardedReports'));
     }
 
 

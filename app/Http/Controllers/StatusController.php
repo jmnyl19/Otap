@@ -161,6 +161,21 @@ class StatusController extends Controller
             'message' => 'Success',
         ], 200);
     }
+
+    public function unavailable(Request $request, $id)
+    {
+        $incidents = Incident::find($id);
+        $incidents->status = 'Unavailable';
+        $incidents->save();
+        return redirect('/unavailable');
+    }
+    public function unavailablereport(Request $request, $id)
+    {
+        $incidents = Report::find($id);
+        $incidents->status = 'Unavailable';
+        $incidents->save();
+        return redirect('/unavailablereports');
+    }
     /**
      * Show the form for creating a new resource.
      *

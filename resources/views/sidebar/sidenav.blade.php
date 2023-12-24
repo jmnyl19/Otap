@@ -14,7 +14,7 @@
           <div class="nav_list"> 
             <a href="{{route('landingpage')}}" class="nav_link"> <i class="bi bi-clipboard-data nav_icon"></i> <span class="nav_name">Dashboard</span> </a> 
             <a href="{{ route('latest') }}" class="nav_link"> <i class="bi bi-exclamation-circle nav_icon"></i> <span class="nav_name">Incident Reports</span> </a>
-            <a href="{{ route('received') }}" class="nav_link"> <i class="bi bi-send-exclamation nav_icon"></i> <span class="nav_name">Recieved</span> </a>
+            <a href="{{ route('residents') }}" class="nav_link"> <i class="bi bi-person-fill-gear nav_icon"></i> <span class="nav_name">Manage Accounts</span> </a>
 
             <a class="dropdown-btn nav_link">
               <i class="bi bi-caret-down-fill"></i>
@@ -23,15 +23,15 @@
             <div class="dropdown-container nav_link">
               <a class="nav_link" onclick="window.location='{{route('pendingpage')}}'"><i class="bi bi-exclamation-triangle"></i><span class="nav_name">Pending</span></a>
               <a class="nav_link" onclick="window.location='{{route('responding')}}'"><i class="bi bi-arrow-repeat"></i><span class="nav_name">Responding</span></a>
-              <a class="nav_link" onclick="window.location='{{route('forwarded')}}'"><i class="bi bi-send-exclamation"></i><span class="nav_name">Forwarded</span></a>
-              <a class="nav_link mb-0" onclick="window.location='{{route('completedpage')}}'"><i class="bi bi-check-circle"></i><span class="nav_name">Completed</span></a>
-
+              <a class="nav_link" onclick="window.location='{{route('completedpage')}}'"><i class="bi bi-check-circle"></i><span class="nav_name">Completed</span></a>
+              <a class="nav_link mb-0" onclick="window.location='{{route('unavailable')}}'"><i class="bi bi-send-exclamation"></i><span class="nav_name">Unavailable</span></a>
             </div>
             <a class="dropdown-btn nav_link"> <i class="bi bi-caret-down-fill"></i> <span class="nav_name">Incident Status</span> </a> 
             <div class="dropdown-container nav_link">
               <a class="nav_link" onclick="window.location='{{route('respondedreports')}}'"><i class="bi bi-arrow-repeat"></i><span class="nav_name">Responding</span></a>
-              <a class="nav_link" onclick="window.location='{{route('forwardedreports')}}'"><i class="bi bi-send-exclamation"></i><span class="nav_name">Forwarded</span></a>
-              <a class="nav_link mb-0" onclick="window.location='{{route('completedreports')}}'"><i class="bi bi-check-circle"></i><span class="nav_name">Completed</span></a>
+              <a class="nav_link" onclick="window.location='{{route('completedreports')}}'"><i class="bi bi-check-circle"></i><span class="nav_name">Completed</span></a>
+              <a class="nav_link mb-0" onclick="window.location='{{route('unavailablereports')}}'"><i class="bi bi-send-exclamation"></i><span class="nav_name">Unavailable</span></a>
+
             </div>
  
           </div>

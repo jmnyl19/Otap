@@ -44,16 +44,22 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
 Route::get('/getChartData', [App\Http\Controllers\ChartController::class, 'getChartData']);
 Route::get('/getPieData', [App\Http\Controllers\ChartController::class, 'getPieData']);
 
-Route::get('/forwarded', [App\Http\Controllers\IncidentController::class, 'manageforwarded'])->name('forwarded');
-Route::get('/forwardedreports', [App\Http\Controllers\ReportController::class, 'manageforward'])->name('forwardedreports');
-Route::get('/received', [App\Http\Controllers\IncidentController::class, 'managereceived'])->name('received');
+Route::get('/unavailable', [App\Http\Controllers\IncidentController::class, 'manageUnavailable'])->name('unavailable');
+Route::get('/unavailablereports', [App\Http\Controllers\ReportController::class, 'manageUnavailableReports'])->name('unavailablereports');
+
+// Route::get('/forwardedreports', [App\Http\Controllers\ReportController::class, 'manageforward'])->name('forwardedreports');
+Route::get('/residents', [App\Http\Controllers\ResidentManagementController::class, 'getresidents'])->name('residents');
+Route::get('/getresidents', [App\Http\Controllers\ResidentManagementController::class, 'index']);
+
 Route::get('/getlatestincidents', [App\Http\Controllers\IncidentController::class, 'getLatestIncidents']);
+Route::get('/getlatestreports', [App\Http\Controllers\IncidentController::class, 'getLatestReport']);
 Route::get('/getlatestforwarded', [App\Http\Controllers\IncidentController::class, 'getLatestForwardedIncidents']);
 Route::get('/getpending', [App\Http\Controllers\IncidentController::class, 'getpendingIncidents']);
 Route::get('/getpendingforwarded', [App\Http\Controllers\IncidentController::class, 'getpendingForwarded']);
 Route::get('/getresponding', [App\Http\Controllers\IncidentController::class, 'getResponding']);
 Route::get('/getrespondingforwarded', [App\Http\Controllers\IncidentController::class, 'getRespondingForwarded']);
-Route::get('/getforwarded', [App\Http\Controllers\IncidentController::class, 'getForwarded']);
+Route::get('/getunavailable', [App\Http\Controllers\IncidentController::class, 'getUnavailable']);
+Route::get('/getunavailablereport', [App\Http\Controllers\IncidentController::class, 'getUnavailableReport']);
 Route::get('/getreforwarded', [App\Http\Controllers\IncidentController::class, 'getreForwarded']);
 Route::get('/getcompleted', [App\Http\Controllers\IncidentController::class, 'getCompleted']);
 Route::get('/getcompletedforwarded', [App\Http\Controllers\IncidentController::class, 'getCompletedForwarded']);
@@ -66,6 +72,7 @@ Route::get('/getreforwardreport', [App\Http\Controllers\IncidentController::clas
 Route::get('/getcompletedreport', [App\Http\Controllers\IncidentController::class, 'getCompletedReport']);
 Route::get('/getcompletedforwardedreport', [App\Http\Controllers\IncidentController::class, 'getCompletedForwardReport']);
 
+Route::get('/getdetails/{id}', [App\Http\Controllers\ResidentManagementController::class, 'getDetails']);
 Route::get('/reforwarded/{id}', [App\Http\Controllers\IncidentController::class, 'reForwarded']);
 Route::get('/completedreport/{id}', [App\Http\Controllers\IncidentController::class, 'completedReport']);
 Route::get('/completedforwardedreport/{id}', [App\Http\Controllers\IncidentController::class, 'completedForwardReport']);
@@ -78,11 +85,13 @@ Route::get('/pendingreport/{id}', [App\Http\Controllers\IncidentController::clas
 Route::get('/receivedincident/{id}', [App\Http\Controllers\IncidentController::class, 'ReceivedIncident']);
 Route::get('/completedincident/{id}', [App\Http\Controllers\IncidentController::class, 'completedIncident']);
 Route::get('/completedforwarded/{id}', [App\Http\Controllers\IncidentController::class, 'completedForwarded']);
-Route::get('/forwardedincident/{id}', [App\Http\Controllers\IncidentController::class, 'getForwardedIncident']);
+Route::get('/unavailable/{id}', [App\Http\Controllers\IncidentController::class, 'unavailable']);
+Route::get('/unavailablereport/{id}', [App\Http\Controllers\IncidentController::class, 'unavailableReport']);
 Route::get('/respondingforwarded/{id}', [App\Http\Controllers\IncidentController::class, 'RespondingForwarded']);
 Route::get('/respondingincident/{id}', [App\Http\Controllers\IncidentController::class, 'RespondingIncident']);
 Route::get('/currentforwarded/{id}', [App\Http\Controllers\IncidentController::class, 'getCurrentForwarded']);
 Route::get('/currentincident/{id}', [App\Http\Controllers\IncidentController::class, 'getCurrentIncident']);
+Route::get('/currentreport/{id}', [App\Http\Controllers\IncidentController::class, 'getCurrentReport']);
 Route::get('/pendingforwarded/{id}', [App\Http\Controllers\IncidentController::class, 'PendingForwarded']);
 Route::get('/pendingincident/{id}', [App\Http\Controllers\IncidentController::class, 'PendingIncident']);
 Route::get('/getrespondingforwardedreport', [App\Http\Controllers\IncidentController::class, 'getRespondingForwardedReport']);
@@ -100,6 +109,8 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('forcompleted/{id}', [App\Http\Controllers\StatusController::class, 'forcompleted']);
     Route::post('completing/{id}', [App\Http\Controllers\StatusController::class, 'completing']);
     Route::post('completedreport/{id}', [App\Http\Controllers\StatusController::class, 'completedreport']);
+    Route::post('unavailable/{id}', [App\Http\Controllers\StatusController::class, 'unavailable']);
+    Route::post('unavailablereport/{id}', [App\Http\Controllers\StatusController::class, 'unavailablereport']);
 
     Route::get('/pendingpage', [App\Http\Controllers\IncidentController::class, 'managepending'])->name('pendingpage');
     Route::get('/completedpage', [App\Http\Controllers\IncidentController::class, 'managecompleted'])->name('completedpage');

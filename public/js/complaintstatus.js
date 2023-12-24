@@ -66,7 +66,6 @@ function forward(incidentID) {
     }
   });
 }
-
 function respond(incidentID) {
 
   Swal.fire({
@@ -699,6 +698,111 @@ function completedreport(incidentID) {
   });
 }
 
+function unavailable(incidentID) {
 
+  Swal.fire({
+    title: 'Confirmation',
+    text: 'Are you sure you`re unable to respond to this emergency?',
+    icon: 'question',
+    showCancelButton: true,
+    confirmButtonText: 'Confirm',
+    background: '#fff',
+    cancelButtonText: 'Cancel',
+    confirmButtonColor: '#4BB1F7',
+    cancelButtonColor: '#c2c2c2',
+    
+  }).then((result) => {
+    if (result.isConfirmed) {
+      $.ajaxSetup({
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+      });
+      $.ajax({
+        url: '/unavailable/' + incidentID,
+        type: 'POST',
+        data: {
+          incident_id: incidentID,
+        },
+        success: function(response) {
+          Swal.fire({
+            title: 'Success!',
+            text: 'Responded to this emergency successfully.',
+            icon: 'success',
+            confirmButtonText: 'OK',
+            confirmButtonColor: '#4BB1F7',
+            background: '#fff',
+          }).then((result) => {
+            window.location.href = '/unavailable'; 
+          });
+        },
+        error: function(xhr, status, error) {
+          console.error(error); // Handle the error response as per your requirements
+          Swal.fire({
+            title: 'Error!',
+            text: 'Failed to respond to this emergency. Please try again.',
+            icon: 'error',
+            confirmButtonText: 'OK',
+            confirmButtonColor: '#4BB1F7',
+            color: '#fff',
+          });
+        }
+      });
+    }
+  });
+}
+function unavailablereport(incidentID) {
+
+  Swal.fire({
+    title: 'Confirmation',
+    text: 'Are you sure you`re unable to respond to this emergency?',
+    icon: 'question',
+    showCancelButton: true,
+    confirmButtonText: 'Confirm',
+    background: '#fff',
+    cancelButtonText: 'Cancel',
+    confirmButtonColor: '#4BB1F7',
+    cancelButtonColor: '#c2c2c2',
+    
+  }).then((result) => {
+    if (result.isConfirmed) {
+      $.ajaxSetup({
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+      });
+      $.ajax({
+        url: '/unavailablereport/' + incidentID,
+        type: 'POST',
+        data: {
+          incident_id: incidentID,
+        },
+        success: function(response) {
+          Swal.fire({
+            title: 'Success!',
+            text: 'Responded to this emergency successfully.',
+            icon: 'success',
+            confirmButtonText: 'OK',
+            confirmButtonColor: '#4BB1F7',
+            background: '#fff',
+          }).then((result) => {
+            window.location.href = '/unavailablereports'; 
+          });
+        },
+        error: function(xhr, status, error) {
+          console.error(error); // Handle the error response as per your requirements
+          Swal.fire({
+            title: 'Error!',
+            text: 'Failed to respond to this emergency. Please try again.',
+            icon: 'error',
+            confirmButtonText: 'OK',
+            confirmButtonColor: '#4BB1F7',
+            color: '#fff',
+          });
+        }
+      });
+    }
+  });
+}
 
   

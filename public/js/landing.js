@@ -1,7 +1,7 @@
 
 $(document).ready(function () {
   getLatest();
-  getLatestForwarded();
+  getReport();
 });
 
   function getLatest() {
@@ -138,6 +138,28 @@ $(document).ready(function () {
 
           $('#pendingModalFooter').empty();
           var pendingFooter = `
+              
+              <form action="" method="POST">
+                  <button class="forwardBtn" type="button" onclick="unavailable(${response.history[0].id})">
+                      <div class="svg-wrapper-1">
+                        <div class="svg-wrapper">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            width="24"
+                            height="24"
+                          >
+                            <path fill="none" d="M0 0h24v24H0z"></path>
+                            <path
+                              fill="currentColor"
+                              d="M1.946 9.315c-.522-.174-.527-.455.01-.634l19.087-6.362c.529-.176.832.12.684.638l-5.454 19.086c-.15.529-.455.547-.679.045L12 14l6-8-8 6-8.054-2.685z"
+                            ></path>
+                          </svg>
+                        </div>
+                      </div><span>Unavailable</span>
+                    </button>     
+              </form>
+
               <form action="" method="POST">
                   <button class="respondBtn" type="button" onclick="respond(${response.history[0].id})">
                       <div class="svg-wrapper-1">
@@ -169,8 +191,145 @@ $(document).ready(function () {
                       </div><span>Respond</span>
                   </button>
               </form>
+          `;
+
+          $('#pendingModalFooter').append(pendingFooter);
+
+          initMap('map' + response.history[0].id, response.history[0].latitude, response.history[0].longitude, response.history[0].id);
+ 
+        },
+        error: function (error) {
+            console.log('Error fetching latest incidents:', error);
+        }
+    });
+}
+
+
+
+  function getReport() {
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $.ajax({
+      url: '/getlatestreports',
+      type: 'GET',
+      dataType: 'json',
+      success: function (response) {
+        if (response.reports.length === 0) {
+          var incidentHtml = '';
+          
+          incidentHtml += `
+              <div class="btn btn-primary shadow p-4 mb-1 bg-white rounded" type="button" style="width: 100%; border: none">
+                  <div class="card-body">
+                      <div class="row align-items-center text-start">
+                          <div class="col-auto">
+                              
+                          </div>
+                          <div class="col">
+                              <h6 style="color: #ababab; text-align: center;" ><i>No reported incidents!</i><span class="fw-bold"></span></h6>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+            `;
+
+          $('#getLatestReportsCont').append(incidentHtml);
+        } else {
+        $.each(response.reports, function(index, value) {
+          var date = moment(value.created_at).format('lll');
+            var incidentHtml = `
+            <div class="btn btn-primary shadow p-1 mb-1 bg-white rounded" type="button" onclick="reportModal(${value.id})" style="width: 100%; margin: 10px; border: none">
+            <div class="card-body">
+                <div class="row align-items-center text-start">
+                    <div class="col-auto">
+                        <h1 style="color: red">|</h1>
+                    </div>
+                    <div class="col">
+                        <h6 style="color: #000"><span class="fw-bold">(${date})</span></h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+        `;
+          
+        // Append the HTML to the container (replace 'your-container' with the actual container ID or class)
+        $('#getLatestReportsCont').append(incidentHtml);
+          });
+        }
+      },
+      error: function (error) {
+          console.log('Error fetching latest incidents:', error);
+      }
+  });
+  }
+
+  function reportModal(id) {
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+    $.ajax({
+        url: '/currentreport/' + id,
+        type: 'GET',
+        dataType: 'json',
+        success: function (response) {
+          console.log(response.history14[0].file);
+          var baseUrl = window.location.origin;
+          var imagePath = baseUrl + '/file/' + response.history14[0].file;
+          $('#reportModalBody').empty();
+          $('#reportModal').modal('show');
+          var incidentHtml = `
+          <div class="square-container p-20">
+            <div class="shadow p-1 mb-1 bg-white rounded">
+            <div class="container row ps-5">
+            <img src="${imagePath}" class="img-thumbnail mt-3" alt="...">
+          <form class="row gt-3 gx-3" action="" method="">
+          
+          <div class="col-md-6 mt-3">
+              <label for="inputName" class="form-label mb-0">Name</label>
+              <input type="text" class="form-control border-2 border-dark-subtle" id="inputName" name="id" value="${response.history14[0].user.first_name} ${response.history14[0].user.last_name}" aria-label="Disabled input example" disabled readonly>
+          </div>
+          <div class="col-md-3 mt-3">
+              <label for="inputPhone" class="form-label mb-0 fs-6">Phone Number</label>
+              <input type="text" class="form-control border-2 border-dark-subtle" id="inputPhone" name="id" value="${response.history14[0].user.contact_no}" aria-label="Disabled input example" disabled readonly>
+          </div>
+          <div class="col-md-3 mt-3">
+              <label for="inputPassword4" class="form-label mb-0 fs-6">Date</label>
+              <input type="text" class="form-control border-2 border-dark-subtle" id="inputPassword4" name="id" value="${response.history14[0].datehappened}" aria-label="Disabled input example" disabled readonly>
+          </div>
+          <div class="col-12 mt-3">
+              <label for="inputAddress" class="form-label mb-0">Location</label>                                     
+          </div>
+            <div id="map${response.history14[0].id}" style="height: 350px;">
+              </div>
+  
+              
+          <div class="col-12 mt-3">
+              <label for="exampleFormControlTextarea1" class="form-label">Incident Details</label>
+              <textarea class="form-control border-2 border-dark-subtle align-left" id="exampleFormControlTextarea1"  name="ticket_body" rows="3" aria-label="Disabled input example" disabled readonly>${response.history14[0].details}</textarea>
+          </div>
+          <div class="col-12 mt-3 mb-3">
+              <label for="inputAddress" class="form-label mb-0">Additional Notes</label>
+              <input type="text" class="form-control border-2 border-dark-subtle" id="inputPassword4" name="id" value="${response.history14[0].addnotes}" aria-label="Disabled input example" disabled readonly>
+          </div>
+          
+          
+          </form>
+          </div>
+              
+          </div>
+      </div>
+          `;
+          $('#reportModalBody').append(incidentHtml);
+  
+          $('#reportModalFooter').empty();
+          var pendingFooter = `
+              
               <form action="" method="POST">
-                  <button class="forwardBtn" type="button" onclick="forward(${response.history[0].id})">
+                  <button class="forwardBtn" type="button" onclick="unavailablereport(${response.history14[0].id})">
                       <div class="svg-wrapper-1">
                         <div class="svg-wrapper">
                           <svg
@@ -186,152 +345,12 @@ $(document).ready(function () {
                             ></path>
                           </svg>
                         </div>
-                      </div><span>Forward</span>
+                      </div><span>Unavailable</span>
                     </button>     
               </form>
-          `;
 
-          $('#pendingModalFooter').append(pendingFooter);
-
-          initMap('map' + response.history[0].id, response.history[0].latitude, response.history[0].longitude, response.history[0].id);
- 
-        },
-        error: function (error) {
-            console.log('Error fetching latest incidents:', error);
-        }
-    });
-}
-
-function getLatestForwarded() {
-    $.ajaxSetup({
-      headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-      }
-    });
-    $.ajax({
-      url: '/getlatestforwarded',
-      type: 'GET',
-      dataType: 'json',
-      success: function (response) {
-        if (response.recincidents.length === 0) {
-          var incidentHtml = '';
-          
-          incidentHtml += `
-              <div class="btn btn-primary shadow p-4 mb-1 bg-white rounded" type="button" style="width: 100%; border: none">
-                  <div class="card-body">
-                      <div class="row align-items-center text-start">
-                          <div class="col-auto">
-                              
-                          </div>
-                          <div class="col">
-                              <h6 style="color: #ababab; text-align: center;" ><i>No emergency received from other barangay!</i><span class="fw-bold"></span></h6>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-            `;
-
-          $('#latestForIncidentCont').append(incidentHtml);
-        } else {
-        $.each(response.recincidents, function(index, value) {
-            var date = moment(value.created_at).format('lll');
-            var incidentHtml = '';
-            if (value.incident.type == 'Requesting for Ambulance') {
-              incidentHtml += `
-                <div class="btn btn-primary shadow p-1 mb-1 bg-white rounded" type="button" onclick="pendingModal1(${value.id})" style="width: 100%; margin: 10px; border: none">
-                    <div class="card-body">
-                        <div class="row align-items-center text-start">
-                            <div class="col-auto">
-                                <h1 style="color: red">|</h1>
-                            </div>
-                            <div class="col">
-                                <h6 style="color: #000"><span class="fw-bold">(${date})</span> ${ value.incident.user.barangay}:  ${value.incident.type} </h6>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-              `;
-            } else if (value.incident.type == 'Requesting for a Fire Truck') {
-              incidentHtml += `
-                <div class="btn btn-primary shadow p-1 mb-1 bg-white rounded" type="button" onclick="pendingModal1(${value.id})" style="width: 100%; margin: 10px; border: none">
-                    <div class="card-body">
-                        <div class="row align-items-center text-start">
-                            <div class="col-auto">
-                                <h1 style="color: rgb(255, 132, 0)">|</h1>
-                            </div>
-                            <div class="col">
-                                <h6 style="color: #000"><span class="fw-bold">(${date})</span> ${ value.incident.user.barangay}:  ${value.incident.type}</h6>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-              `;
-            } else {
-              incidentHtml += `
-                <div class="btn btn-primary shadow p-1 mb-1 bg-white rounded" type="button" onclick="pendingModal1(${value.id})" style="width: 100%; margin: 10px; border: none">
-                    <div class="card-body">
-                        <div class="row align-items-center text-start">
-                            <div class="col-auto">
-                                <h1 style="color: rgb(0, 157, 255) ">|</h1>
-                            </div>
-                            <div class="col">
-                                <h6 style="color: #000"><span class="fw-bold">(${date})</span> ${ value.incident.user.barangay}:   ${value.incident.type}</h6>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-              `;
-            }   
-          $('#latestForIncidentCont').append(incidentHtml);
-          }
-            );
-        }
-      },
-      error: function (error) {
-          console.log('Error fetching latest incidents:', error);
-      }
-  });
-  }
-  function pendingModal1(id) {
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-    });
-    $.ajax({
-        url: '/currentforwarded/' + id,
-        type: 'GET',
-        dataType: 'json',
-        success: function (response) {
-          var date = moment(response.history1[0].created_at).format('lll');
-            console.log(response);
-          $('#pendingModal1Body').empty();
-          $('#pendingModal1').modal('show');
-          var incidentHtml = `
-              <!-- Google Map Container -->
-              <div id="map${response.history1[0].incident.id}" style="height: 350px;">
-              </div>
-            
-              <!-- Rest of the modal content -->
-              <hr class="style-one">
-              <div class="square-container mt-2 p-20">
-                  <div class="shadow p-3 mb-1 rounded modalInfo">
-                      <h5><i class="bi bi-calendar2-event-fill modalIcon"></i>Date: ${date}</h5>
-                      <h5><i class="bi bi-exclamation-circle-fill modalIcon"></i>Type: ${response.history1[0].incident.type}</h5>
-                      <h5><i class="bi bi-person-circle modalIcon"></i>Name: ${response.history1[0].incident.user.first_name} ${response.history1[0].incident.user.last_name}</h5>
-                      <h5><i class="bi bi-telephone-fill modalIcon"></i>Contact No.: ${response.history1[0].incident.user.contact_no}</h5>
-                      <h5><i class="bi bi-calendar-event-fill modalIcon"></i>Age: ${response.history1[0].incident.user.age}</h5>
-                      <h5><i class="bi bi-house-down-fill modalIcon"></i>Resident of Barangay: ${response.history1[0].incident.user.barangay}</h5>
-                      <h5 id="address${response.history1[0].incident.id}" class="address"><i class="bi bi-geo-alt-fill modalIcon"></i>Specific Location: </h5>
-                  </div>
-              </div>
-          `;
-          $('#pendingModal1Body').append(incidentHtml);
-  
-          $('#pendingModal1Footer').empty();
-          var pendingFooter = `
               <form action="" method="POST">
-                  <button class="respondBtn" type="button" onclick="responded(${response.history1[0].id})">
+                  <button class="respondBtn" type="button" onclick="responding(${response.history14[0].id})">
                       <div class="svg-wrapper-1">
                         <div class="svg-wrapper">
                           <svg viewBox="0 0 24 24"
@@ -361,39 +380,17 @@ function getLatestForwarded() {
                       </div><span>Respond</span>
                   </button>
               </form>
-              <form action="" method="POST">
-                  <button class="forwardBtn" type="button" onclick="reforward(${response.history1[0].id})">
-                      <div class="svg-wrapper-1">
-                        <div class="svg-wrapper">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 24 24"
-                            width="24"
-                            height="24"
-                          >
-                            <path fill="none" d="M0 0h24v24H0z"></path>
-                            <path
-                              fill="currentColor"
-                              d="M1.946 9.315c-.522-.174-.527-.455.01-.634l19.087-6.362c.529-.176.832.12.684.638l-5.454 19.086c-.15.529-.455.547-.679.045L12 14l6-8-8 6-8.054-2.685z"
-                            ></path>
-                          </svg>
-                        </div>
-                      </div><span>Forward</span>
-                    </button>     
-              </form>
           `;
   
-          $('#pendingModal1Footer').append(pendingFooter);
-  
-            initMap('map' + response.history1[0].incident.id, response.history1[0].incident.latitude, response.history1[0].incident.longitude, response.history1[0].incident.id);
-      
+          $('#reportModalFooter').append(pendingFooter);
+          initMap('map' + response.history14[0].id, parseFloat(response.history14[0].latitude), parseFloat(response.history14[0].longitude), response.history14[0].id);
+        
         },
         error: function (error) {
             console.log('Error fetching latest incidents:', error);
         }
     });
   }
-
 
 
   window.Echo.channel('incident-channel')

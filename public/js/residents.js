@@ -1,5 +1,6 @@
 $(document).ready(function () {
     getReceived();
+    getResidents();
   });
 
   function getReceived() {
@@ -138,4 +139,103 @@ $(document).ready(function () {
     });
   }
 
+  function getResidents() {
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $.ajax({
+      url: '/getresidents',
+      type: 'GET',
+      dataType: 'json',
+      success: function (response) {
+        var tableBody = $('#allResidentsCont').find('tbody');
+        tableBody.empty();
+        $.each(response.residents, function(index, value) {
+          var statusEditable = `<select name="status" id="status${value.id}" class="selectCont" onchange="editstatus(${value.id})">`;
+                
+                if (value.status == "Inactive") {
+                    statusEditable += `<option value="Inactive" selected>INACTIVE</option>
+                                      <option value="Active">ACTIVE</option>
+                                      <option value="Ban">BAN</option>`;
+                } else if (value.status == "Active") {
+                    statusEditable += `<option value="Inactive">INACTIVE</option>
+                                      <option value="Active" selected>ACTIVE</option>
+                                      <option value="Ban">BAN</option>`;
+                } else if (value.status == "Ban") {
+                    statusEditable += `<option value="Inactive">INACTIVE</option>
+                                      <option value="Active">ACTIVE</option>
+                                      <option value="Ban" selected>BAN</option>`;
+                }
+
+                statusEditable += `</select>`;
+              var row = `
+                <tr>
+                  
+                  <td>${value.first_name} ${value.last_name}</td>
+                  <td>${value.age}</td>
+                  <td>${value.contact_no}</td>
+                  <td>${value.lot_no} ${value.street} ${value.barangay} ${value.city} ${value.province}</td>
+                  <td>
+                  <button type="button" class="btn btn-primary" onclick="viewDetails(${value.id})">Details</button>
+                  </td>
+                  <td>${statusEditable}</td>
+                  
+
+
+                </tr>              
+              `;
+              
+              tableBody.append(row);
+            });
+        
+      },
+      error: function (error) {
+          console.log('Error fetching latest incidents:', error);
+      }
+  });
+  }
+
+  function viewDetails(id) {
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+    $.ajax({
+        url: '/getdetails/' + id,
+        type: 'GET',
+        dataType: 'json',
+        success: function (response) {
+          var imagePath = 'file/' + response.history7[0].cor;
+          var imagePath1 = 'file/' + response.history7[0].valid_id;
+
+
+          $('#receivedModalBody').empty();
+          $('#viewDetails').modal('show');
+          var incidentHtml = `
+             
+              <div class="square-container mt-2 p-20">
+                  <div class="shadow p-3 mb-1 rounded modalInfo">
+                      <h5><i class="bi bi-person-circle modalIcon"></i>Name: ${response.history7[0].first_name} ${response.history7[0].last_name}</h5>
+                      <h5><i class="bi bi-house-down-fill modalIcon"></i>Address: ${response.history7[0].lot_no} ${response.history7[0].street} ${response.history7[0].barangay} ${response.history7[0].city} ${response.history7[0].province}</h5>
+                      <h5><i class="bi bi-file-earmark-text-fill modalIcon"></i>Certificate of Residency:</h5>
+                      <img src="${imagePath}" class="img-thumbnail mt-3 mb-3" alt="Certificate of Residency">
+                      <h5><i class="bi bi-person-vcard-fill modalIcon"></i>Valid ID:</h5>
+                      <img src="${imagePath1}" class="img-thumbnail mt-3" alt="Valid ID">
+                  
+                  </div>
+              </div>
+          `;
+          $('#receivedModalBody').append(incidentHtml);
+  
+          
+        
+        },
+        error: function (error) {
+            console.log('Error fetching latest incidents:', error);
+        }
+    });
+  }
 
