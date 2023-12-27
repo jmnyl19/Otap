@@ -208,8 +208,8 @@ $(document).ready(function () {
         type: 'GET',
         dataType: 'json',
         success: function (response) {
-          var imagePath = 'file/' + response.history7[0].cor;
-          var imagePath1 = 'file/' + response.history7[0].valid_id;
+          var imagePath = 'cor/' + response.history7[0].cor;
+          var imagePath1 = 'validid/' + response.history7[0].valid_id;
 
 
           $('#receivedModalBody').empty();

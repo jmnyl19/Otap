@@ -33,8 +33,10 @@ class User extends Authenticatable
         'email',
         'password',
         'profile_picture',
+        'valid_id',
+        'cor',
         'admin_name',
-        'role'
+        'role',
     ];
 
     /**

@@ -392,12 +392,37 @@ $(document).ready(function () {
     });
   }
 
+  function swalNewIncident() {
+    playAlert('../assets/beep.mp3');
+    Swal.fire({
+      toast: true,
+      icon: 'warning',
+      title: 'New Emergency Request!',
+      animation: false,
+      position: 'top-right',
+      showConfirmButton: false,
+      timer: 6000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer)
+        toast.addEventListener('mouseleave', Swal.resumeTimer)
+      }
+    })
+  };
+
+  function playAlert(audioName) {
+    let audio = new Audio(audioName);
+    audio.play();
+    console.log("playing");
+  };
 
   window.Echo.channel('incident-channel')
   .listen('IncidentCreated', (event) => {
       console.log('New incident created:', event.incident);
       $('#latestIncidentCont').empty();
       getLatest();
+      swalNewIncident();
+      
   });
 
   $('#latestIncidentCont').on('click', '.btn-primary', function() {

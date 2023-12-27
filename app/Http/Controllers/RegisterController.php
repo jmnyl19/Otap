@@ -21,6 +21,22 @@ class RegisterController extends Controller
             'password' => ['required', 'min:8']
         ]);
 
+        if ($request->hasFile('valid_id')) {
+            $validIdimage = $request->file('valid_id');
+            $validIdimageName = time().'.'.$validIdimage->getClientOriginalExtension();
+            $validIdimage->move(public_path('validid'), $validIdimageName);
+        } else {
+            $validIdimageName = null;
+        }
+
+        if ($request->hasFile('cor')) {
+            $corimage = $request->file('cor');
+            $corimageName = time().'.'.$corimage->getClientOriginalExtension();
+            $corimage->move(public_path('cor'), $corimageName);
+        } else {
+            $corimageName = null;
+        }
+
         $user = User::create([
             'first_name' => $validatedData['first_name'],
             'last_name' => $validatedData['last_name'],
@@ -28,10 +44,14 @@ class RegisterController extends Controller
             'contact_no' => $validatedData['contact_no'],
             'barangay' => $validatedData['barangay'],
             'email' => $validatedData['email'],
-            'password' => Hash::make($validatedData['password'])
+            'password' => Hash::make($validatedData['password']),
+            'valid_id' => $request->valid_id = $validIdimageName,
+            'cor' => $request->cor = $corimageName,
         ]);
 
 
-        return $user;
+        return response()->json([
+            'message' => 'Successfull',
+        ], 200);
     }
 }
