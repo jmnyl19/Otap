@@ -2,6 +2,7 @@
 @section('css')
 <link href="{{ asset('css/landingpage.css') }}" rel="stylesheet">
 <link href="{{ asset('css/sidenav.css') }}" rel="stylesheet">
+<link href="{{ asset('css/table.css') }}" rel="stylesheet">
 @endsection
 
 @section('pageTitle')
@@ -43,7 +44,7 @@ Recieve
                             <div class="modal-dialog modal-lg modal-dialog-centered">
                                 <div class="modal-content rounded-4 border border-success border-3">
                                     <div class="modal-header">
-                                        <h5 style="text-align: center"><i class="bi bi-person-fill-gear mr-5 pendingLogo"></i>Resident's Information</h5>
+                                        <h5 style="text-align: center"><i class="bi bi-person-fill-gear mr-5 pendingLogo"></i> Resident's Information</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                         
