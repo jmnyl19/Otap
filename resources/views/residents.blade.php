@@ -5,7 +5,7 @@
 @endsection
 
 @section('pageTitle')
-Recieve
+Manage Registered Residents
 @endsection
 
 @section('content')
@@ -19,7 +19,7 @@ Recieve
     @include('sidebar.sidenav')
     <div class="latest-container p-4 mt-5" style="flex: 1">
         <h3 class="fw-bolder pageTitle mb-4">Registered Residents</h3>
-
+        
         <div class="requests" style="width: 95%; margin: 10px">
             <div class="shadow p-4 mb-4 bg-white rounded " >
                 <div class="row p-4 align-items-center">
@@ -32,7 +32,7 @@ Recieve
                             <th scope="col">Contact No.</th>
                             <th scope="col">Address</th>
                             <th scope="col">Proof of Residency</th>
-                            <th scope="col">Status</th>
+                            <th scope="col" class="text-center">Status</th>
                             </tr>
                         </thead>
                         <tbody>

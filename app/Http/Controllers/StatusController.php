@@ -5,6 +5,7 @@ use App\Models\ForwardedIncident;
 use App\Models\ForwardedReport;
 use App\Models\Report;
 use App\Models\Incident;
+use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -48,7 +49,21 @@ class StatusController extends Controller
         $incidents->save();
         return redirect('/respondedreports');
     }
+    public function editstatus(Request $request, $id){
+        $users = User::find($id);
+        $users->status = $request->status;
+        $users->save();
 
+        return response()->json(['message' => 'Status updated successfully']);
+    }
+    public function banaccounts(Request $request, $id){
+        $users = User::find($id);
+        $users->status = 'Banned';
+        $users->remarks = $request->remarks;
+        $users->save();
+
+        return response()->json(['message' => 'Status updated successfully']);
+    }
     public function forward(Request $request, $id)
     {
         $incidents = Incident::find($id);

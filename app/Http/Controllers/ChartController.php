@@ -12,76 +12,68 @@ use DB;
 
 class ChartController extends Controller
 {
-    public function getChartData(Request $request){
+    
+
+    public function getChartData(Request $request) {
         
-        $incidents = Incident::with('user')
+        $chartData = DB::table('incidents')
+        ->select(DB::raw('COUNT(*) as count'),DB::raw('MONTH(incidents.created_at) as month'),'incidents.status')
         ->join('users', 'incidents.residents_id', '=', 'users.id')
         ->where('users.barangay', auth()->user()->barangay)
+        ->whereIn('incidents.status', ['Pending', 'Responding','Completed', 'Unavailable'])
+        ->groupBy('incidents.status', DB::raw('YEAR(incidents.created_at)'), DB::raw('MONTH(incidents.created_at)'))
         ->get();
-        $recincidents = ForwardedIncident::with('incident')
-            ->where('barangay', auth()->user()->barangay)
-            ->get();
 
-        $combinedData = $incidents->concat($recincidents);
-
-        $groupedData = $combinedData->groupBy([
-            'status',
-            function ($item) {
-                return Carbon::parse($item->created_at)->format('Y');
-            }
-        ]);
-
-        $labels = collect();
-
-        $datasets = [];
-
-        $statusColors = [
-            'Pending' => '#d25b46',
-            'Responding' => '#d3cc3a',
-            'Completed' => '#84ec6a',
-            'Forwarded' => '#5f69e8',
-        ];
-
-        foreach ($statusColors as $status => $color) {
-            $data = $groupedData->has($status) ?
-            $groupedData->get($status)->map(function ($value) {
-                return $value->count();
-            })->all() :
-            array_fill_keys($labels->all(), 0);
-                
-
-            $datasets[] = [
-                'label' => ucfirst($status) . ' Incidents',
-                'backgroundColor' => $color,
-                'borderColor' => 'rgb(255, 99, 132)',
-                'data' => $data,
+            $labels = [];
+            $datasets = [];
+            $statusColors = [
+                'Pending' =>  '#d25b46',
+                'Responding' => '#d3cc3a',
+                'Completed' => ' #84ec6a',
+                'Unavailable' => 'rgb(224, 128, 17)',
             ];
-        }
 
-        return response()->json([
-            'labels' => $labels,
-            'datasets' => $datasets,
+            foreach ($statusColors as $status => $color) {
+                $data = $chartData
+                    ->where('status', $status)
+                    ->pluck('count')
+                    ->toArray();
+             
+                $datasets[] = [
+                    'label' => ucfirst($status) . ' Incidents',
+                    'backgroundColor' => $color,
+                    'borderColor' => 'rgb(255, 99, 132)',
+                    'data' => $data,
+                ];
+
+                if (empty($labels)) {
+                    $labels = $chartData
+                ->where('status', $status)
+                ->pluck('month')
+                ->toArray();
+
+                }
+            }
+            return response()->json([
+                'labels' => $labels,
+                'datasets' => $datasets,
         ]);
-
     }
+    
 
     public function getPieData(Request $request){
         
         $incidents = Incident::with('user')->get();
-        $recincidents = ForwardedIncident::with('incident')->get();
         
         $ambulanceCount = $incidents->where('type', 'Requesting for Ambulance')
             ->where('user.barangay', auth()->user()->barangay)
-            ->count() + $recincidents->where('type', 'Requesting for Ambulance')
-            ->where('barangay', auth()->user()->barangay)->count();
+            ->count() ;
         $bpsoCount = $incidents->where('type', 'Requesting for a Barangay Public Safety Officer')
             ->where('user.barangay', auth()->user()->barangay)
-            ->count() + $recincidents->where('type', 'Requesting for a Barangay Public Safety Officer')
-            ->where('barangay', auth()->user()->barangay)->count();
+            ->count() ;
         $firetruckCount = $incidents->where('type', 'Requesting for a Fire Truck')
             ->where('user.barangay', auth()->user()->barangay)
-            ->count() + $recincidents->where('type', 'Requesting for a Fire Truck')
-            ->where('barangay', auth()->user()->barangay)->count();
+            ->count() ;
         
         $data = [
             'labels' => ['Requesting for Ambulance', 'Requesting for a Barangay Public Safety Officer', 'Requesting for a Fire Truck'],

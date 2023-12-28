@@ -1,143 +1,8 @@
 $(document).ready(function () {
-    getReceived();
     getResidents();
   });
+  var originalStatus = {};
 
-  function getReceived() {
-    $.ajaxSetup({
-      headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-      }
-    });
-    $.ajax({
-      url: '/getreceived',
-      type: 'GET',
-      dataType: 'json',
-      success: function (response) {
-        if (response.receIncidents.length === 0) {
-            var incidentHtml = '';
-            
-            incidentHtml += `
-                <div class="btn btn-primary shadow p-4 mb-1 bg-white rounded" type="button" style="width: 100%; border: none">
-                    <div class="card-body">
-                        <div class="row align-items-center text-start">
-                            <div class="col-auto">
-                                
-                            </div>
-                            <div class="col">
-                                <h6 style="color: #ababab; text-align: center;" ><i>No emergency received from other barangay!</i><span class="fw-bold"></span></h6>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-              `;
-  
-            $('#allReceivedCont').append(incidentHtml);
-          } else {
-        $.each(response.receIncidents, function(index, value) {
-          var date = moment(value.created_at).format('lll');
-            var incidentHtml = '';
-    
-            if (value.incident.type == 'Requesting for Ambulance') {
-              
-              incidentHtml += `
-                <div class="btn btn-primary shadow p-1 mb-1 bg-white rounded" type="button" onclick="receivedModal(${value.id})" style="width: 100%; margin: 10px; border: none">
-                    <div class="card-body">
-                        <div class="row align-items-center text-start">
-                            <div class="col-auto">
-                                <h1 style="color: red">|</h1>
-                            </div>
-                            <div class="col">
-                                <h6 style="color: #000"><span class="fw-bold">(${date})</span> ${value.incident.user.barangay}:  ${value.incident.type} </h6>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-              `;
-            } else if (value.incident.type == 'Requesting for a Fire Truck') {
-              incidentHtml += `
-                <div class="btn btn-primary shadow p-1 mb-1 bg-white rounded" type="button" onclick="receivedModal(${value.id})" style="width: 100%; margin: 10px; border: none">
-                    <div class="card-body">
-                        <div class="row align-items-center text-start">
-                            <div class="col-auto">
-                                <h1 style="color: rgb(255, 132, 0)">|</h1>
-                            </div>
-                            <div class="col">
-                                <h6 style="color: #000"><span class="fw-bold">(${date})</span>${value.incident.user.barangay}:  ${value.incident.type}</h6>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-              `;
-            } else {
-              incidentHtml += `
-                <div class="btn btn-primary shadow p-1 mb-1 bg-white rounded" type="button" onclick="receivedModal(${value.id})" style="width: 100%; margin: 10px; border: none">
-                    <div class="card-body">
-                        <div class="row align-items-center text-start">
-                            <div class="col-auto">
-                                <h1 style="color: rgb(0, 157, 255) ">|</h1>
-                            </div>
-                            <div class="col">
-                                <h6 style="color: #000"><span class="fw-bold">(${date})</span>${value.incident.user.barangay}:   ${value.incident.type}</h6>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-              `;
-            }   
-          $('#allReceivedCont').append(incidentHtml);
-            });
-        }
-      },
-      error: function (error) {
-          console.log('Error fetching latest incidents:', error);
-      }
-  });
-  }
-  function receivedModal(id) {
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-    });
-    $.ajax({
-        url: '/receivedincident/' + id,
-        type: 'GET',
-        dataType: 'json',
-        success: function (response) {
-          var date = moment(response.history7[0].created_at).format('lll');
-          $('#receivedModalBody').empty();
-          $('#receivedModal').modal('show');
-          var incidentHtml = `
-              <!-- Google Map Container -->
-              <div id="map${response.history7[0].incident.id}" style="height: 350px;">
-              </div>
-            
-              <!-- Rest of the modal content -->
-              <hr class="style-one">
-              <div class="square-container mt-2 p-20">
-                  <div class="shadow p-3 mb-1 rounded modalInfo">
-                      <h5><i class="bi bi-calendar2-event-fill modalIcon"></i>Date: ${date}</h5>
-                      <h5><i class="bi bi-exclamation-circle-fill modalIcon"></i>Type: ${response.history7[0].incident.type}</h5>
-                      <h5><i class="bi bi-person-circle modalIcon"></i>Name: ${response.history7[0].incident.user.first_name} ${response.history7[0].incident.user.last_name}</h5>
-                      <h5><i class="bi bi-telephone-fill modalIcon"></i>Contact No.: ${response.history7[0].incident.user.contact_no}</h5>
-                      <h5><i class="bi bi-calendar-event-fill modalIcon"></i>Age: ${response.history7[0].incident.user.age}</h5>
-                      <h5><i class="bi bi-house-down-fill modalIcon"></i>Resident of Barangay: ${response.history7[0].barangay}</h5>
-                      <h5 id="address${response.history7[0].incident.id}" class="address"><i class="bi bi-house-down-fill modalIcon"></i>Specific Location: </h5>
-                  </div>
-              </div>
-          `;
-          $('#receivedModalBody').append(incidentHtml);
-  
-          
-          initMap('map' + response.history7[0].incident.id, parseFloat(response.history7[0].incident.latitude), parseFloat(response.history7[0].incident.longitude), response.history7[0].incident.id);
-        
-        },
-        error: function (error) {
-            console.log('Error fetching latest incidents:', error);
-        }
-    });
-  }
 
   function getResidents() {
     $.ajaxSetup({
@@ -153,23 +18,26 @@ $(document).ready(function () {
         var tableBody = $('#allResidentsCont').find('tbody');
         tableBody.empty();
         $.each(response.residents, function(index, value) {
-          var statusEditable = `<select name="status" id="status${value.id}" class="selectCont" onchange="editstatus(${value.id})">`;
+
+          originalStatus[value.id] = value.status;
+
+          var statusEditable = `<select name="status" id="status${value.id}" class="selectCont me-2" onchange="editstatus(${value.id})" ${value.status === 'Banned' ? 'disabled' : ''}>`;
                 
                 if (value.status == "Inactive") {
                     statusEditable += `<option value="Inactive" selected>INACTIVE</option>
-                                      <option value="Active">ACTIVE</option>
-                                      <option value="Ban">BAN</option>`;
+                                      <option value="Active">ACTIVE</option>`;
                 } else if (value.status == "Active") {
                     statusEditable += `<option value="Inactive">INACTIVE</option>
-                                      <option value="Active" selected>ACTIVE</option>
-                                      <option value="Ban">BAN</option>`;
-                } else if (value.status == "Ban") {
-                    statusEditable += `<option value="Inactive">INACTIVE</option>
-                                      <option value="Active">ACTIVE</option>
-                                      <option value="Ban" selected>BAN</option>`;
-                }
+                                      <option value="Active" selected>ACTIVE</option>`;
+                } else if (value.status == "Banned") {
+                  statusEditable += `<option value="Banned" selected>BANNED</option>`;
+              }
 
                 statusEditable += `</select>`;
+
+                var banButton = value.status !== 'Banned' ?
+                `<button type="button" class="btn btn-primary" onclick="ban(${value.id})">Ban</button>`: '';
+            
               var row = `
                 <tr>
                   
@@ -180,7 +48,9 @@ $(document).ready(function () {
                   <td>
                   <button type="button" class="btn btn-primary" onclick="viewDetails(${value.id})">Details</button>
                   </td>
-                  <td>${statusEditable}</td>
+                  <td>${statusEditable}${banButton}
+                  
+                  </td>
                   
 
 
@@ -188,8 +58,9 @@ $(document).ready(function () {
               `;
               
               tableBody.append(row);
+              
             });
-        
+            
       },
       error: function (error) {
           console.log('Error fetching latest incidents:', error);
@@ -239,3 +110,135 @@ $(document).ready(function () {
     });
   }
 
+  function editstatus(residentId) {
+    var selectedStatus = $('#status' + residentId).val();
+    var original = originalStatus[residentId];
+    Swal.fire({
+      title: 'Confirmation',
+      text: 'Are you sure you want change status?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Confirm',
+      background: '#fff',
+      cancelButtonText: 'Cancel',
+      confirmButtonColor: '#4BB1F7',
+      cancelButtonColor: '#c2c2c2',
+     
+    }).then((result) => {
+      if (result.isConfirmed) {
+        
+        $.ajaxSetup({
+          headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          }
+        });
+        $.ajax({
+          url: '/editstatus/' + residentId,
+          type: 'POST',
+          dataType: 'json',
+          data: {
+            id: residentId,
+            status: selectedStatus
+          },
+          success: function(response) {
+            Swal.fire({
+              title: 'Success!',
+              text: 'Status has been changed successfully.',
+              icon: 'success',
+              confirmButtonText: 'OK',
+              confirmButtonColor: '#4BB1F7',
+              background: '#fff',
+            }).then((result) => {
+              location.reload(); 
+            });
+          },
+          error: function(xhr, status, error) {
+            console.error(error); 
+            $('#status' + residentId).val(original);
+            Swal.fire({
+              title: 'Error!',
+              text: 'Failed to change status.',
+              icon: 'error',
+              confirmButtonText: 'OK',
+              confirmButtonColor: '#4BB1F7',
+              background: '#fff',
+            });
+          }
+        });
+      }else{
+        $('#status' + residentId).val(original);
+      }
+    });
+   
+  }
+  function ban(residentId) {
+    var feedbackInput = ''; 
+
+    Swal.fire({
+        title: 'Ban Confirmation',
+        text: 'Are you sure you want to ban this resident?',
+        icon: 'question',
+        input: 'text', 
+        inputPlaceholder: 'Provide feedback',
+        showCancelButton: true,
+        confirmButtonText: 'Confirm',
+        background: '#fff',
+        cancelButtonText: 'Cancel',
+        confirmButtonColor: '#4BB1F7',
+        cancelButtonColor: '#c2c2c2',
+        preConfirm: (remarks) => {
+            feedbackInput = remarks; 
+        },
+    }).then((result) => {
+        if (result.isConfirmed) {
+          if (!feedbackInput) {
+            Swal.fire({
+              title: 'Error!',
+              text: 'Please enter a remark.',
+              icon: 'error',
+              confirmButtonText: 'OK',
+              confirmButtonColor: '#4BB1F7',
+              background: '#fff',
+            });
+            return;
+          }
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                url: '/ban/' + residentId,
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    id: residentId,
+                    remarks: feedbackInput, 
+                },
+                success: function (response) {
+                    Swal.fire({
+                        title: 'Success!',
+                        text: 'Resident has been banned successfully.',
+                        icon: 'success',
+                        confirmButtonText: 'OK',
+                        confirmButtonColor: '#4BB1F7',
+                        background: '#fff',
+                    }).then((result) => {
+                        location.reload();
+                    });
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                    Swal.fire({
+                        title: 'Error!',
+                        text: 'Failed to ban the resident.',
+                        icon: 'error',
+                        confirmButtonText: 'OK',
+                        confirmButtonColor: '#4BB1F7',
+                        background: '#fff',
+                    });
+                }
+            });
+        }
+    });
+}
