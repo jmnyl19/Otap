@@ -77,6 +77,10 @@ class ReportController extends Controller
         $report->timehappened = $request->timehappened;
         $report->longitude = $request->longitude;
         $report->latitude = $request->latitude;
+        $report->type_of_incidents = $request->type_of_incidents;
+        $report->BPSO = $request->BPSO;
+        $report->Ambulance = $request->Ambulance;
+        $report->Firetruck = $request->Firetruck;
         $report->details = $request->details;
         $report->addnotes = $request->addnotes;
         $report->status = $request->status;
