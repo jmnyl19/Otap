@@ -19,13 +19,18 @@ class UserLoginController extends Controller
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
 
-            // Generate a token for the user
-            $token = $user->createToken('auth_token')->plainTextToken;
+            if ($user->status === 'Active' ) {
+                $token = $user->createToken('auth_token')->plainTextToken;
 
-            return response()->json([
-                'user' => $user,
-                'token' => $token,
-            ]);
+                return response()->json([
+                    'user' => $user,
+                    'token' => $token,
+                ]);
+            } else if ($user-> status === 'Inactive') {
+                return response()->json([
+                    'message' => 'Your Account Is Currently Inactive',
+                ], 400);
+            }
         }
 
         return response()->json([

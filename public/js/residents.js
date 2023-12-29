@@ -20,6 +20,7 @@ $(document).ready(function () {
         $.each(response.residents, function(index, value) {
 
           originalStatus[value.id] = value.status;
+          var remarks = value.remarks || '';
 
           var statusEditable = `<select name="status" id="status${value.id}" class="selectCont me-2" onchange="editstatus(${value.id})" ${value.status === 'Banned' ? 'disabled' : ''}>`;
                 
@@ -35,9 +36,10 @@ $(document).ready(function () {
 
                 statusEditable += `</select>`;
 
-                var banButton = value.status !== 'Banned' ?
-                `<button type="button" class="btn btn-primary" onclick="ban(${value.id})">Ban</button>`: '';
-            
+              var banButton = value.status === 'Banned' ?
+              `<button type="button" class="btn btn-primary" onclick="unban(${value.id}, '${remarks}')">Unban</button>` :
+              `<button type="button" class="btn btn-primary" onclick="ban(${value.id})">Ban</button>`;
+
               var row = `
                 <tr>
                   
@@ -48,12 +50,8 @@ $(document).ready(function () {
                   <td>
                   <button type="button" class="btn btn-primary" onclick="viewDetails(${value.id})">Details</button>
                   </td>
-                  <td>${statusEditable}${banButton}
-                  
-                  </td>
-                  
-
-
+                  <td>${statusEditable}</td>
+                  <td>${banButton}</td>           
                 </tr>              
               `;
               
@@ -81,6 +79,7 @@ $(document).ready(function () {
         success: function (response) {
           var imagePath = 'cor/' + response.history7[0].cor;
           var imagePath1 = 'validid/' + response.history7[0].valid_id;
+          var imagePath2 = 'pfp/' + response.history7[0].profile_picture;
 
 
           $('#receivedModalBody').empty();
@@ -89,8 +88,12 @@ $(document).ready(function () {
              
               <div class="square-container mt-2 p-20">
                   <div class="shadow p-3 mb-1 rounded modalInfo">
+                      <h5><i class="bi bi-person-circle modalIcon"></i>Profile Picture:</h5>
+                      <img src="${imagePath2}" class="img-thumbnail mt-0 mb-3" alt="Profile Picture">
+                  
                       <h5><i class="bi bi-person-circle modalIcon"></i>Name: ${response.history7[0].first_name} ${response.history7[0].last_name}</h5>
                       <h5><i class="bi bi-house-down-fill modalIcon"></i>Address: ${response.history7[0].lot_no} ${response.history7[0].street} ${response.history7[0].barangay} ${response.history7[0].city} ${response.history7[0].province}</h5>
+                      <h5><i class="bi bi-house-down-fill modalIcon"></i>Landmark: ${response.history7[0].landmark}</h5>
                       <h5><i class="bi bi-file-earmark-text-fill modalIcon"></i>Certificate of Residency:</h5>
                       <img src="${imagePath}" class="img-thumbnail mt-3 mb-3" alt="Certificate of Residency">
                       <h5><i class="bi bi-person-vcard-fill modalIcon"></i>Valid ID:</h5>
@@ -242,3 +245,64 @@ $(document).ready(function () {
         }
     });
 }
+
+function unban(residentId, remarks) {
+    Swal.fire({
+      title: 'Unbanning Confirmation',
+      text: 'Are you sure you want to unban this resident?',
+      html: `
+            <p class="mb-0 ">Reason for banning:</p>
+            <textarea id="remarks" class="swal2-textarea mt-0" readonly>${remarks}</textarea>
+        `,
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Confirm',
+      background: '#fff',
+      cancelButtonText: 'Cancel',
+      confirmButtonColor: '#4BB1F7',
+      cancelButtonColor: '#c2c2c2',
+  }).then((result) => {
+      if (result.isConfirmed) {
+          $.ajaxSetup({
+              headers: {
+                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+              }
+          });
+          $.ajax({
+              url: '/unban/' + residentId,
+              type: 'POST',
+              dataType: 'json',
+              data: {
+                  id: residentId,
+              },
+              success: function (response) {
+                  Swal.fire({
+                      title: 'Success!',
+                      text: 'Resident has been unbanned successfully.',
+                      icon: 'success',
+                      confirmButtonText: 'OK',
+                      confirmButtonColor: '#4BB1F7',
+                      background: '#fff',
+                  }).then((result) => {
+                      location.reload();
+                  });
+              },
+              error: function (xhr, status, error) {
+                  console.error(error);
+                  Swal.fire({
+                      title: 'Error!',
+                      text: 'Failed to unban the resident.',
+                      icon: 'error',
+                      confirmButtonText: 'OK',
+                      confirmButtonColor: '#4BB1F7',
+                      background: '#fff',
+                  });
+              }
+          });
+      }
+  });
+}
+
+// function fetchRemarksFunction(residentId) {
+//   return 'Sample remarks from the banned resident.';
+// }

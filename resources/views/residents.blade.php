@@ -33,6 +33,8 @@ Manage Registered Residents
                             <th scope="col">Address</th>
                             <th scope="col">Proof of Residency</th>
                             <th scope="col" class="text-center">Status</th>
+                            <th scope="col">Action</th>
+
                             </tr>
                         </thead>
                         <tbody>

@@ -64,6 +64,13 @@ class StatusController extends Controller
 
         return response()->json(['message' => 'Status updated successfully']);
     }
+    public function unbanaccounts(Request $request, $id){
+        $users = User::find($id);
+        $users->status = 'Inactive';
+        $users->save();
+
+        return response()->json(['message' => 'Status updated successfully']);
+    }
     public function forward(Request $request, $id)
     {
         $incidents = Incident::find($id);

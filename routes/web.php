@@ -113,6 +113,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('unavailablereport/{id}', [App\Http\Controllers\StatusController::class, 'unavailablereport']);
     Route::post('editstatus/{id}', [App\Http\Controllers\StatusController::class, 'editstatus']);
     Route::post('ban/{id}', [App\Http\Controllers\StatusController::class, 'banaccounts']);
+    Route::post('unban/{id}', [App\Http\Controllers\StatusController::class, 'unbanaccounts']);
 
     Route::get('/pendingpage', [App\Http\Controllers\IncidentController::class, 'managepending'])->name('pendingpage');
     Route::get('/completedpage', [App\Http\Controllers\IncidentController::class, 'managecompleted'])->name('completedpage');
