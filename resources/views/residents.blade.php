@@ -27,13 +27,13 @@ Manage Registered Residents
                     <table class="table" id="allResidentsCont">
                         <thead>
                             <tr>
-                            <th scope="col">Fullname</th>
-                            <th scope="col">Age</th>
-                            <th scope="col">Contact No.</th>
-                            <th scope="col">Address</th>
-                            <th scope="col">Proof of Residency</th>
-                            <th scope="col" class="text-center">Status</th>
-                            <th scope="col">Action</th>
+                                <th scope="col">Fullname</th>
+                                <th scope="col">Age</th>
+                                <th scope="col">Contact No.</th>
+                                <th scope="col">Address</th>
+                                <th scope="col">Proof of Residency</th>
+                                <th scope="col" class="text-center">Status</th>
+                                <th scope="col">Action</th>
 
                             </tr>
                         </thead>

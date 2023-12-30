@@ -1,70 +1,73 @@
 $(document).ready(function () {
-    getResidents();
-  });
-  var originalStatus = {};
+  // Initialize DataTable
+  var residentsTable = $('#allResidentsCont').DataTable();
 
+  // Call getResidents function with the DataTable instance
+  getResidents(residentsTable);
+});
 
-  function getResidents() {
-    $.ajaxSetup({
+var originalStatus = {};
+
+function getResidents(residentsTable) {
+  $.ajaxSetup({
       headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
       }
-    });
-    $.ajax({
+  });
+
+  $.ajax({
       url: '/getresidents',
       type: 'GET',
       dataType: 'json',
       success: function (response) {
-        var tableBody = $('#allResidentsCont').find('tbody');
-        tableBody.empty();
-        $.each(response.residents, function(index, value) {
+          // Clear existing data
+          residentsTable.clear();
 
-          originalStatus[value.id] = value.status;
-          var remarks = value.remarks || '';
+          // Add new data
+          $.each(response.residents, function (index, value) {
+              originalStatus[value.id] = value.status;
+              var remarks = value.remarks || '';
 
-          var statusEditable = `<select name="status" id="status${value.id}" class="selectCont me-2" onchange="editstatus(${value.id})" ${value.status === 'Banned' ? 'disabled' : ''}>`;
-                
-                if (value.status == "Inactive") {
-                    statusEditable += `<option value="Inactive" selected>INACTIVE</option>
-                                      <option value="Active">ACTIVE</option>`;
-                } else if (value.status == "Active") {
-                    statusEditable += `<option value="Inactive">INACTIVE</option>
-                                      <option value="Active" selected>ACTIVE</option>`;
-                } else if (value.status == "Banned") {
+              var statusEditable = `<select name="status" id="status${value.id}" class="selectCont me-2" onchange="editstatus(${value.id})" ${value.status === 'Banned' ? 'disabled' : ''}>`;
+
+              if (value.status == "Inactive") {
+                  statusEditable += `<option value="Inactive" selected>INACTIVE</option>
+                                    <option value="Active">ACTIVE</option>`;
+              } else if (value.status == "Active") {
+                  statusEditable += `<option value="Inactive">INACTIVE</option>
+                                    <option value="Active" selected>ACTIVE</option>`;
+              } else if (value.status == "Banned") {
                   statusEditable += `<option value="Banned" selected>BANNED</option>`;
               }
 
-                statusEditable += `</select>`;
+              statusEditable += `</select>`;
 
               var banButton = value.status === 'Banned' ?
-              `<button type="button" class="btn btn-primary" onclick="unban(${value.id}, '${remarks}')">Unban</button>` :
-              `<button type="button" class="btn btn-primary" onclick="ban(${value.id})">Ban</button>`;
+                  `<button type="button" class="btn btn-primary" onclick="unban(${value.id}, '${remarks}')">Unban</button>` :
+                  `<button type="button" class="btn btn-primary" onclick="ban(${value.id})">Ban</button>`;
 
-              var row = `
-                <tr>
-                  
-                  <td>${value.first_name} ${value.last_name}</td>
-                  <td>${value.age}</td>
-                  <td>${value.contact_no}</td>
-                  <td>${value.lot_no} ${value.street} ${value.barangay} ${value.city} ${value.province}</td>
-                  <td>
-                  <button type="button" class="btn btn-primary" onclick="viewDetails(${value.id})">Details</button>
-                  </td>
-                  <td>${statusEditable}</td>
-                  <td>${banButton}</td>           
-                </tr>              
-              `;
-              
-              tableBody.append(row);
-              
-            });
-            
+              var rowData = [
+                  `${value.first_name} ${value.last_name}`,
+                  value.age,
+                  value.contact_no,
+                  `${value.lot_no} ${value.street} ${value.barangay} ${value.city} ${value.province}`,
+                  `<button type="button" class="btn btn-primary" onclick="viewDetails(${value.id})">Details</button>`,
+                  statusEditable,
+                  banButton
+              ];
+
+              // Add row to DataTable
+              residentsTable.row.add(rowData);
+          });
+
+          // Draw the table to reflect changes
+          residentsTable.draw();
       },
       error: function (error) {
           console.log('Error fetching latest incidents:', error);
       }
   });
-  }
+}
 
   function viewDetails(id) {
     $.ajaxSetup({

@@ -460,6 +460,31 @@ class IncidentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function itexmo($message) {
+        try {
+            $ch = curl_init();
+            $itextmo = array(
+                'Email' => 'mizalanthony14@gmail.com',
+                'Password' => 'K!llmeplease69',
+                'ApiCode' => 'TR-ANTHO789736_EYS4G',
+                'Recipients' => '["09458404654"]',
+                'Message' => $message,
+            );
+    
+            curl_setopt($ch, CURLOPT_URL, "https://api.itexmo.com/api/broadcast");
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($itextmo));
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $response = curl_exec($ch);
+    
+            curl_close($ch);
+    
+            return $response;
+        } catch (Exception $ex) {
+            return $ex->getMessage();
+        }
+    }
+
     public function create(Request $request)
     {
         $incident = new Incident;
@@ -468,11 +493,11 @@ class IncidentController extends Controller
         $incident->status = $request->status;
         $incident->latitude = $request->latitude;
         $incident->longitude = $request->longitude;
-
+        
         $incident->save();
         
         event(new IncidentCreated($incident));
-
+       
         return response()->json([
             'message' => 'Successfull',
         ], 200);
