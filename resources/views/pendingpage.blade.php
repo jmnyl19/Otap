@@ -22,13 +22,14 @@ Pending
     <div class="latest-container p-4 mt-5" style="flex: 1">
         <h3 class="fw-bolder pageTitle mb-4">Pending Request</h3>
 
-        <div class="requests justify-content-around" style="width: 95%; margin: 10px">
+        <div class="requests justify-content-around" style="width: 95%">
             <div class=" shadow p-4 mb-4 bg-white rounded " >
                 <div class="align-items-center">
                     <div class="col">
                         <h5 class="fw-bold" style="color: #D2AC76">Emergency Request</h5>
                         <div class="col" id="allIncidentCont">
                         </div>
+                     
                         <!-- Modal -->
                         <div class="modal fade"  id="pendingModal" tabindex="-1"  aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-lg modal-dialog-centered">
@@ -37,26 +38,13 @@ Pending
                                         <h5 style="text-align: center"><i class="bi bi-megaphone-fill mr-5 pendingLogo"></i>   Emergency Details</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
-                        
+                                    
                                     <div class="modal-body justify-content-center" id="pendingModalBody">
                                         
                                     </div>
                                     
                                         <div class="modal-body">
-                                                <!-- Dropdown -->
-                                                <div class="form-group">
-                                                    <div class="form-group">
-
-                                                        <label for="forwardDropdown">Forward this Emergency?</label>
-                                                        <select class="form-control" id="forwardDropdown" name="barangay">
-                                                            
-                                                            <option value="" selected disabled>Choose a Barangay:</option>
-                                                            <option value="East Tapinac">East Tapinac</option>
-                                                            <option value="Santa Rita">Santa Rita</option>
-                                                        </select>
-                                                    </div>
-                                                    
-                                            </div>
+                                           
                                         </div>
 
                                         <input type="hidden" name="status" id="incidentStatus" value="Pending">
@@ -65,15 +53,21 @@ Pending
                                         
                                     </div>
                                 </div>
+                               
                             </div>
                         </div>
-
+                        
                     </div>
+                    
                  </div>
             </div>
         </div>
+      
     </div>
-
+    <div class="paginationCont d-flex justify-content-center align-items-center mb-2" style="width: 100%;">
+        <div id="pagination"></div>
+    </div>
+    
     
 
 

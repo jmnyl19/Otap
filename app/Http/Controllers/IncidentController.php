@@ -77,10 +77,25 @@ class IncidentController extends Controller
         ]);
     }
     public function getpendingIncidents(){
-        $allincidents = Incident::with('user')->orderByDesc('created_at')->get();
-        $allpendingIncidents = $allincidents->where('status', 'Pending')->where('user.barangay', auth()->user()->barangay);
+        $allpendingIncidents = Incident::with('user')
+        ->where('status', 'Pending')
+        ->whereHas('user', function ($query) {
+            $query->where('barangay', auth()->user()->barangay);
+        })
+        ->orderByDesc('created_at')
+        ->paginate(10);
+        // return response()->json([
+        //     'allincidents' => $allpendingIncidents,
+        //     'message' => 'Success',
+        // ]);
         return response()->json([
-            'allincidents' => $allpendingIncidents,
+            'allincidents' => $allpendingIncidents->items(),
+            'pagination' => [
+                'current_page' => $allpendingIncidents->currentPage(),
+                'last_page' => $allpendingIncidents->lastPage(),
+                'per_page' => $allpendingIncidents->perPage(),
+                'total' => $allpendingIncidents->total(),
+            ],
             'message' => 'Success',
         ]);
     }
@@ -93,10 +108,21 @@ class IncidentController extends Controller
         ]);
     }
     public function getResponding(){
-        $resincidents = Incident::with('user')->orderByDesc('created_at')->get();
-        $allrespondingIncidents = $resincidents->where('status', 'Responding')->where('user.barangay', auth()->user()->barangay);
+        $allrespondingIncidents = Incident::with('user')
+        ->where('status', 'Responding')
+        ->whereHas('user', function ($query) {
+            $query->where('barangay', auth()->user()->barangay);
+        })
+        ->orderByDesc('created_at')
+        ->paginate(10);
         return response()->json([
-            'resincidents' => $allrespondingIncidents,
+            'resincidents' => $allrespondingIncidents->items(),
+            'pagination' => [
+                'current_page' => $allrespondingIncidents->currentPage(),
+                'last_page' => $allrespondingIncidents->lastPage(),
+                'per_page' => $allrespondingIncidents->perPage(),
+                'total' => $allrespondingIncidents->total(),
+            ],
             'message' => 'Success',
         ]);
     }
@@ -109,18 +135,40 @@ class IncidentController extends Controller
         ]);
     }
     public function getUnavailable(){
-        $unavailable = Incident::with('user')->orderByDesc('created_at')->get();
-        $resunavailable =  $unavailable->where('status', 'Unavailable')->where('user.barangay', auth()->user()->barangay);
+        $resunavailable =  Incident::with('user')
+        ->where('status', 'Unavailable')
+        ->whereHas('user', function ($query) {
+            $query->where('barangay', auth()->user()->barangay);
+        })
+        ->orderByDesc('created_at')
+        ->paginate(10);
         return response()->json([
-            'unavailable' => $resunavailable,
+            'unavailable' => $resunavailable->items(),
+            'pagination' => [
+                'current_page' => $resunavailable->currentPage(),
+                'last_page' => $resunavailable->lastPage(),
+                'per_page' => $resunavailable->perPage(),
+                'total' => $resunavailable->total(),
+            ],
             'message' => 'Success',
         ]);
     }
     public function getUnavailableReport(){
-        $unavailable = Report::with('user')->orderByDesc('datehappened')->get();
-        $unavailablereport = $unavailable->where('user.barangay', auth()->user()->barangay)->where('status', 'Unavailable');
+        $unavailablereport = Report::with('user')
+        ->where('status', 'Unavailable')
+        ->whereHas('user', function ($query) {
+            $query->where('barangay', auth()->user()->barangay);
+        })
+        ->orderByDesc('datehappened')
+        ->paginate(10);
         return response()->json([
-            'unavailablereport' => $unavailablereport,
+            'unavailablereport' => $unavailablereport->items(),
+            'pagination' => [
+                'current_page' => $unavailablereport->currentPage(),
+                'last_page' => $unavailablereport->lastPage(),
+                'per_page' => $unavailablereport->perPage(),
+                'total' => $unavailablereport->total(),
+            ],
             'message' => 'Success',
         ]);
     }
@@ -141,10 +189,21 @@ class IncidentController extends Controller
         ], 200);
     }
     public function getCompleted(){
-        $comincidents = Incident::with('user')->orderByDesc('created_at')->get();
-        $completedIncidents =  $comincidents->where('status', 'Completed')->where('user.barangay', auth()->user()->barangay);
+        $completedIncidents =  Incident::with('user')
+        ->where('status', 'Completed')
+        ->whereHas('user', function ($query) {
+            $query->where('barangay', auth()->user()->barangay);
+        })
+        ->orderByDesc('created_at')
+        ->paginate(10);
         return response()->json([
-            'comincidents' => $completedIncidents,
+            'comincidents' => $completedIncidents->items(),
+            'pagination' => [
+                'current_page' => $completedIncidents->currentPage(),
+                'last_page' => $completedIncidents->lastPage(),
+                'per_page' => $completedIncidents->perPage(),
+                'total' => $completedIncidents->total(),
+            ],
             'message' => 'Success',
         ]);
     }
@@ -165,10 +224,21 @@ class IncidentController extends Controller
         ]);
     }
     public function getReport(){
-        $reports = Report::with('user')->orderByDesc('datehappened')->get();
-        $reportedIncident = $reports->where('user.barangay', auth()->user()->barangay)->where('status', 'Pending');
+        $reportedIncident = Report::with('user')
+        ->where('status', 'Pending')
+        ->whereHas('user', function ($query) {
+            $query->where('barangay', auth()->user()->barangay);
+        })
+        ->orderByDesc('datehappened')
+        ->paginate(10);
         return response()->json([
-            'reports' => $reportedIncident,
+            'reports' => $reportedIncident->items(),
+            'pagination' => [
+                'current_page' => $reportedIncident->currentPage(),
+                'last_page' => $reportedIncident->lastPage(),
+                'per_page' => $reportedIncident->perPage(),
+                'total' => $reportedIncident->total(),
+            ],
             'message' => 'Success',
         ]);
     }
@@ -181,10 +251,21 @@ class IncidentController extends Controller
         ]);
     }
     public function getRespondingReport(){
-        $resreports = Report::with('user')->orderByDesc('created_at')->get();
-        $respondReports = $resreports->where('status', 'Responding')->where('user.barangay', auth()->user()->barangay);
+        $respondReports = Report::with('user')
+        ->where('status', 'Responding')
+        ->whereHas('user', function ($query) {
+            $query->where('barangay', auth()->user()->barangay);
+        })
+        ->orderByDesc('created_at')
+        ->paginate(10);
         return response()->json([
-            'resreports' => $respondReports,
+            'resreports' => $respondReports->items(),
+            'pagination' => [
+                'current_page' => $respondReports->currentPage(),
+                'last_page' => $respondReports->lastPage(),
+                'per_page' => $respondReports->perPage(),
+                'total' => $respondReports->total(),
+            ],
             'message' => 'Success',
         ]);
     }
@@ -213,10 +294,21 @@ class IncidentController extends Controller
         ]);
     }
     public function getCompletedReport(){
-        $foreport = Report::with('user')->orderByDesc('created_at')->get();
-        $completedReports = $foreport->where('status', 'Completed')->where('user.barangay', auth()->user()->barangay);
+        $completedReports = Report::with('user')
+        ->where('status', 'Completed')
+        ->whereHas('user', function ($query) {
+            $query->where('barangay', auth()->user()->barangay);
+        })
+        ->orderByDesc('created_at')
+        ->paginate(10);
         return response()->json([
-            'compreport' => $completedReports,
+            'compreport' => $completedReports->items(),
+            'pagination' => [
+                'current_page' => $completedReports->currentPage(),
+                'last_page' => $completedReports->lastPage(),
+                'per_page' => $completedReports->perPage(),
+                'total' => $completedReports->total(),
+            ],
             'message' => 'Success',
         ]);
     }

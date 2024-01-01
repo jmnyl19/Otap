@@ -40,20 +40,7 @@ Incident
                                     
 
                                     <div class="modal-body">
-                                            <!-- Dropdown -->
-                                        <div class="form-group">
-                                                <div class="form-group">
-
-                                                    <label for="forwardDropdown">Forward this Emergency?</label>
-                                                    <select class="form-control" id="forwardDropdown" name="barangay">
-                                                        <!-- Add your dropdown options here -->
-                                                        <option value="" selected disabled>Choose a Barangay:</option>
-                                                        <option value="East Tapinac">East Tapinac</option>
-                                                        <option value="Santa Rita">Santa Rita</option>
-                                                    </select>
-                                                </div>
-                                            
-                                        </div>
+                                         
                                     </div>
                                     
                                     <input type="hidden" name="status" id="incidentStatus" value="Pending">
@@ -72,7 +59,9 @@ Incident
                 </div>
         </div>
     </div>
-
+    <div class="paginationCont d-flex justify-content-center align-items-center mb-2" style="width: 100%;">
+        <div id="pagination"></div>
+    </div>
     
 
 

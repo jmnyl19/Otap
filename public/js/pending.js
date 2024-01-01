@@ -1,18 +1,28 @@
 $(document).ready(function () {
-    getPending();
+  getPending(1);
   });
-
-  function getPending() {
+  function generatePaginationLinks(pagination) {
+    var html = '<ul class="pagination">';
+    html += '<li class="page-item ' + (pagination.current_page === 1 ? 'disabled' : '') + '"><a class="page-link" href="#" onclick="getPending(' + (pagination.current_page - 1) + ')">Previous</a></li>';
+    for (var i = 1; i <= pagination.last_page; i++) {
+        html += '<li class="page-item ' + (i === pagination.current_page ? 'active' : '') + '"><a class="page-link" href="#" onclick="getPending(' + i + ')">' + i + '</a></li>';
+    }
+    html += '<li class="page-item ' + (pagination.current_page === pagination.last_page ? 'disabled' : '') + '"><a class="page-link" href="#" onclick="getPending(' + (pagination.current_page + 1) + ')">Next</a></li>';
+    html += '</ul>';
+    return html;
+}
+  function getPending(page) {
     $.ajaxSetup({
       headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
       }
     });
     $.ajax({
-      url: '/getpending',
+      url: '/getpending?page=' + page,
       type: 'GET',
       dataType: 'json',
       success: function (response) {
+        $('#allIncidentCont').empty(); 
         if (response.allincidents.length === 0) {
           var incidentHtml = '';
           
@@ -86,14 +96,17 @@ $(document).ready(function () {
   
         $('#allIncidentCont').append(incidentHtml);
           });
-
+          var paginationHtml = generatePaginationLinks(response.pagination);
+          $('#pagination').html(paginationHtml);
         }
       },
       error: function (error) {
           console.log('Error fetching latest incidents:', error);
       }
+      
   });
   }
+
   function pendingModal(id) {
     $.ajaxSetup({
         headers: {

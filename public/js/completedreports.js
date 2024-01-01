@@ -1,18 +1,28 @@
 $(document).ready(function () {
-    getCompletedReport();
+    getCompletedReport(1);
   });
-
-  function getCompletedReport() {
+  function generatePaginationLinks(pagination) {
+    var html = '<ul class="pagination">';
+    html += '<li class="page-item ' + (pagination.current_page === 1 ? 'disabled' : '') + '"><a class="page-link" href="#" onclick="getCompletedReport(' + (pagination.current_page - 1) + ')">Previous</a></li>';
+    for (var i = 1; i <= pagination.last_page; i++) {
+        html += '<li class="page-item ' + (i === pagination.current_page ? 'active' : '') + '"><a class="page-link" href="#" onclick="getCompletedReport(' + i + ')">' + i + '</a></li>';
+    }
+    html += '<li class="page-item ' + (pagination.current_page === pagination.last_page ? 'disabled' : '') + '"><a class="page-link" href="#" onclick="getCompletedReport(' + (pagination.current_page + 1) + ')">Next</a></li>';
+    html += '</ul>';
+    return html;
+}
+  function getCompletedReport(page) {
     $.ajaxSetup({
       headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
       }
     });
     $.ajax({
-      url: '/getcompletedreport',
+      url: '/getcompletedreport?page=' + page,
       type: 'GET',
       dataType: 'json',
       success: function (response) {
+        $('#completedReports').empty(); 
         if (response.compreport.length === 0) {
             var incidentHtml = '';
             
@@ -52,6 +62,8 @@ $(document).ready(function () {
           
         $('#completedReports').append(incidentHtml);
           });
+          var paginationHtml = generatePaginationLinks(response.pagination);
+          $('#pagination').html(paginationHtml);
         }
       },
       error: function (error) {

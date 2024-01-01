@@ -1,18 +1,28 @@
 $(document).ready(function () {
-    getRespondingReport();
+    getRespondingReport(1);
   });
-
-  function getRespondingReport() {
+  function generatePaginationLinks(pagination) {
+    var html = '<ul class="pagination">';
+    html += '<li class="page-item ' + (pagination.current_page === 1 ? 'disabled' : '') + '"><a class="page-link" href="#" onclick="getRespondingReport(' + (pagination.current_page - 1) + ')">Previous</a></li>';
+    for (var i = 1; i <= pagination.last_page; i++) {
+        html += '<li class="page-item ' + (i === pagination.current_page ? 'active' : '') + '"><a class="page-link" href="#" onclick="getRespondingReport(' + i + ')">' + i + '</a></li>';
+    }
+    html += '<li class="page-item ' + (pagination.current_page === pagination.last_page ? 'disabled' : '') + '"><a class="page-link" href="#" onclick="getRespondingReport(' + (pagination.current_page + 1) + ')">Next</a></li>';
+    html += '</ul>';
+    return html;
+}
+  function getRespondingReport(page) {
     $.ajaxSetup({
       headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
       }
     });
     $.ajax({
-      url: '/getrespondingreport',
+      url: '/getrespondingreport?page=' + page,
       type: 'GET',
       dataType: 'json',
       success: function (response) {
+        $('#getRespondingReportCont').empty(); 
         if (response.resreports.length === 0) {
             var incidentHtml = '';
             
@@ -53,6 +63,8 @@ $(document).ready(function () {
         $('#getRespondingReportCont').append(incidentHtml);
           });
         }
+        var paginationHtml = generatePaginationLinks(response.pagination);
+        $('#pagination').html(paginationHtml);
       },
       error: function (error) {
           console.log('Error fetching latest incidents:', error);

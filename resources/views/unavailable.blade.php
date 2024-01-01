@@ -57,7 +57,9 @@ Unavailable
             </div>
         </div>
     </div>
-
+    <div class="paginationCont d-flex justify-content-center align-items-center mb-2" style="width: 100%;">
+        <div id="pagination"></div>
+    </div>
  
 
 @section('pageJs')

@@ -1,21 +1,28 @@
 $(document).ready(function () {
-    getReForwardedReport();
+    getReForwardedReport(1);
   });
-
-
-
-  function getReForwardedReport() {
+  function generatePaginationLinks(pagination) {
+    var html = '<ul class="pagination">';
+    html += '<li class="page-item ' + (pagination.current_page === 1 ? 'disabled' : '') + '"><a class="page-link" href="#" onclick="getReForwardedReport(' + (pagination.current_page - 1) + ')">Previous</a></li>';
+    for (var i = 1; i <= pagination.last_page; i++) {
+        html += '<li class="page-item ' + (i === pagination.current_page ? 'active' : '') + '"><a class="page-link" href="#" onclick="getReForwardedReport(' + i + ')">' + i + '</a></li>';
+    }
+    html += '<li class="page-item ' + (pagination.current_page === pagination.last_page ? 'disabled' : '') + '"><a class="page-link" href="#" onclick="getReForwardedReport(' + (pagination.current_page + 1) + ')">Next</a></li>';
+    html += '</ul>';
+    return html;
+}
+  function getReForwardedReport(page) {
     $.ajaxSetup({
       headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
       }
     });
     $.ajax({
-      url: '/getunavailablereport',
+      url: '/getunavailablereport?page=' + page,
       type: 'GET',
       dataType: 'json',
       success: function (response) {
-        console.log(response);
+        $('#reportForwarded1').empty(); 
         if (response.unavailablereport.length === 0) {
             var incidentHtml = '';
             
@@ -54,6 +61,8 @@ $(document).ready(function () {
           
         $('#reportForwarded1').append(incidentHtml);
           });
+          var paginationHtml = generatePaginationLinks(response.pagination);
+          $('#pagination').html(paginationHtml);
         }
       },
       error: function (error) {
