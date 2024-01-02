@@ -69,52 +69,70 @@ function getResidents(residentsTable) {
   });
 }
 
-  function viewDetails(id) {
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-    });
-    $.ajax({
-        url: '/getdetails/' + id,
-        type: 'GET',
-        dataType: 'json',
-        success: function (response) {
+function viewDetails(id) {
+  $.ajaxSetup({
+      headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+  });
+  $.ajax({
+      url: '/getdetails/' + id,
+      type: 'GET',
+      dataType: 'json',
+      success: function (response) {
           var imagePath = 'cor/' + response.history7[0].cor;
           var imagePath1 = 'validid/' + response.history7[0].valid_id;
           var imagePath2 = 'pfp/' + response.history7[0].profile_picture;
 
-
           $('#receivedModalBody').empty();
           $('#viewDetails').modal('show');
           var incidentHtml = `
-             
               <div class="square-container mt-2 p-20">
-                  <div class="shadow p-3 mb-1 rounded modalInfo">
-                      <h5><i class="bi bi-person-circle modalIcon"></i>Profile Picture:</h5>
-                      <img src="${imagePath2}" class="img-thumbnail mt-0 mb-3" alt="Profile Picture">
-                  
-                      <h5><i class="bi bi-person-circle modalIcon"></i>Name: ${response.history7[0].first_name} ${response.history7[0].last_name}</h5>
-                      <h5><i class="bi bi-house-down-fill modalIcon"></i>Address: ${response.history7[0].lot_no} ${response.history7[0].street} ${response.history7[0].barangay} ${response.history7[0].city} ${response.history7[0].province}</h5>
-                      <h5><i class="bi bi-house-down-fill modalIcon"></i>Landmark: ${response.history7[0].landmark}</h5>
-                      <h5><i class="bi bi-file-earmark-text-fill modalIcon"></i>Certificate of Residency:</h5>
-                      <img src="${imagePath}" class="img-thumbnail mt-3 mb-3" alt="Certificate of Residency">
-                      <h5><i class="bi bi-person-vcard-fill modalIcon"></i>Valid ID:</h5>
-                      <img src="${imagePath1}" class="img-thumbnail mt-3" alt="Valid ID">
-                  
+              <div class="d-flex align-items-center justify-content-center">
+                          <img src="${imagePath2}" class="img-thumbnail mt-0 mb-3 rounded-5" alt="Profile Picture">
+                        </div>
+                  <div class="shadow p-3 mb-1 rounded ">
+                          <h5><i class="bi bi-person-circle modalIcon"></i>Name: ${response.history7[0].first_name} ${response.history7[0].last_name}</h5>
+                          <h5><i class="bi bi-house-down-fill modalIcon"></i>Address:  ${response.history7[0].lot_no} ${response.history7[0].street} ${response.history7[0].barangay} ${response.history7[0].city} ${response.history7[0].province}</h5>
+                          <h5><i class="bi bi-house-down-fill modalIcon"></i>Landmark: ${response.history7[0].landmark}</h5>
+                          <h5><i class="bi bi-file-earmark-text-fill modalIcon"></i>Certificate of Residency:
+                          <button type="button" class="btn btn-link" data-toggle="modal" data-target="#certificateModal">
+                              View COR
+                          </button>
+                          </h5>
+                          
+                          <div id="certificateModal" class="modal fade" role="dialog">
+                              <div class="modal-dialog modal-dialog-centered">
+                                  <div class="modal-content">
+                                      <div class="modal-body">
+                                          <img src="${imagePath}" class="img-fluid" alt="Certificate of Residency">
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <h5><i class="bi bi-person-vcard-fill modalIcon"></i>Valid ID: <button type="button" class="btn btn-link" data-toggle="modal" data-target="#validIdModal">
+                          View Valid ID
+                      </button></h5>
+                          
+                          <div id="validIdModal" class="modal fade" role="dialog">
+                              <div class="modal-dialog modal-dialog-centered modal-md">
+                                  <div class="modal-content">
+                                      <div class="modal-body d-flex align-items-center justify-content-center ">
+                                          <img src="${imagePath1}" class="img-fluid" alt="Valid ID">
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
                   </div>
               </div>
           `;
           $('#receivedModalBody').append(incidentHtml);
-  
-          
-        
-        },
-        error: function (error) {
-            console.log('Error fetching latest incidents:', error);
-        }
-    });
-  }
+      },
+      error: function (error) {
+          console.log('Error fetching latest incidents:', error);
+      }
+  });
+}
 
   function editstatus(residentId) {
     var selectedStatus = $('#status' + residentId).val();
@@ -305,6 +323,8 @@ function unban(residentId, remarks) {
       }
   });
 }
+
+
 
 // function fetchRemarksFunction(residentId) {
 //   return 'Sample remarks from the banned resident.';

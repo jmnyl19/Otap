@@ -276,7 +276,26 @@ $(document).ready(function () {
         type: 'GET',
         dataType: 'json',
         success: function (response) {
-          console.log(response.history14[0].file);
+          var aStatus = "defStatus";
+          var fStatus = "defStatus";
+          var bStatus = "defStatus";
+          
+          $('#resreportModalBody').empty();
+          $('#respondingreportModal').modal('show');
+
+          if (response.history14[0].Ambulance == 1){
+            var aStatus = "ambulanceActive"
+          }
+
+          if (response.history14[0].Firetruck == 1){
+            var fStatus = "firetruckActive"
+          }
+
+          if (response.history14[0].BPSO == 1){
+            var bStatus = "bpsoActive"
+          }
+
+ 
           var baseUrl = window.location.origin;
           var imagePath = baseUrl + '/file/' + response.history14[0].file;
           $('#reportModalBody').empty();
@@ -287,7 +306,26 @@ $(document).ready(function () {
             <div class="container row ps-5">
             <img src="${imagePath}" class="img-thumbnail mt-3" alt="...">
           <form class="row gt-3 gx-3" action="" method="">
+          <div class="row justify-content-center" id="checkRow">
+          <label for="checkRow" class="form-label mb-0 mt-3">Requested Responders</label>
+              <div class="col-md-3 mt-3">
+                  <div class="form-check">
+                      <h5 class="${aStatus}">Ambulance</h5>
+                  </div>
+              </div>
           
+              <div class="col-md-3 mt-3">
+                  <div class="form-check">
+                      <h5 class="${fStatus}">Firetruck</h5>
+                  </div>
+              </div>
+          
+              <div class="col-md-3 mt-3">
+                  <div class="form-check">
+                      <h5 class="${bStatus}">BPSO</h5>
+                  </div>
+              </div>
+       </div>
           <div class="col-md-6 mt-3">
               <label for="inputName" class="form-label mb-0">Name</label>
               <input type="text" class="form-control border-2 border-dark-subtle" id="inputName" name="id" value="${response.history14[0].user.first_name} ${response.history14[0].user.last_name}" aria-label="Disabled input example" disabled readonly>
@@ -306,7 +344,10 @@ $(document).ready(function () {
             <div id="map${response.history14[0].id}" style="height: 350px;">
               </div>
   
-              
+          <div class="col-12 mt-3">
+              <label for="exampleFormControlTextarea1" class="form-label">Incident Type</label>
+              <textarea class="form-control border-2 border-dark-subtle align-left" id="exampleFormControlTextarea1"  name="ticket_body" rows="3" aria-label="Disabled input example" disabled readonly>${response.history14[0].type_of_incidents}</textarea>
+          </div>
           <div class="col-12 mt-3">
               <label for="exampleFormControlTextarea1" class="form-label">Incident Details</label>
               <textarea class="form-control border-2 border-dark-subtle align-left" id="exampleFormControlTextarea1"  name="ticket_body" rows="3" aria-label="Disabled input example" disabled readonly>${response.history14[0].details}</textarea>

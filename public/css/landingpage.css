@@ -12,6 +12,38 @@ body{
     
 }
 
+.defStatus{
+  padding: 10px !important;
+  background-color: #d6d4d4;
+  color: #ffffff;
+  text-align: center;
+  border-radius: 30px;
+}
+
+.ambulanceActive{
+  padding: 10px !important;
+  background-color: #e9908a;
+  color: #ffffff;
+  text-align: center;
+  border-radius: 30px;
+}
+
+.firetruckActive{
+  padding: 10px !important;
+  background-color: #efb57f;
+  color: #ffffff;
+  text-align: center;
+  border-radius: 30px;
+}
+
+.bpsoActive{
+  padding: 10px !important;
+  background-color: #9ac4eb;
+  color: #ffffff;
+  text-align: center;
+  border-radius: 30px;
+}
+
 .landing-container{
     flex: 1;
 }
