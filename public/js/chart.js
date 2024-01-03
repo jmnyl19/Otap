@@ -78,7 +78,6 @@ let PieChart;
         .catch(error => console.error('Error fetching data:', error));
     }
     document.addEventListener("DOMContentLoaded", function () {
-        // Call the updateChart function initially
         updateChart1();
     });
 
