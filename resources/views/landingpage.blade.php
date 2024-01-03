@@ -14,6 +14,7 @@ Dashboard
 <script src="{{ asset('path/to/maps.js') }}"></script>
 <script src="{{ asset('js/sidenav.js') }}"></script>
 
+
 @endsection
 
 @php
@@ -113,7 +114,7 @@ Dashboard
                                 <div class="col-auto col-md-4 countText">
                                     <h1 class="fw-normal " style="color: #012763">{{$unavailableCount}}</h1>
                                 </div>
-                                <h6 class="recievedLogo">Unavailable</h6>
+                                <h6 class="recievedLogo">Queue</h6>
                             </div>
                         </div>
                 </div>
@@ -128,7 +129,8 @@ Dashboard
                                     <h5 class="fw-bold" style="color: #012763">Latest Incident Reports</h5>
                                     <div class="col" id="getLatestReportsCont">
                                     </div>
-                                    
+                                    <div class="col" id="getLatestQueReportsCont">
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -141,6 +143,8 @@ Dashboard
                                 <div class="col">
                                     <h5 class="fw-bold" style="color: #012763">Latest Emergency Request</h5>
                                     <div class="col" id="latestIncidentCont">
+                                    </div>
+                                    <div class="col" id="latestQueCont">
                                     </div>
                                 </div>
                             </div>
@@ -167,6 +171,30 @@ Dashboard
                                         <input type="hidden" name="status" id="incidentStatus" value="Pending">
                             
                                     <div class="modal-footer justify-content-center" id="pendingModalFooter">
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal fade"  id="pendingqueModal" tabindex="-1"  aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-lg modal-dialog-centered">
+                                <div class="modal-content rounded-4 border border-success border-3">
+                                    <div class="modal-header">
+                                        <h5 style="text-align: center"><i class="bi bi-megaphone-fill mr-5 pendingLogo"></i>   Emergency Details</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                        
+                                    <div class="modal-body justify-content-center" id="pendingqueModalBody">
+                                        
+                                    </div>
+                                    
+                                        <div class="modal-body">
+                                               
+                                        </div>
+
+                                        <input type="hidden" name="status" id="incidentStatus" value="Pending">
+                            
+                                    <div class="modal-footer justify-content-center" id="pendingqueModalFooter">
                                         
                                     </div>
                                 </div>
@@ -200,6 +228,33 @@ Dashboard
                                 </div>
                             </div>
                         </div>
+                        <div class="modal fade" id="reportqueModal" tabindex="-1"  aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-xl modal-dialog-centered">
+                                <div class="modal-content rounded-4 border border-success border-3">
+                                    <div class="modal-header">
+                                        <h4 style="text-align: center">Incident Report</h4>                                        
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+
+                                    <div class="modal-body justify-content-center" id="reportqueModalBody">
+                                    
+                                    </div>
+                                    
+
+                                    <div class="modal-body">
+                                         
+                                    </div>
+                                    
+                                    <input type="hidden" name="status" id="incidentStatus" value="Pending">
+                        
+                                    <div class="modal-footer justify-content-center" id="reportqueModalFooter">
+                                        
+                                    </div>
+                                    
+                                    
+                                </div>
+                            </div>
+                        </div>
 
                         
                 
@@ -211,8 +266,10 @@ Dashboard
                         <option value="month">By Month</option>
                         <option value="year">By Year</option>
                     </select>
-                    <canvas id="myChart" ></canvas>
+                    <canvas id="myChart"></canvas>
+
                 </div>
+
                 <div class="col-sm-4 col-md-5 latestCont shadow p-4 mb-4 bg-white rounded-4">
                     <h5 class="fw-bold" style="color: #012763">Emergency Count</h5>
                     <label for="pieFilter">Select Filter:</label>

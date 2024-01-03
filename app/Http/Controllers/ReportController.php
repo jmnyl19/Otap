@@ -37,7 +37,7 @@ class ReportController extends Controller
     public function manageUnavailableReports()
     {
         $incidents = Report::with('user')->orderByDesc('created_at')->get();
-        $forwardedReports =  $incidents->where('status', 'Unavailable')->where('user.barangay', auth()->user()->barangay);
+        $forwardedReports =  $incidents->where('status', 'Que')->where('user.barangay', auth()->user()->barangay);
         // $incidents = ForwardedReport::with('report')->orderByDesc('created_at')->get();
         // $reforwardedReports =  $incidents->where('status','Forwarded')->where('barangay', auth()->user()->barangay);
 

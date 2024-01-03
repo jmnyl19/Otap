@@ -58,7 +58,7 @@ class StatusController extends Controller
     }
     public function banaccounts(Request $request, $id){
         $users = User::find($id);
-        $users->status = 'Banned';
+        $users->status = 'Archive';
         $users->remarks = $request->remarks;
         $users->save();
 
@@ -187,14 +187,14 @@ class StatusController extends Controller
     public function unavailable(Request $request, $id)
     {
         $incidents = Incident::find($id);
-        $incidents->status = 'Unavailable';
+        $incidents->status = 'Que';
         $incidents->save();
         return redirect('/unavailable');
     }
     public function unavailablereport(Request $request, $id)
     {
         $incidents = Report::find($id);
-        $incidents->status = 'Unavailable';
+        $incidents->status = 'Que';
         $incidents->save();
         return redirect('/unavailablereports');
     }

@@ -16,7 +16,7 @@ class ChartController extends Controller
         $data = DB::table('incidents')
             ->join('users', 'incidents.residents_id', '=', 'users.id')
             ->where('users.barangay', auth()->user()->barangay) 
-            ->whereIn('incidents.status', ['Pending', 'Responding', 'Completed', 'Unavailable'])
+            ->whereIn('incidents.status', ['Pending', 'Responding', 'Completed', 'Que'])
             ->select(DB::raw('YEAR(incidents.created_at) as year'), DB::raw('MONTH(incidents.created_at) as month'), 'incidents.status', DB::raw('count(*) as count'))
             ->groupBy('year', 'month', 'status')
             ->get();

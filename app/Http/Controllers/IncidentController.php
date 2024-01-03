@@ -27,27 +27,11 @@ class IncidentController extends Controller
 
     public function adminLanding(){
         $incidents = Incident::with('user')->orderByDesc('created_at')->get();
-        // $recincidents = ForwardedIncident::with('incident')->orderByDesc('created_at')->get();
         $pendingCount = $incidents->where('status', 'Pending')->where('user.barangay', auth()->user()->barangay)->count();
-        // $forpendingCount = $recincidents->where('status', 'Pending')->where('barangay', auth()->user()->barangay)->count();
-        // $totalPending = $pendingCount + $forpendingCount;
-
         $respondingCount = $incidents->where('status', 'Responding')->where('user.barangay', auth()->user()->barangay)->count();
-        // $forrespondingCount = $recincidents->where('status', 'Responding')->where('barangay', auth()->user()->barangay)->count();
-        // $totalResponding = $respondingCount + $forrespondingCount;
-
         $completedCount = $incidents->where('status', 'Completed')->where('user.barangay', auth()->user()->barangay)->count();
-        // $forcompletedCount = $recincidents->where('status', 'Completed')->where('barangay', auth()->user()->barangay)->count();
-        // $totalCompleted = $completedCount + $forcompletedCount;
-
-        // $forwardedCount = $incidents->where('status', 'Forwarded')->where('user.barangay', auth()->user()->barangay)->count();
-        // $forforwardedCount = $recincidents->where('status', 'Forwarded')->where('barangay', auth()->user()->barangay)->count();
-        // $totalForwarded = $forwardedCount + $forforwardedCount;
-
-        $unavailableCount = $incidents->where('status', 'Unavailable')->where('user.barangay', auth()->user()->barangay)->count();
-        
-
-
+        $unavailableCount = $incidents->where('status', 'Que')->where('user.barangay', auth()->user()->barangay)->count();
+ 
         return view('landingpage', compact('pendingCount','respondingCount','completedCount', 'unavailableCount'));
     }
 
@@ -60,11 +44,28 @@ class IncidentController extends Controller
             'message' => 'Success',
         ]);
     }
+    public function getLatestQue(){
+        $incidents = Incident::with('user')->orderByDesc('created_at')->get();
+        $onqueIncidents = $incidents->where('status', 'Que')->where('user.barangay', auth()->user()->barangay)->take(5);
+
+        return response()->json([
+            'que' => $onqueIncidents,
+            'message' => 'Success',
+        ]);
+    }
     public function getLatestReport(){
         $reports = Report::with('user')->orderByDesc('datehappened')->get();
         $reportedIncident = $reports->where('user.barangay', auth()->user()->barangay)->where('status', 'Pending')->take(5);
         return response()->json([
             'reports' => $reportedIncident,
+            'message' => 'Success',
+        ]);
+    }
+    public function getLatestQueReport(){
+        $reports = Report::with('user')->orderByDesc('datehappened')->get();
+        $onquereportedIncident = $reports->where('user.barangay', auth()->user()->barangay)->where('status', 'Que')->take(5);
+        return response()->json([
+            'quereport' => $onquereportedIncident,
             'message' => 'Success',
         ]);
     }
@@ -136,7 +137,7 @@ class IncidentController extends Controller
     }
     public function getUnavailable(){
         $resunavailable =  Incident::with('user')
-        ->where('status', 'Unavailable')
+        ->where('status', 'Que')
         ->whereHas('user', function ($query) {
             $query->where('barangay', auth()->user()->barangay);
         })
@@ -155,7 +156,7 @@ class IncidentController extends Controller
     }
     public function getUnavailableReport(){
         $unavailablereport = Report::with('user')
-        ->where('status', 'Unavailable')
+        ->where('status', 'Que')
         ->whereHas('user', function ($query) {
             $query->where('barangay', auth()->user()->barangay);
         })
@@ -384,6 +385,14 @@ class IncidentController extends Controller
             'message' => 'Success',
         ], 200);
     }
+    public function getCurrentQueReport($id){
+        $reports = Report::with('user')->where('id', $id)->get();
+        
+        return response()->json([
+            'history14' => $reports,
+            'message' => 'Success',
+        ], 200);
+    }
     public function ForwardedReport($id){
         $reports = ForwardedReport::with('report.user')->where('id', $id)->get();
         
@@ -480,6 +489,14 @@ class IncidentController extends Controller
         'message' => 'Success',
     ], 200);
     }
+    public function getCurrentQue($id){
+        $incidents = Incident::with('user')->where('id', $id)->get();
+        
+        return response()->json([
+            'que' => $incidents,
+            'message' => 'Success',
+        ], 200);
+        }
 
     public function user_emegency_history($id)
     {
@@ -504,7 +521,7 @@ class IncidentController extends Controller
     public function manageUnavailable()
     {
         $incidents = Incident::with('user')->orderByDesc('created_at')->get();
-        $forwardedIncidents =  $incidents->where('status', 'Forwarded')->where('user.barangay', auth()->user()->barangay);
+        $forwardedIncidents =  $incidents->where('status', 'Que')->where('user.barangay', auth()->user()->barangay);
 
         // dd($forwardedIncidents);
         return view('unavailable', compact('forwardedIncidents'));

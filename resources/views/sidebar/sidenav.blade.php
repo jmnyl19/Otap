@@ -24,13 +24,13 @@
               <a class="nav_link" onclick="window.location='{{route('pendingpage')}}'"><i class="bi bi-exclamation-triangle"></i><span class="nav_name">Pending</span></a>
               <a class="nav_link" onclick="window.location='{{route('responding')}}'"><i class="bi bi-arrow-repeat"></i><span class="nav_name">Responding</span></a>
               <a class="nav_link" onclick="window.location='{{route('completedpage')}}'"><i class="bi bi-check-circle"></i><span class="nav_name">Completed</span></a>
-              <a class="nav_link mb-0" onclick="window.location='{{route('unavailable')}}'"><i class="bi bi-send-exclamation"></i><span class="nav_name">Unavailable</span></a>
+              <a class="nav_link mb-0" onclick="window.location='{{route('unavailable')}}'"><i class="bi bi-send-exclamation"></i><span class="nav_name">Queue</span></a>
             </div>
             <a class="dropdown-btn nav_link"> <i class="bi bi-caret-down-fill"></i> <span class="nav_name">Incident Status</span> </a> 
             <div class="dropdown-container nav_link">
               <a class="nav_link" onclick="window.location='{{route('respondedreports')}}'"><i class="bi bi-arrow-repeat"></i><span class="nav_name">Responding</span></a>
               <a class="nav_link" onclick="window.location='{{route('completedreports')}}'"><i class="bi bi-check-circle"></i><span class="nav_name">Completed</span></a>
-              <a class="nav_link mb-0" onclick="window.location='{{route('unavailablereports')}}'"><i class="bi bi-send-exclamation"></i><span class="nav_name">Unavailable</span></a>
+              <a class="nav_link mb-0" onclick="window.location='{{route('unavailablereports')}}'"><i class="bi bi-send-exclamation"></i><span class="nav_name">Queue</span></a>
 
             </div>
  

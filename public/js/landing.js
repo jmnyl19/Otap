@@ -2,6 +2,9 @@
 $(document).ready(function () {
   getLatest();
   getReport();
+  getQue();
+  getReportQue();
+
 });
 
   function getLatest() {
@@ -156,7 +159,7 @@ $(document).ready(function () {
                             ></path>
                           </svg>
                         </div>
-                      </div><span>Unavailable</span>
+                      </div><span>Que</span>
                     </button>     
               </form>
 
@@ -204,8 +207,167 @@ $(document).ready(function () {
     });
 }
 
+function getQue() {
+  $.ajaxSetup({
+    headers: {
+      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+  });
+  $.ajax({
+    url: '/getlatestque',
+    type: 'GET',
+    dataType: 'json',
+    success: function (response) {
+ 
+      $.each(response.que, function(index, value) {
+        
+        
+        var date = moment(value.created_at).format('lll');
+        var incidentHtml = '';
+        if (value.type == 'Requesting for Ambulance') {
+          incidentHtml += `
+            <div class="btn btn-primary shadow p-1 mb-1 bg-white rounded" type="button" onclick="pendingqueModal(${value.id})" style="width: 100%; margin: 10px; border: none">
+                <div class="card-body">
+                    <div class="row align-items-center text-start">
+                        <div class="col-auto">
+                            <h1 style="color: red">|</h1>
+                        </div>
+                        <div class="col">
+                            <p class="pe-4 mb-0 text-end" style="color: rgb(255, 132, 0)"><small>${value.status}</small></p>
+                            <h6 style="color: #000"><span class="fw-bold">${value.status}(${date})</span> ${value.type}</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+        } else if (value.type == 'Requesting for a Fire Truck') {
+          incidentHtml += `
+          <div class="btn btn-primary shadow p-1 mb-1 bg-white rounded" type="button" onclick="pendingqueModal(${value.id})" style="width: 100%; margin: 10px; border: none">
+              <div class="card-body">
+                  <div class="row align-items-center text-start">
+                      <div class="col-auto">
+                          <h1 style="color: rgb(255, 132, 0)">|</h1>
+                      </div>
+                      <div class="col">
+                          <p class="pe-4 mb-0 text-end" style="color: rgb(255, 132, 0)"><small>${value.status}</small></p>
+                          <h6 style="color: #000"><span class="fw-bold">(${date})</span> ${value.type}</h6>
+                      </div>
+                  </div>
+              </div>
+          </div>
+        `;
+      } else {
+        incidentHtml += `
+            <div class="btn btn-primary shadow p-1 mb-1 bg-white rounded" type="button" onclick="pendingqueModal(${value.id})" style="width: 100%; margin: 10px; border: none">
+                <div class="card-body">
+                    <div class="row align-items-center text-start">
+                        <div class="col-auto">
+                            <h1 style="color: rgb(0, 157, 255) ">|</h1>
+                        </div>
+                        <div class="col">
+                            <p class="pe-4 mb-0 text-end" style="color: rgb(255, 132, 0)"><small>${value.status}</small></p>
+                            <h6 style="color: #000"><span class="fw-bold">(${date})</span> ${value.type}</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          `;
+        
+      }
 
+    $('#latestQueCont').append(incidentHtml);
+      });
 
+    
+    },
+    error: function (error) {
+        console.log('Error fetching latest incidents:', error);
+    }
+});
+}
+function pendingqueModal(id) {
+  $.ajaxSetup({
+      headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+  });
+  $.ajax({
+      url: '/currentque/' + id,
+      type: 'GET',
+      dataType: 'json',
+      success: function (response) {
+        console.log(response);
+       
+        var date = moment(response.created_at).format('lll');
+        $('#pendingqueModalBody').empty();
+        $('#pendingqueModal').modal('show');
+        var incidentHtml = `
+            <!-- Google Map Container -->
+            <div id="map${response.que[0].id}" style="height: 350px;">
+            </div>
+          
+            <!-- Rest of the modal content -->
+            <hr class="style-one">
+            <div class="square-container mt-2 p-20">
+                <div class="shadow p-3 mb-1 rounded modalInfo">
+                    <h5><i class="bi bi-calendar2-event-fill modalIcon"></i>Date: ${date}</h5>
+                    <h5><i class="bi bi-exclamation-circle-fill modalIcon"></i>Type: ${response.que[0].type}</h5>
+                    <h5><i class="bi bi-person-circle modalIcon"></i>Name: ${response.que[0].user.first_name} ${response.que[0].user.last_name}</h5>
+                    <h5><i class="bi bi-calendar-event-fill modalIcon"></i>Age: ${response.que[0].user.age}</h5>
+                    <h5><i class="bi bi-telephone-fill modalIcon"></i>Contact No.: ${response.que[0].user.contact_no}</h5>
+                    <h5><i class="bi bi-house-down-fill modalIcon"></i>Resident of Barangay: ${response.que[0].user.barangay}</h5>
+                    <h5 id="address${response.que[0].id}" class="address"><i class="bi bi-geo-alt-fill modalIcon"></i>Specific Location: </h5>
+                </div>
+            </div>
+        `;
+        $('#pendingqueModalBody').append(incidentHtml);
+
+        $('#pendingqueModalFooter').empty();
+        var queFooter = `
+               
+            <form action="" method="POST">
+                <button class="respondBtn" type="button" onclick="respond(${response.que[0].id})">
+                    <div class="svg-wrapper-1">
+                      <div class="svg-wrapper">
+                        <svg viewBox="0 0 24 24"
+                        width="24"
+                        height="24" 
+                        version="1.1" 
+                        xmlns="http://www.w3.org/2000/svg" 
+                        xmlns:xlink="http://www.w3.org/1999/xlink" 
+                        fill="#000000">
+                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                            <g id="SVGRepo_iconCarrier"> 
+                                <title>arrow_repeat [#238]</title> 
+                                <desc>Created with Sketch.</desc> <defs> </defs> 
+                                <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> 
+                                    <g id="Dribbble-Light-Preview" transform="translate(-222.000000, -7080.000000)" fill="#ffffff"> 
+                                        <g id="icons" transform="translate(56.000000, 160.000000)"> 
+                                            <path d="M174.034934,6926.99996 C173.480532,6926.99996 173.030583,6927.44796 173.030583,6927.99996 L173.030583,6930.99994 L178.052339,6930.99994 C178.606741,6930.99994 179.05669,6930.49994 179.05669,6929.94795 L179.05669,6929.92095 C179.05669,6929.36895 178.606741,6928.99995 178.052339,6928.99995 L175.039285,6928.99995 L175.039285,6927.99996 C175.039285,6927.44796 174.589336,6926.99996 174.034934,6926.99996 M180.988058,6929.99995 C180.487891,6929.99995 180.071085,6930.36694 179.999776,6930.85894 C179.520701,6934.16792 176.319833,6936.61391 172.736308,6935.86392 C170.462456,6935.38792 168.623489,6933.55693 168.145418,6931.29294 C167.32888,6927.42296 170.287699,6923.99998 174.034934,6923.99998 L174.034934,6925.99997 L179.05669,6922.99998 L174.034934,6920 L174.034934,6921.99999 C169.070425,6921.99999 165.157472,6926.48297 166.156802,6931.60494 C166.765439,6934.72392 169.290378,6937.23791 172.42295,6937.8439 C177.169514,6938.7619 181.369712,6935.51592 181.990401,6931.12594 C182.074766,6930.52994 181.591673,6929.99995 180.988058,6929.99995" id="arrow_repeat-[#238]"> 
+
+                                            </path> 
+                                        </g> 
+                                    </g> 
+                                </g> 
+                            </g>
+                        </svg>
+                      </div>
+                    </div><span>Respond</span>
+                </button>
+            </form>
+        `;
+
+        $('#pendingqueModalFooter').append(queFooter);
+
+        initMap('map' + response.que[0].id, response.que[0].latitude, response.que[0].longitude, response.que[0].id);
+
+      },
+      error: function (error) {
+          console.log('Error fetching latest que incidents:', error);
+      }
+  });
+}
   function getReport() {
     $.ajaxSetup({
       headers: {
@@ -386,7 +548,7 @@ $(document).ready(function () {
                             ></path>
                           </svg>
                         </div>
-                      </div><span>Unavailable</span>
+                      </div><span>Que</span>
                     </button>     
               </form>
 
@@ -432,6 +594,192 @@ $(document).ready(function () {
         }
     });
   }
+  function getReportQue() {
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $.ajax({
+      url: '/getlatestquereports',
+      type: 'GET',
+      dataType: 'json',
+      success: function (response) {
+        
+        $.each(response.quereport, function(index, value) {
+          var date = moment(value.created_at).format('lll');
+            var incidentHtml = `
+            <div class="btn btn-primary shadow p-1 mb-1 bg-white rounded" type="button" onclick="reportqueModal(${value.id})" style="width: 100%; margin: 10px; border: none">
+            <div class="card-body">
+                <div class="row align-items-center text-start">
+                    <div class="col-auto">
+                        <h1 style="color: red">|</h1>
+                    </div>
+                    <div class="col">
+                      <p class="pe-4 mb-0 text-end" style="color: rgb(255, 132, 0)"><small>${value.status}</small></p>
+                      <h6 style="color: #000"><span class="fw-bold">(${date})</span></h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+        `;
+          
+        // Append the HTML to the container (replace 'your-container' with the actual container ID or class)
+        $('#getLatestQueReportsCont').append(incidentHtml);
+          });
+        
+      },
+      error: function (error) {
+          console.log('Error fetching latest incidents:', error);
+      }
+  });
+  }
+  function reportqueModal(id) {
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+    $.ajax({
+        url: '/currentquereport/' + id,
+        type: 'GET',
+        dataType: 'json',
+        success: function (response) {
+          var aStatus = "defStatus";
+          var fStatus = "defStatus";
+          var bStatus = "defStatus";
+          
+          $('#reportqueModalBody').empty();
+          $('#reportqueModal').modal('show');
+
+          if (response.history14[0].Ambulance == 1){
+            var aStatus = "ambulanceActive"
+          }
+
+          if (response.history14[0].Firetruck == 1){
+            var fStatus = "firetruckActive"
+          }
+
+          if (response.history14[0].BPSO == 1){
+            var bStatus = "bpsoActive"
+          }
+
+ 
+          var baseUrl = window.location.origin;
+          var imagePath = baseUrl + '/file/' + response.history14[0].file;
+          $('#reportqueModalBody').empty();
+          $('#reportqueModal').modal('show');
+          var incidentHtml = `
+          <div class="square-container p-20">
+            <div class="shadow p-1 mb-1 bg-white rounded">
+            <div class="container row ps-5">
+            <img src="${imagePath}" class="img-thumbnail mt-3" alt="...">
+          <form class="row gt-3 gx-3" action="" method="">
+          <div class="row justify-content-center" id="checkRow">
+          <label for="checkRow" class="form-label mb-0 mt-3">Requested Responders</label>
+              <div class="col-md-3 mt-3">
+                  <div class="form-check">
+                      <h5 class="${aStatus}">Ambulance</h5>
+                  </div>
+              </div>
+          
+              <div class="col-md-3 mt-3">
+                  <div class="form-check">
+                      <h5 class="${fStatus}">Firetruck</h5>
+                  </div>
+              </div>
+          
+              <div class="col-md-3 mt-3">
+                  <div class="form-check">
+                      <h5 class="${bStatus}">BPSO</h5>
+                  </div>
+              </div>
+       </div>
+          <div class="col-md-6 mt-3">
+              <label for="inputName" class="form-label mb-0">Name</label>
+              <input type="text" class="form-control border-2 border-dark-subtle" id="inputName" name="id" value="${response.history14[0].user.first_name} ${response.history14[0].user.last_name}" aria-label="Disabled input example" disabled readonly>
+          </div>
+          <div class="col-md-3 mt-3">
+              <label for="inputPhone" class="form-label mb-0 fs-6">Phone Number</label>
+              <input type="text" class="form-control border-2 border-dark-subtle" id="inputPhone" name="id" value="${response.history14[0].user.contact_no}" aria-label="Disabled input example" disabled readonly>
+          </div>
+          <div class="col-md-3 mt-3">
+              <label for="inputPassword4" class="form-label mb-0 fs-6">Date</label>
+              <input type="text" class="form-control border-2 border-dark-subtle" id="inputPassword4" name="id" value="${response.history14[0].datehappened}" aria-label="Disabled input example" disabled readonly>
+          </div>
+          <div class="col-12 mt-3">
+              <label for="inputAddress" class="form-label mb-0">Location</label>                                     
+          </div>
+            <div id="map${response.history14[0].id}" style="height: 350px;">
+              </div>
+  
+          <div class="col-12 mt-3">
+              <label for="exampleFormControlTextarea1" class="form-label">Incident Type</label>
+              <textarea class="form-control border-2 border-dark-subtle align-left" id="exampleFormControlTextarea1"  name="ticket_body" rows="3" aria-label="Disabled input example" disabled readonly>${response.history14[0].type_of_incidents}</textarea>
+          </div>
+          <div class="col-12 mt-3">
+              <label for="exampleFormControlTextarea1" class="form-label">Incident Details</label>
+              <textarea class="form-control border-2 border-dark-subtle align-left" id="exampleFormControlTextarea1"  name="ticket_body" rows="3" aria-label="Disabled input example" disabled readonly>${response.history14[0].details}</textarea>
+          </div>
+          <div class="col-12 mt-3 mb-3">
+              <label for="inputAddress" class="form-label mb-0">Additional Notes</label>
+              <input type="text" class="form-control border-2 border-dark-subtle" id="inputPassword4" name="id" value="${response.history14[0].addnotes}" aria-label="Disabled input example" disabled readonly>
+          </div>
+          
+          
+          </form>
+          </div>
+              
+          </div>
+      </div>
+          `;
+          $('#reportqueModalBody').append(incidentHtml);
+  
+          $('#reportqueModalFooter').empty();
+          var pendingFooter = `
+              <form action="" method="POST">
+                  <button class="respondBtn" type="button" onclick="responding(${response.history14[0].id})">
+                      <div class="svg-wrapper-1">
+                        <div class="svg-wrapper">
+                          <svg viewBox="0 0 24 24"
+                          width="24"
+                          height="24" 
+                          version="1.1" 
+                          xmlns="http://www.w3.org/2000/svg" 
+                          xmlns:xlink="http://www.w3.org/1999/xlink" 
+                          fill="#000000">
+                              <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                              <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                              <g id="SVGRepo_iconCarrier"> 
+                                  <title>arrow_repeat [#238]</title> 
+                                  <desc>Created with Sketch.</desc> <defs> </defs> 
+                                  <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> 
+                                      <g id="Dribbble-Light-Preview" transform="translate(-222.000000, -7080.000000)" fill="#ffffff"> 
+                                          <g id="icons" transform="translate(56.000000, 160.000000)"> 
+                                              <path d="M174.034934,6926.99996 C173.480532,6926.99996 173.030583,6927.44796 173.030583,6927.99996 L173.030583,6930.99994 L178.052339,6930.99994 C178.606741,6930.99994 179.05669,6930.49994 179.05669,6929.94795 L179.05669,6929.92095 C179.05669,6929.36895 178.606741,6928.99995 178.052339,6928.99995 L175.039285,6928.99995 L175.039285,6927.99996 C175.039285,6927.44796 174.589336,6926.99996 174.034934,6926.99996 M180.988058,6929.99995 C180.487891,6929.99995 180.071085,6930.36694 179.999776,6930.85894 C179.520701,6934.16792 176.319833,6936.61391 172.736308,6935.86392 C170.462456,6935.38792 168.623489,6933.55693 168.145418,6931.29294 C167.32888,6927.42296 170.287699,6923.99998 174.034934,6923.99998 L174.034934,6925.99997 L179.05669,6922.99998 L174.034934,6920 L174.034934,6921.99999 C169.070425,6921.99999 165.157472,6926.48297 166.156802,6931.60494 C166.765439,6934.72392 169.290378,6937.23791 172.42295,6937.8439 C177.169514,6938.7619 181.369712,6935.51592 181.990401,6931.12594 C182.074766,6930.52994 181.591673,6929.99995 180.988058,6929.99995" id="arrow_repeat-[#238]"> 
+  
+                                              </path> 
+                                          </g> 
+                                      </g> 
+                                  </g> 
+                              </g>
+                          </svg>
+                        </div>
+                      </div><span>Respond</span>
+                  </button>
+              </form>
+          `;
+  
+          $('#reportqueModalFooter').append(pendingFooter);
+          initMap('map' + response.history14[0].id, parseFloat(response.history14[0].latitude), parseFloat(response.history14[0].longitude), response.history14[0].id);
+        
+        },
+        error: function (error) {
+            console.log('Error fetching latest incidents:', error);
+        }
+    });
+  }
+
 
   function swalNewIncident() {
     playAlert('../assets/beep.mp3');

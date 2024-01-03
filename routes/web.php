@@ -51,8 +51,11 @@ Route::get('/unavailablereports', [App\Http\Controllers\ReportController::class,
 Route::get('/residents', [App\Http\Controllers\ResidentManagementController::class, 'getresidents'])->name('residents');
 Route::get('/getresidents', [App\Http\Controllers\ResidentManagementController::class, 'index']);
 
+Route::get('/getlatestque', [App\Http\Controllers\IncidentController::class, 'getLatestQue']);
 Route::get('/getlatestincidents', [App\Http\Controllers\IncidentController::class, 'getLatestIncidents']);
 Route::get('/getlatestreports', [App\Http\Controllers\IncidentController::class, 'getLatestReport']);
+Route::get('/getlatestquereports', [App\Http\Controllers\IncidentController::class, 'getLatestQueReport']);
+
 Route::get('/getlatestforwarded', [App\Http\Controllers\IncidentController::class, 'getLatestForwardedIncidents']);
 Route::get('/getpending', [App\Http\Controllers\IncidentController::class, 'getpendingIncidents']);
 Route::get('/getpendingforwarded', [App\Http\Controllers\IncidentController::class, 'getpendingForwarded']);
@@ -91,7 +94,9 @@ Route::get('/respondingforwarded/{id}', [App\Http\Controllers\IncidentController
 Route::get('/respondingincident/{id}', [App\Http\Controllers\IncidentController::class, 'RespondingIncident']);
 Route::get('/currentforwarded/{id}', [App\Http\Controllers\IncidentController::class, 'getCurrentForwarded']);
 Route::get('/currentincident/{id}', [App\Http\Controllers\IncidentController::class, 'getCurrentIncident']);
+Route::get('/currentque/{id}', [App\Http\Controllers\IncidentController::class, 'getCurrentQue']);
 Route::get('/currentreport/{id}', [App\Http\Controllers\IncidentController::class, 'getCurrentReport']);
+Route::get('/currentquereport/{id}', [App\Http\Controllers\IncidentController::class, 'getCurrentQueReport']);
 Route::get('/pendingforwarded/{id}', [App\Http\Controllers\IncidentController::class, 'PendingForwarded']);
 Route::get('/pendingincident/{id}', [App\Http\Controllers\IncidentController::class, 'PendingIncident']);
 Route::get('/getrespondingforwardedreport', [App\Http\Controllers\IncidentController::class, 'getRespondingForwardedReport']);

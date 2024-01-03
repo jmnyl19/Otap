@@ -78,7 +78,7 @@ function respond(incidentID) {
     cancelButtonText: 'Cancel',
     confirmButtonColor: '#4BB1F7',
     cancelButtonColor: '#c2c2c2',
-    
+    reverseButtons: true,
   }).then((result) => {
     if (result.isConfirmed) {
       $.ajaxSetup({
@@ -338,7 +338,8 @@ function responded(incidentID) {
     cancelButtonText: 'Cancel',
     confirmButtonColor: '#4BB1F7',
     cancelButtonColor: '#c2c2c2',
-    
+    reverseButtons: true,
+
   }).then((result) => {
     if (result.isConfirmed) {
       $.ajaxSetup({
@@ -391,7 +392,8 @@ function responding(incidentID) {
     cancelButtonText: 'Cancel',
     confirmButtonColor: '#4BB1F7',
     cancelButtonColor: '#c2c2c2',
-    
+    reverseButtons: true,
+
   }).then((result) => {
     if (result.isConfirmed) {
       $.ajaxSetup({
@@ -444,7 +446,8 @@ function respondreport(incidentID) {
     cancelButtonText: 'Cancel',
     confirmButtonColor: '#4BB1F7',
     cancelButtonColor: '#c2c2c2',
-    
+    reverseButtons: true,
+
   }).then((result) => {
     if (result.isConfirmed) {
       $.ajaxSetup({
@@ -497,7 +500,8 @@ function completed(incidentID) {
     cancelButtonText: 'Cancel',
     confirmButtonColor: '#4BB1F7',
     cancelButtonColor: '#c2c2c2',
-    
+    reverseButtons: true,
+
   }).then((result) => {
     if (result.isConfirmed) {
       $.ajaxSetup({
@@ -550,7 +554,8 @@ function forcompleted(incidentID) {
     cancelButtonText: 'Cancel',
     confirmButtonColor: '#4BB1F7',
     cancelButtonColor: '#c2c2c2',
-    
+    reverseButtons: true,
+
   }).then((result) => {
     if (result.isConfirmed) {
       $.ajaxSetup({
@@ -603,7 +608,8 @@ function completing(incidentID) {
     cancelButtonText: 'Cancel',
     confirmButtonColor: '#4BB1F7',
     cancelButtonColor: '#c2c2c2',
-    
+    reverseButtons: true,
+
   }).then((result) => {
     if (result.isConfirmed) {
       $.ajaxSetup({
@@ -656,7 +662,8 @@ function completedreport(incidentID) {
     cancelButtonText: 'Cancel',
     confirmButtonColor: '#4BB1F7',
     cancelButtonColor: '#c2c2c2',
-    
+    reverseButtons: true,
+
   }).then((result) => {
     if (result.isConfirmed) {
       $.ajaxSetup({
@@ -710,7 +717,8 @@ function unavailable(incidentID) {
     cancelButtonText: 'Cancel',
     confirmButtonColor: '#4BB1F7',
     cancelButtonColor: '#c2c2c2',
-    
+    reverseButtons: true,
+
   }).then((result) => {
     if (result.isConfirmed) {
       $.ajaxSetup({
@@ -763,7 +771,8 @@ function unavailablereport(incidentID) {
     cancelButtonText: 'Cancel',
     confirmButtonColor: '#4BB1F7',
     cancelButtonColor: '#c2c2c2',
-    
+    reverseButtons: true,
+
   }).then((result) => {
     if (result.isConfirmed) {
       $.ajaxSetup({

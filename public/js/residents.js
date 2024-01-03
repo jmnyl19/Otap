@@ -28,7 +28,7 @@ function getResidents(residentsTable) {
               originalStatus[value.id] = value.status;
               var remarks = value.remarks || '';
 
-              var statusEditable = `<select name="status" id="status${value.id}" class="selectCont me-2" onchange="editstatus(${value.id})" ${value.status === 'Banned' ? 'disabled' : ''}>`;
+              var statusEditable = `<select name="status" id="status${value.id}" class="selectCont me-2" onchange="editstatus(${value.id})" ${value.status === 'Archive' ? 'disabled' : ''}>`;
 
               if (value.status == "Inactive") {
                   statusEditable += `<option value="Inactive" selected>INACTIVE</option>
@@ -36,15 +36,15 @@ function getResidents(residentsTable) {
               } else if (value.status == "Active") {
                   statusEditable += `<option value="Inactive">INACTIVE</option>
                                     <option value="Active" selected>ACTIVE</option>`;
-              } else if (value.status == "Banned") {
-                  statusEditable += `<option value="Banned" selected>BANNED</option>`;
+              } else if (value.status == "Archive") {
+                  statusEditable += `<option value="Archive" selected>ARCHIVE</option>`;
               }
 
               statusEditable += `</select>`;
 
-              var banButton = value.status === 'Banned' ?
-                  `<button type="button" class="btn btn-primary" onclick="unban(${value.id}, '${remarks}')">Unban</button>` :
-                  `<button type="button" class="btn btn-primary" onclick="ban(${value.id})">Ban</button>`;
+              var banButton = value.status === 'Archive' ?
+                  `<button type="button" class="btn btn-primary" onclick="unban(${value.id}, '${remarks}')">Unarchive</button>` :
+                  `<button type="button" class="btn btn-primary" onclick="ban(${value.id})">Archive</button>`;
 
               var rowData = [
                   `${value.first_name} ${value.last_name}`,
@@ -147,7 +147,8 @@ function viewDetails(id) {
       cancelButtonText: 'Cancel',
       confirmButtonColor: '#4BB1F7',
       cancelButtonColor: '#c2c2c2',
-     
+      reverseButtons: true,
+
     }).then((result) => {
       if (result.isConfirmed) {
         
@@ -197,21 +198,51 @@ function viewDetails(id) {
   }
   function ban(residentId) {
     var feedbackInput = ''; 
-
+    var remarksSelectOptions = [
+        'Violating Terms of Service (ToS)',
+        'Spam or Misleading Content',
+        'Impersonation',
+        'Multiple Violations',
+        'Others'
+    ];
     Swal.fire({
-        title: 'Ban Confirmation',
-        text: 'Are you sure you want to ban this resident?',
+        title: 'Archiving Confirmation',
+        text: 'Are you sure you want to Archive this resident?',
         icon: 'question',
-        input: 'text', 
-        inputPlaceholder: 'Provide feedback',
+        // input: 'text', 
+        // inputPlaceholder: 'Provide feedback',
         showCancelButton: true,
         confirmButtonText: 'Confirm',
         background: '#fff',
         cancelButtonText: 'Cancel',
         confirmButtonColor: '#4BB1F7',
         cancelButtonColor: '#c2c2c2',
-        preConfirm: (remarks) => {
-            feedbackInput = remarks; 
+        html: `
+            <p class="mb-0">Select a reason for archiving:</p>
+            <select id="remarksSelect" class="mt-1 swal2-select">
+                ${remarksSelectOptions.map(option => `<option>${option}</option>`).join('')}
+            </select>
+            <input id="customRemarksInput" class="swal2-input" placeholder="Enter custom remarks (if Others)" style="display: none;">`,
+        reverseButtons: true,
+
+        preConfirm: () => {
+            // feedbackInput = remarks; 
+            const selectedOption = $('#remarksSelect').val();
+            if (selectedOption === 'Others') {
+                feedbackInput = $('#customRemarksInput').val();
+            } else {
+                feedbackInput = selectedOption;
+            }
+        },
+        didOpen: () => {
+            $('#remarksSelect').change(() => {
+                const selectedOption = $('#remarksSelect').val();
+                if (selectedOption === 'Others') {
+                    $('#customRemarksInput').show();
+                } else {
+                    $('#customRemarksInput').hide();
+                }
+            });
         },
     }).then((result) => {
         if (result.isConfirmed) {
@@ -242,7 +273,7 @@ function viewDetails(id) {
                 success: function (response) {
                     Swal.fire({
                         title: 'Success!',
-                        text: 'Resident has been banned successfully.',
+                        text: 'Resident has been archived successfully.',
                         icon: 'success',
                         confirmButtonText: 'OK',
                         confirmButtonColor: '#4BB1F7',
@@ -255,7 +286,7 @@ function viewDetails(id) {
                     console.error(error);
                     Swal.fire({
                         title: 'Error!',
-                        text: 'Failed to ban the resident.',
+                        text: 'Failed to archive the resident.',
                         icon: 'error',
                         confirmButtonText: 'OK',
                         confirmButtonColor: '#4BB1F7',
@@ -269,10 +300,10 @@ function viewDetails(id) {
 
 function unban(residentId, remarks) {
     Swal.fire({
-      title: 'Unbanning Confirmation',
-      text: 'Are you sure you want to unban this resident?',
+      title: 'Unarchive Confirmation',
+      text: 'Are you sure you want to unarchive this resident?',
       html: `
-            <p class="mb-0 ">Reason for banning:</p>
+            <p class="mb-0 ">Reason for archiving:</p>
             <textarea id="remarks" class="swal2-textarea mt-0" readonly>${remarks}</textarea>
         `,
       icon: 'question',
@@ -282,6 +313,8 @@ function unban(residentId, remarks) {
       cancelButtonText: 'Cancel',
       confirmButtonColor: '#4BB1F7',
       cancelButtonColor: '#c2c2c2',
+      reverseButtons: true,
+
   }).then((result) => {
       if (result.isConfirmed) {
           $.ajaxSetup({
@@ -299,7 +332,7 @@ function unban(residentId, remarks) {
               success: function (response) {
                   Swal.fire({
                       title: 'Success!',
-                      text: 'Resident has been unbanned successfully.',
+                      text: 'Resident has been unarchived successfully.',
                       icon: 'success',
                       confirmButtonText: 'OK',
                       confirmButtonColor: '#4BB1F7',
@@ -312,7 +345,7 @@ function unban(residentId, remarks) {
                   console.error(error);
                   Swal.fire({
                       title: 'Error!',
-                      text: 'Failed to unban the resident.',
+                      text: 'Failed to unarchive the resident.',
                       icon: 'error',
                       confirmButtonText: 'OK',
                       confirmButtonColor: '#4BB1F7',
@@ -325,7 +358,3 @@ function unban(residentId, remarks) {
 }
 
 
-
-// function fetchRemarksFunction(residentId) {
-//   return 'Sample remarks from the banned resident.';
-// }
