@@ -17,8 +17,8 @@ class ChartController extends Controller
             ->join('users', 'incidents.residents_id', '=', 'users.id')
             ->where('users.barangay', auth()->user()->barangay) 
             ->whereIn('incidents.status', ['Pending', 'Responding', 'Completed', 'Unavailable'])
-            ->select(DB::raw('MONTH(incidents.created_at) as month'), 'incidents.status', DB::raw('count(*) as count'))
-            ->groupBy('month', 'status')
+            ->select(DB::raw('YEAR(incidents.created_at) as year'), DB::raw('MONTH(incidents.created_at) as month'), 'incidents.status', DB::raw('count(*) as count'))
+            ->groupBy('year', 'month', 'status')
             ->get();
 
 
@@ -35,9 +35,9 @@ class ChartController extends Controller
             'Requesting for a Barangay Public Safety Officer',
             'Requesting for a Fire Truck',
         ])
-        ->select(DB::raw('MONTH(incidents.created_at) as month'), 
+        ->select(DB::raw('YEAR(incidents.created_at) as year'), DB::raw('MONTH(incidents.created_at) as month'), 
         'incidents.type', DB::raw('count(*) as count'))
-        ->groupBy('month', 'type')
+        ->groupBy('year','month', 'type')
         ->get();
 
         return response()->json($data);

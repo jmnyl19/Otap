@@ -206,10 +206,20 @@ Dashboard
                 </div>
                 <div class="col-sm-8 col-md-5 latestCont shadow p-4 mb-4 bg-white rounded-4">
                     <h5 class="fw-bold" style="color: #012763">Emergency Status Count</h5>
+                    <label for="dateFilter">Select Filter:</label>
+                    <select id="dateFilter" onchange="updateChart()">
+                        <option value="month">By Month</option>
+                        <option value="year">By Year</option>
+                    </select>
                     <canvas id="myChart" ></canvas>
                 </div>
                 <div class="col-sm-4 col-md-5 latestCont shadow p-4 mb-4 bg-white rounded-4">
                     <h5 class="fw-bold" style="color: #012763">Emergency Count</h5>
+                    <label for="pieFilter">Select Filter:</label>
+                    <select id="pieFilter" onchange="updateChart1()">
+                        <option value="month">By Month</option>
+                        <option value="year">By Year</option>
+                    </select>
                     <div><canvas id="PieChart" style="width: 200; height: 200;"></canvas></div>
                 </div>
             </div>
