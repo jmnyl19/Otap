@@ -34,7 +34,7 @@ function displayChartByYear(data) {
         'Pending': '#d25b46',
         'Responding': '#d3cc3a',
         'Completed': '#84ec6a',
-        'Unavailable': 'rgb(224, 128, 17)',
+        'Que': 'rgb(224, 128, 17)',
     };
 
     const datasets = Array.from(new Set(data.map(item => item.status))).map(status => {
