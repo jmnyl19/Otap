@@ -1,4 +1,6 @@
 let PieChart;
+let typeData;
+
 function mapTypeToLabel(type) {
     const typeMappings = {
         'Requesting for Ambulance': 'Requesting for Ambulance',
@@ -8,7 +10,7 @@ function mapTypeToLabel(type) {
     return typeMappings[type] || type; 
 }
     function displayChartByMonth1(data) {
-        const months = Array.from({ length: 12 }, (_, i) => i + 1);
+        const months = Array.from({ length: 12 }, (_, i) => monthToMonthName(i + 1));
         const statusColors = {
             'Requesting for Ambulance' : 'rgb(255, 99, 132)',
             'Requesting for a Barangay Public Safety Officer': 'rgb(54, 162, 235)',
@@ -17,7 +19,7 @@ function mapTypeToLabel(type) {
 
         const datasets = Array.from(new Set(data.map(item => item.type))).map(type => {
             const counts = months.map(month => {
-                const match = data.find(item => item.month === month && item.type === type);
+                const match = data.find(item => item.month === monthToMonthNumber(month) && item.type === type);
                 return match ? match.count : 0;
             });
 
@@ -29,6 +31,8 @@ function mapTypeToLabel(type) {
             };
         });
         renderChart1(months, datasets);
+        typeData = { labels: months, datasets: datasets };
+
     }   
     function displayChartByYear1(data) {
         const years = Array.from(new Set(data.map(item => item.year)));
@@ -52,6 +56,8 @@ function mapTypeToLabel(type) {
             };
         });
         renderChart1(years, datasets);
+        typeData = { labels: years, datasets: datasets };
+
     } 
 
     function renderChart1(labels, datasets) {
@@ -89,8 +95,16 @@ function mapTypeToLabel(type) {
     });
 
 function monthToMonthName(month) {
-  const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-  return monthNames[month - 1];
+    const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    if (Array.isArray(month)) {
+        return month.map(m => monthNames[m - 1]);
+    } else {
+        return monthNames[month - 1];
+    }}
+
+function monthToMonthNumber(monthName) {
+    const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    return monthNames.indexOf(monthName) + 1;
 }
 
 function downloadtypeChart() {
@@ -124,3 +138,10 @@ window.printtypeChart = function () {
         printWindow.print();
     };
 };
+
+function exportTypeToExcel() {
+    const worksheet = XLSX.utils.aoa_to_sheet([['Type of Request', ...typeData.labels], ...typeData.datasets.map(dataset => [dataset.label, ...dataset.data])]);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Chart Data');
+    XLSX.writeFile(workbook, 'emergency_count.xlsx');
+}

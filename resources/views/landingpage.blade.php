@@ -272,6 +272,8 @@ Dashboard
                         <div class="col">
                             <button onclick="downloadChart()">IMG</button>
                             <button onclick="printChart()">PDF</button>
+                            <button onclick="exportToExcel()">Excel</button>
+
                         </div>
                     </div>
                     
@@ -296,6 +298,8 @@ Dashboard
                         <div  class="col">
                             <button onclick="downloadtypeChart()">IMG</button>
                             <button onclick="printtypeChart()">PDF</button>
+                            <button onclick="exportTypeToExcel()">Excel</button>
+
                         </div>
                     </div>
                     <div>

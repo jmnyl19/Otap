@@ -1,6 +1,8 @@
 let myChart;
+let chartData;
+
 function displayChartByMonth(data) {
-    const months = Array.from({ length: 12 }, (_, i) => i + 1);
+    const months = Array.from({ length: 12 }, (_, i) => monthToMonthName(i + 1));
     const statusColors = {
         'Pending': '#d25b46',
         'Responding': '#d3cc3a',
@@ -10,7 +12,7 @@ function displayChartByMonth(data) {
 
     const datasets = Array.from(new Set(data.map(item => item.status))).map(status => {
         const counts = months.map(month => {
-            const match = data.find(item => item.month === month && item.status === status);
+            const match = data.find(item => item.month === monthToMonthNumber(month) && item.status === status);
             return match ? match.count : 0;
         });
 
@@ -23,6 +25,7 @@ function displayChartByMonth(data) {
     });
 
     renderChart(months, datasets);
+    chartData = { labels: months, datasets: datasets };
 }
 
 function displayChartByYear(data) {
@@ -49,6 +52,7 @@ function displayChartByYear(data) {
     });
 
     renderChart(years, datasets);
+    chartData = { labels: years, datasets: datasets };
 }
 
 function renderChart(labels, datasets) {
@@ -86,13 +90,19 @@ function updateChart() {
 
 document.addEventListener("DOMContentLoaded", function () {
     updateChart();
-
-    
 });
 
 function monthToMonthName(month) {
     const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-    return monthNames[month - 1];
+    if (Array.isArray(month)) {
+        return month.map(m => monthNames[m - 1]);
+    } else {
+        return monthNames[month - 1];
+    }
+}
+function monthToMonthNumber(monthName) {
+    const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    return monthNames.indexOf(monthName) + 1;
 }
 
 function downloadChart() {
@@ -102,34 +112,6 @@ function downloadChart() {
     anchor.download = 'chart.png';
     anchor.click();
 }
-// window.printChart = function () {
-//     var chartContainer = document.getElementById('chartContainer');
-
-//     // Store the original dimensions
-//     var originalWidth = chartContainer.style.width;
-//     var originalHeight = chartContainer.style.height;
-
-//     // Set the dimensions for printing
-//     chartContainer.style.width = '1000px';
-//     chartContainer.style.height = '900px';
-
-//     html2canvas(document.getElementById('chartContainer')).then(function (canvas) {
-//         var printWindow = window.open('', '_blank');
-//         printWindow.document.write('<html><head><title>Print</title></head><body>');
-//         printWindow.document.write('<div style="text-align: center;">');
-//         printWindow.document.write('<img src="' + canvas.toDataURL() + '" style="max-width: 100%;">');
-//         printWindow.document.write('</div></body></html>');
-//         printWindow.document.close();
-
-//         printWindow.onload = function () {
-//             printWindow.print();
-
-//             // Set back the original dimensions after printing is done
-//             chartContainer.style.width = originalWidth;
-//             chartContainer.style.height = originalHeight;
-//         };
-//     });
-// };
 
 window.printChart = function () {
     var canvas = document.getElementById('myChart');
@@ -154,3 +136,10 @@ window.printChart = function () {
         printWindow.print();
     };
 };
+
+function exportToExcel() {
+    const worksheet = XLSX.utils.aoa_to_sheet([['Incident Status', ...chartData.labels], ...chartData.datasets.map(dataset => [dataset.label, ...dataset.data])]);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Chart Data');
+    XLSX.writeFile(workbook, 'emergency_status.xlsx');
+}
