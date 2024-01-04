@@ -261,23 +261,46 @@ Dashboard
                 </div>
                 <div class="col-sm-8 col-md-5 latestCont shadow p-4 mb-4 bg-white rounded-4">
                     <h5 class="fw-bold" style="color: #012763">Emergency Status Count</h5>
-                    <label for="dateFilter">Select Filter:</label>
-                    <select id="dateFilter" onchange="updateChart()">
-                        <option value="month">By Month</option>
-                        <option value="year">By Year</option>
-                    </select>
+                    <div class="row">
+                        <div class="col">
+                            <label for="dateFilter">Select Filter:</label>
+                            <select  id="dateFilter" onchange="updateChart()">
+                                <option value="month">By Month</option>
+                                <option value="year">By Year</option>
+                            </select>
+                        </div>
+                        <div class="col">
+                            <button onclick="downloadChart()">IMG</button>
+                            <button onclick="printChart()">PDF</button>
+                        </div>
+                    </div>
+                    
+                    
+                    <div id="chartContainer">
                     <canvas id="myChart"></canvas>
-
+                    </div>
+                    
                 </div>
 
                 <div class="col-sm-4 col-md-5 latestCont shadow p-4 mb-4 bg-white rounded-4">
                     <h5 class="fw-bold" style="color: #012763">Emergency Count</h5>
-                    <label for="pieFilter">Select Filter:</label>
-                    <select id="pieFilter" onchange="updateChart1()">
-                        <option value="month">By Month</option>
-                        <option value="year">By Year</option>
-                    </select>
-                    <div><canvas id="PieChart" style="width: 200; height: 200;"></canvas></div>
+                    
+                    <div class="row">
+                        <div  class="col">
+                            <label for="pieFilter">Select Filter:</label>
+                            <select id="pieFilter" onchange="updateChart1()">
+                                <option value="month">By Month</option>
+                                <option value="year">By Year</option>
+                            </select>
+                        </div>
+                        <div  class="col">
+                            <button onclick="downloadtypeChart()">IMG</button>
+                            <button onclick="printtypeChart()">PDF</button>
+                        </div>
+                    </div>
+                    <div>
+                        <canvas id="PieChart" style="width: 200; height: 200;"></canvas>
+                    </div>
                 </div>
             </div>
 
@@ -292,6 +315,7 @@ Dashboard
 
 
 @section('pageJs')
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="{{ asset('js/landing.js')}}"></script>
 <script src="{{ asset('js/chart.js')}}"></script>

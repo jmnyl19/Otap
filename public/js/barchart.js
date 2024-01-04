@@ -84,12 +84,73 @@ function updateChart() {
         .catch(error => console.error('Error fetching data:', error));
 }
 
-
 document.addEventListener("DOMContentLoaded", function () {
     updateChart();
+
+    
 });
 
 function monthToMonthName(month) {
     const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     return monthNames[month - 1];
 }
+
+function downloadChart() {
+    var canvas = document.getElementById('myChart');
+    var anchor = document.createElement('a');
+    anchor.href = canvas.toDataURL('image/png');
+    anchor.download = 'chart.png';
+    anchor.click();
+}
+// window.printChart = function () {
+//     var chartContainer = document.getElementById('chartContainer');
+
+//     // Store the original dimensions
+//     var originalWidth = chartContainer.style.width;
+//     var originalHeight = chartContainer.style.height;
+
+//     // Set the dimensions for printing
+//     chartContainer.style.width = '1000px';
+//     chartContainer.style.height = '900px';
+
+//     html2canvas(document.getElementById('chartContainer')).then(function (canvas) {
+//         var printWindow = window.open('', '_blank');
+//         printWindow.document.write('<html><head><title>Print</title></head><body>');
+//         printWindow.document.write('<div style="text-align: center;">');
+//         printWindow.document.write('<img src="' + canvas.toDataURL() + '" style="max-width: 100%;">');
+//         printWindow.document.write('</div></body></html>');
+//         printWindow.document.close();
+
+//         printWindow.onload = function () {
+//             printWindow.print();
+
+//             // Set back the original dimensions after printing is done
+//             chartContainer.style.width = originalWidth;
+//             chartContainer.style.height = originalHeight;
+//         };
+//     });
+// };
+
+window.printChart = function () {
+    var canvas = document.getElementById('myChart');
+
+    // Open a new window and append the canvas
+    var printWindow = window.open('', '_blank');
+    printWindow.document.write('<html><head><title>Print</title></head><body>');
+    printWindow.document.write('<div style="text-align: center;">');
+    printWindow.document.write('<canvas id="printCanvas" style="max-width: 100%;" width="' + canvas.width + '" height="' + canvas.height + '"></canvas>');
+    printWindow.document.write('</div></body></html>');
+    printWindow.document.close();
+
+    // Get the canvas element in the print window
+    var printCanvas = printWindow.document.getElementById('printCanvas');
+    var printContext = printCanvas.getContext('2d');
+
+    // Copy the content of the original canvas to the print canvas
+    printContext.drawImage(canvas, 0, 0);
+
+    // Wait for the image to load, then trigger the print dialog
+    printWindow.onload = function () {
+        printWindow.print();
+    };
+};
