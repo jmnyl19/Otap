@@ -83,7 +83,7 @@ $(document).ready(function () {
                               <h1 style="color: rgb(0, 157, 255) ">|</h1>
                           </div>
                           <div class="col">
-                              <h6 style="color: #000"><span class="fw-bold">(${date})</span> ${value.type}</h6>
+                              <h6 style="color: #000"><span class="fw-bold">(${date})</span> Requesting for a Barangay Peacekeeping Action Team</h6>
                           </div>
                       </div>
                   </div>

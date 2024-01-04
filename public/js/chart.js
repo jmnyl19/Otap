@@ -1,5 +1,12 @@
 let PieChart;
-
+function mapTypeToLabel(type) {
+    const typeMappings = {
+        'Requesting for Ambulance': 'Requesting for Ambulance',
+        'Requesting for a Barangay Public Safety Officer': 'Requesting for a Barangay Peacekeeping Action Team',
+        'Requesting for a Fire Truck': 'Requesting for a Fire Truck',
+    };
+    return typeMappings[type] || type; 
+}
     function displayChartByMonth1(data) {
         const months = Array.from({ length: 12 }, (_, i) => i + 1);
         const statusColors = {
@@ -15,7 +22,7 @@ let PieChart;
             });
 
             return {
-                label: type,
+                label: mapTypeToLabel(type),
                 data: counts,
                 fill: false, 
                 borderColor: statusColors[type],
@@ -38,7 +45,7 @@ let PieChart;
             });
 
             return {
-                label: type,
+                label: mapTypeToLabel(type),
                 data: counts,
                 fill: false, 
                 borderColor: statusColors[type],
