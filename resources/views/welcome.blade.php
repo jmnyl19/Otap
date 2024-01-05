@@ -27,6 +27,7 @@ Login
                                     
                                     <div class="card-body p-4 p-lg-5 text-black wholeCard">
                                             <div class="d-flex align-items-center justify-content-center mb-5 pb-1">
+                                                <img class="img-fluid" src="{{url('/assets/strlogo.png')}}" style="width: 13%;"/>
                                                 <img class="img-fluid" src="{{url('/assets/otaplogo.png')}}" style="width: 12%;"/>
                                                 <h5 class="loginAppName">One-Tap Assistance Platform</h5>
                                             </div>

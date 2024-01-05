@@ -9,7 +9,7 @@
 <div class="l-navbar" id="nav-bar">
   <nav class="nav">
       <div> 
-        <a href="{{route('landingpage')}}" class="nav_logo"> <i class='bx bx-layer nav_logo-icon'></i> <span class="nav_logo-name"><img class="mx-auto d-block" width="150" height="150" src="{{ asset('assets/otaplogo.png') }}" alt="user profile"></span> </a>
+        <a href="{{route('landingpage')}}" class="nav_logo"> <i class='bx bx-layer nav_logo-icon'></i> <span class="nav_logo-name"><img class="mx-auto d-block" width="150" height="150" src="{{ asset('assets/strlogo.png') }}" alt="user profile"></span> </a>
         <a href="#" class="nav_logo">  <span class="nav_logo-name">Barangay {{auth()->user()->barangay}}</span> </a>
           <div class="nav_list"> 
             <a href="{{route('landingpage')}}" class="nav_link"> <i class="bi bi-clipboard-data nav_icon"></i> <span class="nav_name">Dashboard</span> </a> 
