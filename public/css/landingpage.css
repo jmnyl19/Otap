@@ -20,6 +20,33 @@ body{
   border-radius: 30px;
 }
 
+#dateFilter, #pieFilter{
+  padding: 2px;
+  border-radius: 10px;
+  border-color: #efb57f;
+}
+
+.imgBtn{
+  padding: 5px 20px;
+  border-width: 0;
+  background-color: #9ac4eb;
+  color: #012763;
+}
+
+.pdfBtn{
+  padding: 5px 20px;
+  border-width: 0;
+  background-color: #eb9a9a;
+  color: #630101;
+}
+
+.xlBtn{
+  padding: 5px 20px;
+  border-width: 0;
+  background-color: #9aeba1;
+  color: #016308;
+}
+
 .ambulanceActive{
   padding: 10px !important;
   background-color: #e9908a;

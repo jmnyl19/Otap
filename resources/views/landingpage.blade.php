@@ -127,9 +127,9 @@ Dashboard
                             <div class="row align-items-center">
                                 <div class="col">
                                     <h5 class="fw-bold" style="color: #012763">Latest Incident Reports</h5>
-                                    <div class="col" id="getLatestReportsCont">
-                                    </div>
                                     <div class="col" id="getLatestQueReportsCont">
+                                    </div>
+                                    <div class="col" id="getLatestReportsCont">
                                     </div>
                                 </div>
                             </div>
@@ -142,9 +142,9 @@ Dashboard
                             <div class="row align-items-center">
                                 <div class="col">
                                     <h5 class="fw-bold" style="color: #012763">Latest Emergency Request</h5>
-                                    <div class="col" id="latestIncidentCont">
-                                    </div>
                                     <div class="col" id="latestQueCont">
+                                    </div>
+                                    <div class="col" id="latestIncidentCont">
                                     </div>
                                 </div>
                             </div>
@@ -269,11 +269,10 @@ Dashboard
                                 <option value="year">By Year</option>
                             </select>
                         </div>
-                        <div class="col">
-                            <button onclick="downloadChart()">IMG</button>
-                            <button onclick="printChart()">PDF</button>
-                            <button onclick="exportToExcel()">Excel</button>
-
+                        <div class="col d-flex justify-content-end">
+                            <button class="imgBtn" onclick="downloadChart()">IMG</button>
+                            <button class="pdfBtn" onclick="printChart()">PDF</button>
+                            <button class="xlBtn" onclick="exportToExcel()">Excel</button>
                         </div>
                     </div>
                     
@@ -287,21 +286,21 @@ Dashboard
                 <div class="col-sm-4 col-md-5 latestCont shadow p-4 mb-4 bg-white rounded-4">
                     <h5 class="fw-bold" style="color: #012763">Emergency Count</h5>
                     
-                    <div class="row">
-                        <div  class="col">
+                    <div class="row justify-content-between" >
+                        <div class="col">
                             <label for="pieFilter">Select Filter:</label>
                             <select id="pieFilter" onchange="updateChart1()">
                                 <option value="month">By Month</option>
                                 <option value="year">By Year</option>
                             </select>
                         </div>
-                        <div  class="col">
-                            <button onclick="downloadtypeChart()">IMG</button>
-                            <button onclick="printtypeChart()">PDF</button>
-                            <button onclick="exportTypeToExcel()">Excel</button>
-
+                        <div class="col d-flex justify-content-end">
+                            <button class="imgBtn" onclick="downloadtypeChart()">IMG</button>
+                            <button class="pdfBtn" onclick="printtypeChart()">PDF</button>
+                            <button class="xlBtn" onclick="exportTypeToExcel()">Excel</button>
                         </div>
                     </div>
+                    
                     <div>
                         <canvas id="PieChart" style="width: 200; height: 200;"></canvas>
                     </div>

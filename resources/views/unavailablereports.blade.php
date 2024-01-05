@@ -5,7 +5,7 @@
 @endsection
 
 @section('pageTitle')
-Unavailable
+Queue
 @endsection
 
 @section('content')
@@ -13,7 +13,7 @@ Unavailable
 
     @include('sidebar.sidenav')
     <div class="latest-container p-4 mt-5">
-        <h3 class="fw-bolder pageTitle">Unavailable Incident Reports</h3>
+        <h3 class="fw-bolder pageTitle">Queue Incident Reports</h3>
 
         <div class="requests" style="width: 95%; margin: 10px">
             <div class="shadow p-4 mb-4 bg-white rounded " >

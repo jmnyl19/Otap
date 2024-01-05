@@ -228,15 +228,17 @@ function getQue() {
           incidentHtml += `
             <div class="btn btn-primary shadow p-1 mb-1 bg-white rounded" type="button" onclick="pendingqueModal(${value.id})" style="width: 100%; margin: 10px; border: none">
                 <div class="card-body">
-                    <div class="row align-items-center text-start">
-                        <div class="col-auto">
-                            <h1 style="color: red">|</h1>
-                        </div>
-                        <div class="col">
-                            <p class="pe-4 mb-0 text-end" style="color: rgb(255, 132, 0)"><small>${value.status}</small></p>
-                            <h6 style="color: #000"><span class="fw-bold">${value.status}(${date})</span> ${value.type}</h6>
+                  <div class="row align-items-center text-start">
+                    <div class="col-auto">
+                        <h1 style="color: red">|</h1>
+                    </div>
+                    <div class="col">
+                        <div class="d-flex align-items-center" style="justify-content: space-between;">
+                          <h6 style="color: #000"><span class="fw-bold">(${date})</span> ${value.type}</h6>
+                          <p class="pe-4 mb-0" style="color: rgb(255, 132, 0);"><small>${value.status}</small></p>
                         </div>
                     </div>
+                  </div>
                 </div>
             </div>
         `;
@@ -244,15 +246,17 @@ function getQue() {
           incidentHtml += `
           <div class="btn btn-primary shadow p-1 mb-1 bg-white rounded" type="button" onclick="pendingqueModal(${value.id})" style="width: 100%; margin: 10px; border: none">
               <div class="card-body">
-                  <div class="row align-items-center text-start">
-                      <div class="col-auto">
-                          <h1 style="color: rgb(255, 132, 0)">|</h1>
-                      </div>
-                      <div class="col">
-                          <p class="pe-4 mb-0 text-end" style="color: rgb(255, 132, 0)"><small>${value.status}</small></p>
-                          <h6 style="color: #000"><span class="fw-bold">(${date})</span> ${value.type}</h6>
+                <div class="row align-items-center text-start">
+                  <div class="col-auto">
+                      <h1 style="color: rgb(255, 132, 0)">|</h1>
+                  </div>
+                  <div class="col">
+                      <div class="d-flex align-items-center" style="justify-content: space-between;">
+                        <h6 style="color: #000"><span class="fw-bold">(${date})</span> ${value.type}</h6>
+                        <p class="pe-4 mb-0" style="color: rgb(255, 132, 0);"><small>${value.status}</small></p>
                       </div>
                   </div>
+                </div>
               </div>
           </div>
         `;
@@ -260,15 +264,17 @@ function getQue() {
         incidentHtml += `
             <div class="btn btn-primary shadow p-1 mb-1 bg-white rounded" type="button" onclick="pendingqueModal(${value.id})" style="width: 100%; margin: 10px; border: none">
                 <div class="card-body">
-                    <div class="row align-items-center text-start">
-                        <div class="col-auto">
-                            <h1 style="color: rgb(0, 157, 255) ">|</h1>
-                        </div>
-                        <div class="col">
-                            <p class="pe-4 mb-0 text-end" style="color: rgb(255, 132, 0)"><small>${value.status}</small></p>
-                            <h6 style="color: #000"><span class="fw-bold">(${date})</span> ${value.type}</h6>
+                  <div class="row align-items-center text-start">
+                    <div class="col-auto">
+                        <h1 style="color: rgb(0, 157, 255)">|</h1>
+                    </div>
+                    <div class="col">
+                        <div class="d-flex align-items-center" style="justify-content: space-between;">
+                          <h6 style="color: #000"><span class="fw-bold">(${date})</span> Requesting for a Barangay Peacekeeping Action Team</h6>
+                          <p class="pe-4 mb-0" style="color: rgb(255, 132, 0); "><small>${value.status}</small></p>
                         </div>
                     </div>
+                 </div>
                 </div>
             </div>
           `;
@@ -616,10 +622,14 @@ function pendingqueModal(id) {
                         <h1 style="color: red">|</h1>
                     </div>
                     <div class="col">
-                      <p class="pe-4 mb-0 text-end" style="color: rgb(255, 132, 0)"><small>${value.status}</small></p>
-                      <h6 style="color: #000"><span class="fw-bold">(${date})</span></h6>
+                    <div class="d-flex align-items-center" style="justify-content: space-between;">
+                      <h6 style="color: #000; margin-right: 40px;"><span class="fw-bold">(${date})</span></h6>
+                      <p class="pe-4 mb-0" style="color: rgb(255, 132, 0)"><small>${value.status}</small></p>
+                      </div>
                     </div>
                 </div>
+
+               
             </div>
         </div>
         `;

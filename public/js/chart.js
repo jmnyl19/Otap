@@ -111,7 +111,7 @@ function downloadtypeChart() {
     var canvas = document.getElementById('PieChart');
     var anchor = document.createElement('a');
     anchor.href = canvas.toDataURL('image/png');
-    anchor.download = 'chart for type of incident.png';
+    anchor.download = 'Barangay_Santa_Rita_Incident_Type_OTAP.png';
     anchor.click();
 }
 
@@ -143,5 +143,5 @@ function exportTypeToExcel() {
     const worksheet = XLSX.utils.aoa_to_sheet([['Type of Request', ...typeData.labels], ...typeData.datasets.map(dataset => [dataset.label, ...dataset.data])]);
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Chart Data');
-    XLSX.writeFile(workbook, 'emergency_count.xlsx');
+    XLSX.writeFile(workbook, 'Barangay_Santa_Rita_Emergency_Count_OTAP.xlsx');
 }
