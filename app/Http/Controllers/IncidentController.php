@@ -569,30 +569,41 @@ class IncidentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function itexmo($message) {
-        try {
-            $ch = curl_init();
-            $itextmo = array(
-                'Email' => 'mizalanthony14@gmail.com',
-                'Password' => 'K!llmeplease69',
-                'ApiCode' => 'TR-ANTHO789736_EYS4G',
-                'Recipients' => '["09458404654"]',
-                'Message' => $message,
-            );
+
+    public function textAlert($number, $message) {
+        $ch = curl_init();
+        $url = 'https://semaphore.co/api/v4/messages';
+        $api_key = 'f2dee59156e7c0028c381fd182a61848';
     
-            curl_setopt($ch, CURLOPT_URL, "https://api.itexmo.com/api/broadcast");
-            curl_setopt($ch, CURLOPT_POST, 1);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($itextmo));
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            $response = curl_exec($ch);
+        $parameters = array(
+            'apikey' => $api_key,
+            'number' => $number,
+            'message' => $message,
+            'sendername' => 'SEMAPHORE'
+        );
     
-            curl_close($ch);
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($parameters));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     
-            return $response;
-        } catch (Exception $ex) {
-            return $ex->getMessage();
+        // Execute the cURL request
+        $output = curl_exec($ch);
+    
+        // Check for cURL errors
+        if (curl_errno($ch)) {
+            // Handle errors appropriately, e.g., log them
+            // You can customize this part based on your needs
+            error_log('Semaphore API Error: ' . curl_error($ch));
         }
+    
+        // Close cURL session
+        curl_close($ch);
+    
     }
+
+
+
 
     public function create(Request $request)
     {
@@ -604,12 +615,14 @@ class IncidentController extends Controller
         $incident->longitude = $request->longitude;
         
         $incident->save();
-        
+
+       
         event(new IncidentCreated($incident));
        
         return response()->json([
             'message' => 'Successfull',
         ], 200);
+        
     }
 
     
