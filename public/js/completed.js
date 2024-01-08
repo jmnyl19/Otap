@@ -99,6 +99,8 @@ $(document).ready(function () {
           });
           var paginationHtml = generatePaginationLinks(response.pagination);
           $('#pagination').html(paginationHtml);
+          $('#pagination').append('<button class="btn btn-primary" onclick="exportToExcel(' + page + ')">Export to Excel</button>');
+
           }
       },
       error: function (error) {
@@ -132,10 +134,10 @@ $(document).ready(function () {
                   <div class="shadow p-3 mb-1 rounded modalInfo">
                       <h5><i class="bi bi-calendar2-event-fill modalIcon"></i>Date: ${date}</h5>
                       <h5><i class="bi bi-exclamation-circle-fill modalIcon"></i>Type: ${response.history5[0].type}</h5>
-                      <h5><i class="bi bi-person-circle modalIcon"></i>Name: ${response.history5[0].user.first_name} ${response.history5[0].user.last_name}</h5>
-                      <h5><i class="bi bi-telephone-fill modalIcon"></i>Contact No.: ${response.history5[0].user.contact_no}</h5>
-                      <h5><i class="bi bi-calendar-event-fill modalIcon"></i>Age: ${response.history5[0].user.age}</h5>
-                      <h5><i class="bi bi-house-down-fill modalIcon"></i>Resident of Barangay: ${response.history5[0].user.barangay}</h5>
+                      <h5><i class="bi bi-person-circle modalIcon" id="name"></i>Name: ${response.history5[0].user.first_name} ${response.history5[0].user.last_name}</h5>
+                      <h5><i class="bi bi-telephone-fill modalIcon" id="contact"></i>Contact No.: ${response.history5[0].user.contact_no}</h5>
+                      <h5><i class="bi bi-calendar-event-fill modalIcon" id="age"></i>Age: ${response.history5[0].user.age}</h5>
+                      <h5><i class="bi bi-house-down-fill modalIcon" id="barangay"></i>Resident of Barangay: ${response.history5[0].user.barangay}</h5>
                       <h5 id="address${response.history5[0].id}" class="address"><i class="bi bi-house-down-fill modalIcon"></i>Specific Location: </h5>
                   </div>
               </div>
@@ -150,3 +152,43 @@ $(document).ready(function () {
         }
     });
   }
+
+  function exportToExcel(page) {
+    $.ajax({
+        url: '/getcompleted?page=' + page,  // Use the same endpoint for fetching data
+        type: 'GET',
+        dataType: 'json',
+        success: function (response) {
+            console.log(response);
+            // Generate and export Excel file using response data
+            generateAndExportExcel(response.comincidents);
+        },
+        error: function (error) {
+            console.log('Error exporting to Excel:', error);
+        }
+    });
+}
+function generateAndExportExcel(data) {
+    var modifiedData = data.map(item => {
+        
+        return {
+            Date: moment(item.created_at).format('lll'),
+            Type: item.type,
+            Name: `${item.user.first_name} ${item.user.last_name}`,
+            ContactNo: item.user.contact_no,
+            Age: item.user.age,
+            Barangay: item.user.barangay,
+            latitude:item.latitude,
+            longitude: item.longitude,
+        };
+    });
+    var worksheet = XLSX.utils.json_to_sheet(modifiedData);
+    var workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Completed Incidents');
+    XLSX.writeFile(workbook, 'completed_incidents.xlsx');
+}
+
+
+
+
+

@@ -48,6 +48,9 @@ Route::get('/unavailable', [App\Http\Controllers\IncidentController::class, 'man
 Route::get('/unavailablereports', [App\Http\Controllers\ReportController::class, 'manageUnavailableReports'])->name('unavailablereports');
 
 // Route::get('/forwardedreports', [App\Http\Controllers\ReportController::class, 'manageforward'])->name('forwardedreports');
+Route::post('/addresponders', [App\Http\Controllers\TextAlertController::class, 'store']);
+Route::get('/getresponders', [App\Http\Controllers\TextAlertController::class, 'manageresponders']);
+Route::get('/responderspage', [App\Http\Controllers\TextAlertController::class, 'getresponders'])->name('responders');
 Route::get('/residents', [App\Http\Controllers\ResidentManagementController::class, 'getresidents'])->name('residents');
 Route::get('/getresidents', [App\Http\Controllers\ResidentManagementController::class, 'index']);
 
@@ -75,6 +78,9 @@ Route::get('/getreforwardreport', [App\Http\Controllers\IncidentController::clas
 Route::get('/getcompletedreport', [App\Http\Controllers\IncidentController::class, 'getCompletedReport']);
 Route::get('/getcompletedforwardedreport', [App\Http\Controllers\IncidentController::class, 'getCompletedForwardReport']);
 
+Route::post('/updateresponder/{id}', [App\Http\Controllers\TextAlertController::class, 'updateResponders']);
+Route::delete('/deleteresponder/{id}', [App\Http\Controllers\TextAlertController::class, 'deleteResponders']);
+Route::get('/geteditresponder/{id}', [App\Http\Controllers\TextAlertController::class, 'getEditResponders']);
 Route::get('/getdetails/{id}', [App\Http\Controllers\ResidentManagementController::class, 'getDetails']);
 Route::get('/reforwarded/{id}', [App\Http\Controllers\IncidentController::class, 'reForwarded']);
 Route::get('/completedreport/{id}', [App\Http\Controllers\IncidentController::class, 'completedReport']);
@@ -126,6 +132,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/latest', [App\Http\Controllers\ReportController::class, 'index'])->name('latest');
     Route::get('/respondedreports', [App\Http\Controllers\ReportController::class, 'respondedreports'])->name('respondedreports');
     Route::get('/completedreports', [App\Http\Controllers\ReportController::class, 'completedreports'])->name('completedreports');
+
 
 });
 

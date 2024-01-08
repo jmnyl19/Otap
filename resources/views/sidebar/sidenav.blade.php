@@ -15,6 +15,7 @@
             <a href="{{route('landingpage')}}" class="nav_link"> <i class="bi bi-clipboard-data nav_icon"></i> <span class="nav_name">Dashboard</span> </a> 
             <a href="{{ route('latest') }}" class="nav_link"> <i class="bi bi-exclamation-circle nav_icon"></i> <span class="nav_name">Incident Reports</span> </a>
             <a href="{{ route('residents') }}" class="nav_link"> <i class="bi bi-person-fill-gear nav_icon"></i> <span class="nav_name">Manage Accounts</span> </a>
+            <a href="{{ route('responders') }}" class="nav_link"> <i class="bi bi-person-fill-gear nav_icon"></i> <span class="nav_name">Responders Contact#</span> </a>
 
             <a class="dropdown-btn nav_link">
               <i class="bi bi-caret-down-fill"></i>
