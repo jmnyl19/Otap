@@ -23,10 +23,10 @@ function getResponders(respondersTable) {
           $.each(response.responders, function (index, value) {
               
               var rowData = [
-                  value.responder,
-                  value.number,
-                  `<button type="button" class="btn btn-primary" onclick="edit(${value.id})">Edit</button> 
-                   <button type="button" class="btn btn-danger" onclick="deleteresponder(${value.id})">Delete</button>`
+                    value.fullname,
+                    value.responder,
+                    value.number,
+                    `<button type="button" class="btn btn-primary" onclick="edit(${value.id})">Edit</button> <button type="button" class="btn btn-danger" onclick="deleteresponder(${value.id})">Delete</button>`
               ];
 
               respondersTable.row.add(rowData);
@@ -45,6 +45,10 @@ function addResponders() {
                 <h6 class="text-center fw-bold">FORM</h6>
             </div>
             <form id="textAlertForm">
+                <div class="mb-3">
+                    <label for="fullname" class="form-label mb-0">Fullname</label>
+                    <input type="text" class="form-control" id="fullname" name="fullname" required>
+                </div>
                 <div class="mb-3">
                     <label for="responder" class="form-label mb-0">Responder</label>
                     <select id="responder" name="responder" class="form-select" required>
@@ -66,6 +70,7 @@ function addResponders() {
 }
 
 function submitTextAlertForm() {
+    var fullname = $('#fullname').val();
     var selectedResponder = $('#responder').val();
     var number = $('#number').val();
     Swal.fire({
@@ -81,10 +86,10 @@ function submitTextAlertForm() {
         reverseButtons: true,
       }).then((result) => {
         if (result.isConfirmed) {
-            if (!number || selectedResponder==='') {
+            if (!fullname || !number || selectedResponder==='') {
                 Swal.fire({
                   title: 'Error!',
-                  text: 'Please select a responder and enter a contact number.',
+                  text: 'Please select a responder, enter fullname, and contact number.',
                   icon: 'error',
                   confirmButtonText: 'OK',
                   confirmButtonColor: '#4BB1F7',
@@ -102,6 +107,7 @@ function submitTextAlertForm() {
                 type: 'POST',
                 dataType: 'json',
                 data: {
+                    fullname: fullname,
                     responder: selectedResponder,
                     number: number
                 },
@@ -109,7 +115,7 @@ function submitTextAlertForm() {
                     console.log(response);
                     Swal.fire({
                         title: 'Success!',
-                        text: 'Responders contact number added successfully.',
+                        text: 'Responder`s contact number added successfully.',
                         icon: 'success',
                         confirmButtonText: 'OK',
                         confirmButtonColor: '#4BB1F7',
@@ -122,7 +128,7 @@ function submitTextAlertForm() {
                     console.error(error); 
                     Swal.fire({
                         title: 'Error!',
-                        text: 'Failed to add responders contact number. Please select responder and add a contact number.',
+                        text: 'Failed to add responders contact number. Please select responder, add fullname, and contact number.',
                         icon: 'error',
                         confirmButtonText: 'OK',
                         confirmButtonColor: '#4BB1F7',
@@ -147,12 +153,16 @@ function edit(responderId) {
 
             if (response.responder) {
                 var responder = response.responder;
-
+                $('#fullname').val(responder.fullname);
                 $('#responder').val(responder.responder);
                 $('#number').val(responder.number);
 
                 var htmlForm = `
                     <form id="textAlertForm">
+                        <div class="mb-3">
+                            <label for="fullname" class="form-label">Fullname</label>
+                            <input type="text" class="form-control" id="fullname" name="fullname" value="${responder.fullname}" required>
+                        </div>
                         <div class="mb-3">
                             <label for="responder" class="form-label">Responder</label>
                             <select id="responder" name="responder" class="form-select" required>
@@ -182,6 +192,7 @@ function edit(responderId) {
 }
 
 function updateResponders(responderId) {
+    var fullname = $('#fullname').val();
     var selectedResponder = $('#responder').val();
     var number = $('#number').val();
 
@@ -198,10 +209,10 @@ function updateResponders(responderId) {
         reverseButtons: true,
       }).then((result) => {
         if (result.isConfirmed) {
-            if (selectedResponder === '' || number === '') {
+            if (fullname=== '' || selectedResponder === '' || number=== '') {
                 Swal.fire({
                     title: 'Error!',
-                    text: 'Please select a responder and enter a number.',
+                    text: 'Please select a responder, enter fullname, and contact number.',
                     icon: 'error',
                     confirmButtonText: 'OK',
                     confirmButtonColor: '#4BB1F7',
@@ -219,6 +230,7 @@ function updateResponders(responderId) {
                 type: 'POST',
                 dataType: 'json',
                 data: {
+                    fullname: fullname,
                     responder: selectedResponder,
                     number: number
                 },
@@ -226,7 +238,7 @@ function updateResponders(responderId) {
                     console.log(response);
                     Swal.fire({
                         title: 'Success!',
-                        text: 'Responders contact number updated successfully.',
+                        text: 'Responder`s contact number updated successfully.',
                         icon: 'success',
                         confirmButtonText: 'OK',
                         confirmButtonColor: '#4BB1F7',
@@ -239,7 +251,7 @@ function updateResponders(responderId) {
                     console.error(error); 
                     Swal.fire({
                         title: 'Error!',
-                        text: 'Failed to update responders contact number. Please select responder and add a contact number.',
+                        text: 'Failed to update responders contact number. Please select responder, add fullname, and contact number.',
                         icon: 'error',
                         confirmButtonText: 'OK',
                         confirmButtonColor: '#4BB1F7',

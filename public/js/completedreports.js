@@ -64,6 +64,8 @@ $(document).ready(function () {
           });
           var paginationHtml = generatePaginationLinks(response.pagination);
           $('#pagination').html(paginationHtml);
+          $('#excelreportButton').append('<button class="btn btn-primary" onclick="exportExcel(' + page + ')">Export to Excel</button>');
+
         }
       },
       error: function (error) {
@@ -71,10 +73,7 @@ $(document).ready(function () {
       }
   });
   }
-
-
-
-    
+  
   function comReportsModal(id) {
     $.ajaxSetup({
         headers: {
@@ -180,6 +179,42 @@ $(document).ready(function () {
         }
     });
   }
+
+  function exportExcel(page) {
+    $.ajax({
+        url: '/getcompletedreport?page=' + page,  
+        type: 'GET',
+        dataType: 'json',
+        success: function (response) {
+            console.log(response);
+            generateExcel(response.compreport);
+        },
+        error: function (error) {
+            console.log('Error exporting to Excel:', error);
+        }
+    });
+}
+function generateExcel(data) {
+    var modifiedData = data.map(item => {
+        
+
+        return {
+            Date: moment(item.created_at).format('lll'),
+            Name: `${item.user.first_name} ${item.user.last_name}`,
+            ContactNo: item.user.contact_no,
+            TypeOfIncident: item.type_of_incidents,
+            Details: item.details,
+            AdditionalNotes: item.addnotes,
+            latitude:item.latitude,
+            longitude: item.longitude,
+        };
+    });
+   
+    var worksheet = XLSX.utils.json_to_sheet(modifiedData);
+    var workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Completed Incident Reports');
+    XLSX.writeFile(workbook, 'completed_incident_reports.xlsx');
+}
 
 
   var maps = [];

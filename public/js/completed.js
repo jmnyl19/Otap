@@ -99,7 +99,7 @@ $(document).ready(function () {
           });
           var paginationHtml = generatePaginationLinks(response.pagination);
           $('#pagination').html(paginationHtml);
-          $('#pagination').append('<button class="btn btn-primary" onclick="exportToExcel(' + page + ')">Export to Excel</button>');
+          $('#excelButton').append('<button class="btn btn-primary" onclick="exportToExcel(' + page + ')">Export to Excel</button>');
 
           }
       },
@@ -155,12 +155,11 @@ $(document).ready(function () {
 
   function exportToExcel(page) {
     $.ajax({
-        url: '/getcompleted?page=' + page,  // Use the same endpoint for fetching data
+        url: '/getcompleted?page=' + page,  
         type: 'GET',
         dataType: 'json',
         success: function (response) {
             console.log(response);
-            // Generate and export Excel file using response data
             generateAndExportExcel(response.comincidents);
         },
         error: function (error) {

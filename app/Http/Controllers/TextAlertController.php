@@ -33,6 +33,7 @@ class TextAlertController extends Controller
     }
     public function updateResponders(Request $request, $id){
         $responder = TextAlert::find($id);
+        $responder->fullname = $request->fullname;
         $responder->responder = $request->responder;
         $responder->number = $request->number;
         $responder->save();
@@ -53,8 +54,14 @@ class TextAlertController extends Controller
     }
     public function store(Request $request)
     {
-        // Create a new record in the text_alert table
+        $request->validate([
+            'fullname' => 'required|string',
+            'responder' => 'required|string',
+            'number' => 'required|string|unique:text_alerts,number',
+        ]);
+        
         $textAlert = new TextAlert;
+        $textAlert->fullname = $request->fullname;
         $textAlert->responder = $request->responder;
         $textAlert->number = $request->number;
         $textAlert->save();
@@ -62,13 +69,7 @@ class TextAlertController extends Controller
         return response()->json([
             'message' => 'Responders contact number added successfully',
         ]);
-    }
-    // public function getDetails($id){
-    //     $residents = User::where('id', $id)->get();
         
-    //     return response()->json([
-    //         'history7' => $residents,
-    //         'message' => 'Success',
-    //     ], 200);
-    // }
+    }
+
 }

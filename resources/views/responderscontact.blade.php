@@ -20,12 +20,14 @@ Manage Registered Residents
     <div class="landing-container p-4 mt-5">
         <h3 class="fw-bolder pageTitle mb-4">Responders Contact Number</h3>
         <div class="row justify-content-around" style="width: 100%;">
-            <div class="col-sm-8 col-md-7 shadow p-4 mb-4 bg-white rounded " >
+            <div class="col-sm-8 col-md-8 shadow p-4 mb-4 bg-white rounded " >
                 <div class="row p-4 align-items-center">
                     
                     <table class="table col" id="allRespondersCont">
                         <thead>
                             <tr>
+
+                                <th scope="col">Fullname</th>
                                 <th scope="col">Responder</th>
                                 <th scope="col">Cellphone Number</th>
                                 <th scope="col">Action</th>
@@ -59,7 +61,7 @@ Manage Registered Residents
                     </div> -->
                 </div>
             </div>
-            <div class="col-sm-8 col-md-4 shadow p-4 mb-4 bg-white rounded ">
+            <div class="col-sm-8 col-md-3 shadow p-4 mb-4 bg-white rounded ">
                 <div class="row p-4 align-items-center">
                     
                     <div class="table col" id="editRespondersCont">

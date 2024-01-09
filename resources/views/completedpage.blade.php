@@ -21,7 +21,9 @@ Complete
     @include('sidebar.sidenav')
     <div class="latest-container p-4 mt-5" style="flex: 1">
         <h3 class="fw-bolder pageTitle mb-4">Completed Emergency</h3>
-
+        <div class="d-flex flex-row-reverse" style="width: 95%; margin: 10px">
+            <div id="excelButton" ></div>
+        </div>
         <div class="requests justify-content-around" style="width: 95%; margin: 10px">
             <div class="shadow p-4 mb-4 bg-white rounded " >
                 <div class="row align-items-center">
