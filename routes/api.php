@@ -35,6 +35,9 @@ Route::group(['namespace' => 'App\Http\Controllers'], function ()
     Route::post('/register', 'RegisterController@register');
     Route::post('/sendreport', 'IncidentController@create');
     Route::post('/reportincident', 'ReportController@create');
+    Route::post('/sendOTP', 'ResetPasswordController@sendOtp');
+    Route::post('/verifyOTP', 'ResetPasswordController@verifyOtp');
+    Route::post('/changepassOTP', 'ResetPasswordController@changePasswordOtp');
     Route::get('/emergency/{id}', 'IncidentController@user_emegency_history');
     Route::get('/incident/{id}', 'IncidentController@user_incident_history');
     Route::get('/user/{id}', 'UserLoginController@userAccount');
