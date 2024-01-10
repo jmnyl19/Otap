@@ -5,6 +5,7 @@ use App\Models\ForwardedIncident;
 use App\Models\ForwardedReport;
 use App\Models\Incident;
 use App\Models\Report;
+use App\Models\TextAlert;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Events\IncidentCreated;
@@ -587,17 +588,15 @@ class IncidentController extends Controller
         curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($parameters));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     
-        // Execute the cURL request
+
         $output = curl_exec($ch);
     
-        // Check for cURL errors
+
         if (curl_errno($ch)) {
-            // Handle errors appropriately, e.g., log them
-            // You can customize this part based on your needs
+
             error_log('Semaphore API Error: ' . curl_error($ch));
         }
-    
-        // Close cURL session
+
         curl_close($ch);
     
     }
@@ -607,6 +606,7 @@ class IncidentController extends Controller
 
     public function create(Request $request)
     {
+        $responders = TextAlert::all();
         $incident = new Incident;
         $incident->residents_id = $request->residents_id;
         $incident->type = $request->type;
