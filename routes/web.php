@@ -6,7 +6,7 @@ use App\Http\Controllers\Register;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ForgetPassword;
 
-//genggeng
+
 
 /*
 |--------------------------------------------------------------------------
@@ -44,9 +44,6 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
 Route::get('/getChartData', [App\Http\Controllers\ChartController::class, 'getChartData']);
 Route::get('/getPieData', [App\Http\Controllers\ChartController::class, 'getPieData']);
 
-Route::get('/unavailable', [App\Http\Controllers\IncidentController::class, 'manageUnavailable'])->name('unavailable');
-Route::get('/unavailablereports', [App\Http\Controllers\ReportController::class, 'manageUnavailableReports'])->name('unavailablereports');
-
 // Route::get('/forwardedreports', [App\Http\Controllers\ReportController::class, 'manageforward'])->name('forwardedreports');
 Route::post('/addresponders', [App\Http\Controllers\TextAlertController::class, 'store']);
 Route::get('/getresponders', [App\Http\Controllers\TextAlertController::class, 'manageresponders']);
@@ -68,6 +65,8 @@ Route::get('/getunavailable', [App\Http\Controllers\IncidentController::class, '
 Route::get('/getunavailablereport', [App\Http\Controllers\IncidentController::class, 'getUnavailableReport']);
 Route::get('/getreforwarded', [App\Http\Controllers\IncidentController::class, 'getreForwarded']);
 Route::get('/getcompleted', [App\Http\Controllers\IncidentController::class, 'getCompleted']);
+Route::get('/getcancelled', [App\Http\Controllers\IncidentController::class, 'getCancelled']);
+Route::get('/getcancelledreport', [App\Http\Controllers\IncidentController::class, 'getCancelledReport']);
 Route::get('/getcompletedforwarded', [App\Http\Controllers\IncidentController::class, 'getCompletedForwarded']);
 Route::get('/getreceived', [App\Http\Controllers\IncidentController::class, 'getReceived']);
 Route::get('/getreport', [App\Http\Controllers\IncidentController::class, 'getReport']);
@@ -92,6 +91,8 @@ Route::get('/respondingforwardedreport/{id}', [App\Http\Controllers\IncidentCont
 Route::get('/forwardedreport/{id}', [App\Http\Controllers\IncidentController::class, 'ForwardedReport']);
 Route::get('/pendingreport/{id}', [App\Http\Controllers\IncidentController::class, 'PendingReport']);
 Route::get('/receivedincident/{id}', [App\Http\Controllers\IncidentController::class, 'ReceivedIncident']);
+Route::get('/cancelledincident/{id}', [App\Http\Controllers\IncidentController::class, 'cancelledIncident']);
+Route::get('/cancelledreports/{id}', [App\Http\Controllers\IncidentController::class, 'cancelledReport']);
 Route::get('/completedincident/{id}', [App\Http\Controllers\IncidentController::class, 'completedIncident']);
 Route::get('/completedforwarded/{id}', [App\Http\Controllers\IncidentController::class, 'completedForwarded']);
 Route::get('/unavailable/{id}', [App\Http\Controllers\IncidentController::class, 'unavailable']);
@@ -132,7 +133,11 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/latest', [App\Http\Controllers\ReportController::class, 'index'])->name('latest');
     Route::get('/respondedreports', [App\Http\Controllers\ReportController::class, 'respondedreports'])->name('respondedreports');
     Route::get('/completedreports', [App\Http\Controllers\ReportController::class, 'completedreports'])->name('completedreports');
-
+    Route::get('/cancelledreports', [App\Http\Controllers\ReportController::class, 'manageCancellReports'])->name('cancelledreports');
+    Route::get('/cancelled', [App\Http\Controllers\IncidentController::class, 'manageCancelled'])->name('cancelled');
+    Route::get('/unavailable', [App\Http\Controllers\IncidentController::class, 'manageUnavailable'])->name('unavailable');
+    Route::get('/unavailablereports', [App\Http\Controllers\ReportController::class, 'manageUnavailableReports'])->name('unavailablereports');
+    
 
 });
 

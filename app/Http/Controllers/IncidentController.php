@@ -209,6 +209,25 @@ class IncidentController extends Controller
             'message' => 'Success',
         ]);
     }
+    public function getCancelled(){
+        $cancelledIncidents =  Incident::with('user')
+        ->where('status', 'Cancelled')
+        ->whereHas('user', function ($query) {
+            $query->where('barangay', auth()->user()->barangay);
+        })
+        ->orderByDesc('created_at')
+        ->paginate(10);
+        return response()->json([
+            'canincidents' => $cancelledIncidents->items(),
+            'pagination' => [
+                'current_page' => $cancelledIncidents->currentPage(),
+                'last_page' => $cancelledIncidents->lastPage(),
+                'per_page' => $cancelledIncidents->perPage(),
+                'total' => $cancelledIncidents->total(),
+            ],
+            'message' => 'Success',
+        ]);
+    }
     public function getCompletedForwarded(){
         $forcomincidents = ForwardedIncident::with(['incident', 'incident.user'])->orderByDesc('created_at')->get();
         $completedforwardedIncidents =  $forcomincidents->where('status', 'Completed')->where('barangay', auth()->user()->barangay);
@@ -321,6 +340,41 @@ class IncidentController extends Controller
             'compforreport' => $completedForReports,
             'message' => 'Success',
         ]);
+    }
+    public function getCancelledReport(){
+        $cancelledReports = Report::with('user')
+        ->where('status', 'Cancelled')
+        ->whereHas('user', function ($query) {
+            $query->where('barangay', auth()->user()->barangay);
+        })
+        ->orderByDesc('created_at')
+        ->paginate(10);
+        return response()->json([
+            'canpreport' => $cancelledReports->items(),
+            'pagination' => [
+                'current_page' => $cancelledReports->currentPage(),
+                'last_page' => $cancelledReports->lastPage(),
+                'per_page' => $cancelledReports->perPage(),
+                'total' => $cancelledReports->total(),
+            ],
+            'message' => 'Success',
+        ]);
+    }
+    public function cancelledReport($id){
+        $canpreport = Report::with('user')->where('id', $id)->get();
+        
+        return response()->json([
+            'history12' => $canpreport,
+            'message' => 'Success',
+        ], 200);
+    }
+    public function cancelledIncident($id){
+        $canincidents = Incident::with('user')->where('id', $id)->get();
+        
+        return response()->json([
+            'history15' => $canincidents,
+            'message' => 'Success',
+        ], 200);
     }
     public function reforwardReport($id){
         $reforwarded = ForwardedReport::with('report.user')->where('id', $id)->get();
@@ -531,7 +585,13 @@ class IncidentController extends Controller
         //     'message' => 'Success',
         // ], 200);
     }
+    public function manageCancelled()
+    {
+        $incidents = Incident::with('user')->orderByDesc('created_at')->get();
+        $cancelledIncidents =  $incidents->where('status', 'Cancelled')->where('user.barangay', auth()->user()->barangay);
 
+        return view('cancelled', compact('cancelledIncidents'));
+    }
     
 
 

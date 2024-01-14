@@ -5,7 +5,7 @@
 @endsection
 
 @section('pageTitle')
-Complete
+Cancelled
 @endsection
 
 @section('content')
@@ -20,19 +20,19 @@ Complete
 
     @include('sidebar.sidenav')
     <div class="latest-container p-4 mt-5" style="flex: 1">
-        <h3 class="fw-bolder pageTitle mb-4">Completed Emergency</h3>
+        <h3 class="fw-bolder pageTitle mb-4">Cancelled Emergency Request</h3>
         <div class="d-flex flex-row-reverse" style="width: 95%; margin: 10px">
-            <div id="excelButton" ></div>
+            <!-- <div id="excelButton" ></div> -->
         </div>
         <div class="requests justify-content-around" style="width: 95%; margin: 10px">
             <div class="shadow p-4 mb-4 bg-white rounded " >
                 <div class="row align-items-center">
                     <div class="col">
                     <h5 class="fw-bold" style="color: #D2AC76">Emergency Request</h5>
-                    <div class="col" id="CompletedCont">
+                    <div class="col" id="CancelledCont">
                     </div>
                     <!-- Modal -->
-                    <div class="modal fade"  id="completedModal" tabindex="-1"  aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal fade"  id="cancelledModal" tabindex="-1"  aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-lg modal-dialog-centered">
                                     <div class="modal-content rounded-4 border border-success border-3">
                                         <div class="modal-header">
@@ -40,14 +40,14 @@ Complete
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
                             
-                                        <div class="modal-body justify-content-center" id="completedModalBody">
+                                        <div class="modal-body justify-content-center" id="cancelledModalBody">
                                             
                                         </div>
                                         
 
                                             <input type="hidden" name="status" id="incidentStatus" value="Pending">
                                 
-                                        <div class="modal-footer justify-content-center" id="completedModalFooter">
+                                        <div class="modal-footer justify-content-center" id="cancelledModalFooter">
                                             
                                         </div>
                                     </div>
@@ -67,9 +67,8 @@ Complete
     </div>
  
 
-
 @section('pageJs')
-<script src="{{ asset('js/completed.js')}}"></script>
+<script src="{{ asset('js/cancelled.js')}}"></script>
 @endsection
 
 

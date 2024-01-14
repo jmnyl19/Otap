@@ -43,6 +43,13 @@ class ReportController extends Controller
 
         return view('unavailablereports', compact('forwardedReports'));
     }
+    public function manageCancellReports()
+    {
+        $incidents = Report::with('user')->orderByDesc('created_at')->get();
+        $cancelledReports =  $incidents->where('status', 'Cancelled')->where('user.barangay', auth()->user()->barangay);
+       
+        return view('cancelledreports', compact('cancelledReports'));
+    }
 
 
     public function completedreports()

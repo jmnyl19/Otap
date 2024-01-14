@@ -5,7 +5,7 @@
 @endsection
 
 @section('pageTitle')
-Manage Registered Residents
+Manage Responder's Contact Information
 @endsection
 
 @section('content')
