@@ -287,6 +287,10 @@ body{
     background-image: linear-gradient(to right, #ccc, rgb(151, 5, 0), #ccc);
 }
 
+.resTableCont {
+ overflow-x: auto !important;
+}
+
 .latestCont{
   width:48% !important
 }

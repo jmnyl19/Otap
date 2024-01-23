@@ -20,10 +20,10 @@ Manage Registered Residents
     <div class="latest-container p-4 mt-5" style="flex: 1">
         <h3 class="fw-bolder pageTitle mb-4">Registered Residents</h3>
         <div class="requests" style="width: 95%; margin: 10px">
-            <div class="shadow p-4 mb-4 bg-white rounded " >
-                <div class="row p-4 align-items-center">
+            <div class="shadow p-4 mb-4 bg-white rounded-4 " >
+                <div class="resTableCont row p-4 align-items-center">
                     
-                    <table class="table" id="allResidentsCont">
+                    <table class="table residentTable" id="allResidentsCont">
                         <thead>
                             <tr>
                                 <th scope="col">Fullname</th>

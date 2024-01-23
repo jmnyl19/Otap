@@ -824,6 +824,16 @@ function pendingqueModal(id) {
       
   });
 
+  window.Echo.channel('emergency-channel')
+  .listen('EmergencyCreated', (event) => {
+      console.log('New incident created:', event.incident);
+      $('#getLatestReportsCont').empty();
+      getReport();
+      swalNewIncident();
+      
+  });
+
+
   $('#latestIncidentCont').on('click', '.btn-primary', function() {
     var incidentId = $(this).data('incident-id');
     $('#exampleModal' + incidentId).modal('show');

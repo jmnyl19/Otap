@@ -6,6 +6,7 @@ use App\Models\Report;
 use App\Models\ForwardedReport;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Events\EmergencyCreated;
 
 class ReportController extends Controller
 {
@@ -92,6 +93,8 @@ class ReportController extends Controller
         $report->addnotes = $request->addnotes;
         $report->status = $request->status;
         $report->save();
+
+        event(new EmergencyCreated($report));
 
         return response()->json([
             'message' => 'Successfull',

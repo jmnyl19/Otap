@@ -12,7 +12,7 @@ class UserLoginController extends Controller
     public function userlogin(Request $request)
     {
         $credentials = $request->validate([
-            'email' => ['required', 'email'],
+            'contact_no' => ['required'],
             'password' => ['required']
         ]);
 

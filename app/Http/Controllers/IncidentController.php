@@ -679,6 +679,25 @@ class IncidentController extends Controller
        
         event(new IncidentCreated($incident));
        
+        $phoneNumber = null;
+        $user = $incident->user; 
+
+        if ($request->type == 'Requesting for Ambulance') {
+            $phoneNumber = $responders->where('responder', 'Ambulance')->first()->number;
+        } elseif ($request->type == 'Requesting for a Fire Truck') {
+            $phoneNumber = $responders->where('responder', 'Firetruck')->first()->number;
+        } elseif ($request->type == 'Requesting for a Barangay Public Safety Officer') {
+            $phoneNumber = $responders->where('responder', 'Bpat')->first()->number;
+        }
+
+        $message = "OTAP\n\n";
+        $message .= "User Information\n";
+        $message .= "Name: {$user->first_name} {$user->last_name}\n";
+        $message .= "Contact Number: {$user->contact_no}\n";
+        $message .= "Location: https://www.google.com/maps?q={$request->latitude},{$request->longitude}\n";
+        
+        $this->textAlert($phoneNumber, $message);
+
         return response()->json([
             'message' => 'Successfull',
         ], 200);
