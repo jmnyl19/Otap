@@ -6,6 +6,7 @@ use App\Models\ForwardedReport;
 use App\Models\Incident;
 use App\Models\Report;
 use App\Models\TextAlert;
+use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Events\IncidentCreated;
@@ -47,7 +48,7 @@ class IncidentController extends Controller
     }
     public function getLatestQue(){
         $incidents = Incident::with('user')->orderByDesc('created_at')->get();
-        $onqueIncidents = $incidents->where('status', 'Que')->where('user.barangay', auth()->user()->barangay)->take(5);
+        $onqueIncidents = $incidents->where('status', 'Que')->where('user.barangay', auth()->user()->barangay);
 
         return response()->json([
             'que' => $onqueIncidents,
@@ -55,7 +56,7 @@ class IncidentController extends Controller
         ]);
     }
     public function getLatestReport(){
-        $reports = Report::with('user')->orderByDesc('datehappened')->get();
+        $reports = Report::with('user')->orderByDesc('created_at')->get();
         $reportedIncident = $reports->where('user.barangay', auth()->user()->barangay)->where('status', 'Pending')->take(5);
         return response()->json([
             'reports' => $reportedIncident,
@@ -63,8 +64,8 @@ class IncidentController extends Controller
         ]);
     }
     public function getLatestQueReport(){
-        $reports = Report::with('user')->orderByDesc('datehappened')->get();
-        $onquereportedIncident = $reports->where('user.barangay', auth()->user()->barangay)->where('status', 'Que')->take(5);
+        $reports = Report::with('user')->orderByDesc('created_at')->get();
+        $onquereportedIncident = $reports->where('user.barangay', auth()->user()->barangay)->where('status', 'Que');
         return response()->json([
             'quereport' => $onquereportedIncident,
             'message' => 'Success',
@@ -666,8 +667,18 @@ class IncidentController extends Controller
 
     public function create(Request $request)
     {
+
+        $validateUser = User::find($request->residents_id);
+
+        if (!$validateUser || $validateUser->status !== 'Active') {
+            return response()->json([
+                'error' => 'Account has been banned!',
+            ], 400);
+        }
+
         $responders = TextAlert::all();
         $incident = new Incident;
+        
         $incident->residents_id = $request->residents_id;
         $incident->type = $request->type;
         $incident->status = $request->status;
@@ -679,24 +690,26 @@ class IncidentController extends Controller
        
         event(new IncidentCreated($incident));
        
-        $phoneNumber = null;
+        $phoneNumbers = null;
         $user = $incident->user; 
 
         if ($request->type == 'Requesting for Ambulance') {
-            $phoneNumber = $responders->where('responder', 'Ambulance')->first()->number;
+            $phoneNumbers = $responders->where('responder', 'Ambulance')->pluck('number')->toArray();
         } elseif ($request->type == 'Requesting for a Fire Truck') {
-            $phoneNumber = $responders->where('responder', 'Firetruck')->first()->number;
+            $phoneNumbers = $responders->where('responder', 'Firetruck')->pluck('number')->toArray();
         } elseif ($request->type == 'Requesting for a Barangay Public Safety Officer') {
-            $phoneNumber = $responders->where('responder', 'Bpat')->first()->number;
+            $phoneNumbers = $responders->where('responder', 'Bpat')->pluck('number')->toArray();
         }
 
-        $message = "OTAP\n\n";
+        $message = "OTAP-Emergency\n\n";
         $message .= "User Information\n";
         $message .= "Name: {$user->first_name} {$user->last_name}\n";
         $message .= "Contact Number: {$user->contact_no}\n";
         $message .= "Location: https://www.google.com/maps?q={$request->latitude},{$request->longitude}\n";
         
-        $this->textAlert($phoneNumber, $message);
+        foreach ($phoneNumbers as $phoneNumber) {
+            $this->textAlert($phoneNumber, $message);
+        }
 
         return response()->json([
             'message' => 'Successfull',

@@ -23,14 +23,14 @@ Manage Responder's Contact Information
             <div class="col-sm-8 col-md-8 shadow p-4 mb-4 bg-white rounded " >
                 <div class="row p-4 align-items-center">
                     
-                    <table class="table col" id="allRespondersCont">
+                    <table class="table col " id="allRespondersCont">
                         <thead>
                             <tr>
 
-                                <th scope="col">Fullname</th>
-                                <th scope="col">Responder</th>
-                                <th scope="col">Cellphone Number</th>
-                                <th scope="col">Action</th>
+                                <th class="text-center" scope="col">Fullname</th>
+                                <th class="text-center" scope="col">Responder</th>
+                                <th class="text-center" scope="col">Cellphone Number</th>
+                                <th class="text-center" scope="col">Action</th>
 
                             </tr>
                         </thead>

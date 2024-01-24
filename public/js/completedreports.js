@@ -196,7 +196,7 @@ $(document).ready(function () {
 }
 function generateExcel(data) {
     var modifiedData = data.map(item => {
-        
+        var locationLink = `=HYPERLINK("https://www.google.com/maps?q=${item.latitude},${item.longitude}", "View Location")`;
 
         return {
             Date: moment(item.created_at).format('lll'),
@@ -205,15 +205,14 @@ function generateExcel(data) {
             TypeOfIncident: item.type_of_incidents,
             Details: item.details,
             AdditionalNotes: item.addnotes,
-            latitude:item.latitude,
-            longitude: item.longitude,
+            Location: locationLink,
         };
     });
-   
     var worksheet = XLSX.utils.json_to_sheet(modifiedData);
+
     var workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, 'Completed Incident Reports');
-    XLSX.writeFile(workbook, 'completed_incident_reports.xlsx');
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Completed Incidents');
+    XLSX.writeFile(workbook, 'Completed_Incidents.xlsx');
 }
 
 

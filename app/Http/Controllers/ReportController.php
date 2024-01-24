@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Report;
 use App\Models\ForwardedReport;
+use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Events\EmergencyCreated;
+use App\Models\TextAlert;
 
 class ReportController extends Controller
 {
@@ -68,8 +70,50 @@ class ReportController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+     public function textAlertReport($number, $message) {
+        $ch = curl_init();
+        $url = 'https://semaphore.co/api/v4/messages';
+        $api_key = 'f2dee59156e7c0028c381fd182a61848';
+    
+        $parameters = array(
+            'apikey' => $api_key,
+            'number' => $number,
+            'message' => $message,
+            'sendername' => 'SEMAPHORE'
+        );
+    
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($parameters));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    
+
+        $output = curl_exec($ch);
+    
+
+        if (curl_errno($ch)) {
+
+            error_log('Semaphore API Error: ' . curl_error($ch));
+        }
+
+        curl_close($ch);
+    
+    }
+
+
     public function create(Request $request)
     {
+
+        $validateUser = User::find($request->residents_id);
+
+        if (!$validateUser || $validateUser->status !== 'Active') {
+            return response()->json([
+                'error' => 'Account has been banned!',
+            ], 400);
+        }
+
+        $responders = TextAlert::all();
         if ($request->hasFile('file')) {
             $image = $request->file('file');
             $imageName = time().'.'.$image->getClientOriginalExtension();
@@ -95,6 +139,29 @@ class ReportController extends Controller
         $report->save();
 
         event(new EmergencyCreated($report));
+
+        $phoneNumbers = [];
+        $user = $report->user; 
+
+        if ($request->Ambulance == 1) {
+            $phoneNumbers = array_merge($phoneNumbers, $responders->where('responder', 'Ambulance')->pluck('number')->toArray());
+        } 
+        if ($request->Firetruck == 1) {
+            $phoneNumbers = array_merge($phoneNumbers, $responders->where('responder', 'Firetruck')->pluck('number')->toArray());
+        } 
+        if ($request->BPSO == 1) {
+            $phoneNumbers = array_merge($phoneNumbers, $responders->where('responder', 'Bpat')->pluck('number')->toArray());
+        }
+
+        $message = "OTAP-Incident\n\n";
+        $message .= "User Information\n";
+        $message .= "Name: {$user->first_name} {$user->last_name}\n";
+        $message .= "Contact Number: {$user->contact_no}\n";
+        $message .= "Location: https://www.google.com/maps?q={$request->latitude},{$request->longitude}\n";
+        
+        foreach ($phoneNumbers as $phoneNumber) {
+            $this->textAlertReport($phoneNumber, $message);
+        }
 
         return response()->json([
             'message' => 'Successfull',
