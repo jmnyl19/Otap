@@ -162,7 +162,7 @@ $(document).ready(function () {
                             ></path>
                           </svg>
                         </div>
-                      </div><span>Unavailable</span>
+                      </div><span>Que</span>
                     </button>     
               </form>
 
