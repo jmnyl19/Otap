@@ -708,7 +708,7 @@ class IncidentController extends Controller
         $message .= "Location: https://www.google.com/maps?q={$request->latitude},{$request->longitude}\n";
         
         foreach ($phoneNumbers as $phoneNumber) {
-            $this->textAlert($phoneNumber, $message);
+            // $this->textAlert($phoneNumber, $message);
         }
 
         return response()->json([
